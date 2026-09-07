@@ -1,0 +1,240 @@
+---
+/*
+  The cells-distilling-into-insight-spark motif (see .local/03_visual_identity.md),
+  used here as the site's loading glyph. A 3x3 grid of table cells sends its contents
+  drifting up into a single point, which flashes into a spark and settles briefly into
+  the wordmark's hatted-i circumflex before the cycle repeats — restating the paper's
+  central claim (insight is derived from cells, not stored in them) in miniature.
+
+  Pure CSS/SVG, no JS: this is decorative motion, not an interactive island, so it ships
+  zero script per the "zero JS by default" rule. `prefers-reduced-motion` degrades to a
+  static composed frame (grid + hat, no motion) rather than truncating mid-cycle.
+*/
+interface Props {
+  /** Rendered size in pixels (square). */
+  size?: number;
+  /** Accessible label; the glyph is otherwise aria-hidden decoration. */
+  label?: string;
+  /** false renders one settled frame (grid + hat) with no animation at all. */
+  loop?: boolean;
+  class?: string;
+}
+
+const { size = 96, label = 'Loading', loop = true, class: className = '' } = Astro.props;
+
+// Grid geometry, hand-tuned in a 0–100 viewBox.
+const colXs = [33, 50, 67];
+const rowYs = [13, 26, 39];
+const cellW = 13;
+const cellH = 9;
+const spark = { x: 50, y: 82 };
+
+const cells = rowYs.flatMap((cy, ri) =>
+  colXs.map((cx, ci) => {
+    const index = ri * 3 + ci;
+    return {
+      index,
+      cx,
+      cy,
+      x: cx - cellW / 2,
+      y: cy - cellH / 2,
+      tx: spark.x - cx,
+      ty: spark.y - cy,
+      delay: index * 0.08,
+    };
+  })
+);
+
+// The wordmark's circumflex (see public/favicon.svg), rescaled and centered on the spark.
+const hatD = `M${spark.x - 6.3} ${spark.y + 3.6} L${spark.x} ${spark.y - 3.6} L${spark.x + 6.3} ${spark.y + 3.6}`;
+---
+
+<svg
+  class:list={['loading-glyph', { 'loading-glyph--static': !loop }, className]}
+  width={size}
+  height={size}
+  viewBox="0 0 100 100"
+  role="img"
+  aria-label={label}
+>
+  {
+    cells.map((cell) => (
+      <rect
+        class="loading-glyph__cell"
+        x={cell.x}
+        y={cell.y}
+        width={cellW}
+        height={cellH}
+        rx="2"
+        style={`animation-delay:${cell.delay}s`}
+      />
+    ))
+  }
+  {
+    cells.map((cell) => (
+      <circle
+        class="loading-glyph__dot"
+        cx={cell.cx}
+        cy={cell.cy}
+        r="2.1"
+        style={`--tx:${cell.tx}px;--ty:${cell.ty}px;animation-delay:${cell.delay}s`}
+      />
+    ))
+  }
+  <circle class="loading-glyph__spark" cx={spark.x} cy={spark.y} r="3.2" />
+  <path class="loading-glyph__hat" d={hatD} fill="none" stroke-linecap="round" stroke-linejoin="round" />
+</svg>
+
+<style>
+  .loading-glyph {
+    display: block;
+    overflow: visible;
+  }
+
+  .loading-glyph__cell {
+    fill: var(--color-card);
+    stroke: var(--color-hairline);
+    stroke-width: 1.25;
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: cell-pulse 2.4s ease-in-out infinite;
+  }
+
+  .loading-glyph__dot {
+    fill: var(--color-accent-mid);
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: dot-cycle 2.4s ease-in-out infinite;
+  }
+
+  .loading-glyph__spark {
+    fill: var(--color-accent);
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: spark-pulse 2.4s ease-in-out infinite;
+  }
+
+  .loading-glyph__hat {
+    stroke: var(--color-accent);
+    stroke-width: 3;
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: hat-pulse 2.4s ease-in-out infinite;
+  }
+
+  @keyframes cell-pulse {
+    0%,
+    40% {
+      opacity: 1;
+    }
+    48% {
+      opacity: 0.5;
+    }
+    58%,
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes dot-cycle {
+    0% {
+      opacity: 0;
+      transform: translate(0, 0) scale(0.6);
+    }
+    8% {
+      opacity: 1;
+      transform: translate(0, 0) scale(1);
+    }
+    35% {
+      opacity: 1;
+      transform: translate(0, 0) scale(1);
+    }
+    55% {
+      opacity: 0.85;
+      transform: translate(var(--tx), var(--ty)) scale(0.75);
+    }
+    64%,
+    100% {
+      opacity: 0;
+      transform: translate(var(--tx), var(--ty)) scale(0.25);
+    }
+  }
+
+  @keyframes spark-pulse {
+    0%,
+    50% {
+      opacity: 0;
+      transform: scale(0.4);
+    }
+    60% {
+      opacity: 1;
+      transform: scale(1.35);
+    }
+    72% {
+      opacity: 0.9;
+      transform: scale(1);
+    }
+    85%,
+    100% {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+  }
+
+  @keyframes hat-pulse {
+    0%,
+    58% {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+    66% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    82% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    93%,
+    100% {
+      opacity: 0;
+      transform: scale(0.7);
+    }
+  }
+
+  /* Settled single-frame mark: grid + hat visible, no dots, no motion. */
+  .loading-glyph--static .loading-glyph__cell,
+  .loading-glyph--static .loading-glyph__dot,
+  .loading-glyph--static .loading-glyph__spark,
+  .loading-glyph--static .loading-glyph__hat {
+    animation: none;
+  }
+  .loading-glyph--static .loading-glyph__dot,
+  .loading-glyph--static .loading-glyph__spark {
+    opacity: 0;
+  }
+  .loading-glyph--static .loading-glyph__cell,
+  .loading-glyph--static .loading-glyph__hat {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Same graceful degrade for anyone who prefers reduced motion, regardless of `loop`. */
+  @media (prefers-reduced-motion: reduce) {
+    .loading-glyph__cell,
+    .loading-glyph__dot,
+    .loading-glyph__spark,
+    .loading-glyph__hat {
+      animation: none;
+    }
+    .loading-glyph__dot,
+    .loading-glyph__spark {
+      opacity: 0;
+    }
+    .loading-glyph__cell,
+    .loading-glyph__hat {
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>

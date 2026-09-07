@@ -1,0 +1,117 @@
+---
+// Standard rows-and-columns layout — the common case, used by every transcribed table
+// except the notation glossary (PaperTableSectioned) and the validation-function taxonomy
+// (PaperTableGrouped). Supports two-level headers (a `group` spanning several columns,
+// e.g. "Corpus" / "Inputs" / "Validation" in the datasets table) and full-width divider
+// rows (`{ section: "..." }`) for grouping rows without a second table.
+import type { GridTableData } from '../../lib/paper-tables';
+import PaperTableCell from './PaperTableCell.astro';
+import { renderMathText } from '../../lib/paper-table-render';
+
+interface Props {
+  data: GridTableData;
+}
+
+const { data } = Astro.props;
+
+const hasGroups = data.columns.some((c) => c.group);
+
+// Collapses consecutive same-group columns into { group, span } for the spanning header
+// row, leaving ungrouped columns as span-1 placeholders so the two header rows line up.
+const groupHeader: { label: string | null; span: number }[] = [];
+for (const col of data.columns) {
+  const last = groupHeader[groupHeader.length - 1];
+  if (last && last.label === (col.group ?? null)) last.span += 1;
+  else groupHeader.push({ label: col.group ?? null, span: 1 });
+}
+---
+
+<div class="pt-grid-wrap">
+  <table class="pt-grid">
+    <thead>
+      {hasGroups && (
+        <tr class="pt-grid__group-row">
+          {groupHeader.map((g) => (
+            <th colspan={g.span} class="pt-grid__group-cell">{g.label}</th>
+          ))}
+        </tr>
+      )}
+      <tr>
+        {data.columns.map((col) => (
+          <th class={`pt-grid__col-${col.align ?? 'left'}`} set:html={renderMathText(col.label)} />
+        ))}
+      </tr>
+    </thead>
+    <tbody>
+      {data.rows.map((row) =>
+        'section' in row ? (
+          <tr class="pt-grid__section">
+            <td colspan={data.columns.length}>{row.section}</td>
+          </tr>
+        ) : (
+          <tr>
+            {data.columns.map((col) => (
+              <td class={`pt-grid__col-${col.align ?? 'left'}`}>
+                <PaperTableCell cell={row[col.key] ?? ''} />
+              </td>
+            ))}
+          </tr>
+        ),
+      )}
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .pt-grid-wrap {
+    overflow-x: auto;
+  }
+
+  .pt-grid {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+
+  .pt-grid th,
+  .pt-grid td {
+    padding: 0.5rem 0.65rem;
+    border-bottom: 1px solid var(--color-hairline);
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .pt-grid__col-center { text-align: center; }
+  .pt-grid__col-right { text-align: right; }
+
+  .pt-grid thead th {
+    font-family: var(--font-heading);
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--color-ink);
+    border-bottom: 2px solid var(--color-hairline);
+    white-space: nowrap;
+  }
+
+  .pt-grid__group-cell {
+    text-align: center;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: color-mix(in srgb, var(--color-ink) 65%, transparent);
+    border-bottom: 1px solid var(--color-hairline);
+  }
+
+  .pt-grid tbody tr:hover {
+    background: var(--color-accent-tint);
+  }
+
+  .pt-grid__section td {
+    background: var(--color-paper);
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 0.78rem;
+    color: var(--color-accent);
+    border-bottom: 1px solid var(--color-hairline);
+  }
+</style>

@@ -1,0 +1,39 @@
+---
+/*
+  The landing page's citation marker: a compact superscript numeral instead of the paper
+  pages' `(Author et al., Year)`. Wired in via index.astro's MDX `components` override, so
+  the landing .mdx files stay pure copy and still author plain <Citation cite="..." />.
+
+  Delegates to Citation.astro through its `label` prop rather than reimplementing it, which
+  keeps the data-* trigger contract (and therefore the shared CitationLayer hover overlay,
+  plus the build-time failure on an unknown citekey) in exactly one place. The <sup> supplies
+  the raised position and smaller size; .citation-trigger is `font: inherit`, so it follows
+  along and keeps its dotted-underline affordance.
+*/
+import Citation from './Citation.astro';
+import { getLandingCitationNumber } from '../lib/landing-citations';
+
+interface Props {
+  cite: string;
+}
+
+const { cite } = Astro.props;
+const number = getLandingCitationNumber(cite);
+---
+
+<sup class="cite-num"><Citation cite={cite} label={String(number)} /></sup>
+
+<style>
+  .cite-num {
+    /* Sits tight against the preceding word rather than after the space MDX may leave. */
+    margin-inline-start: 0.05em;
+    font-size: 0.72em;
+    line-height: 0;
+  }
+
+  /* Clusters of adjacent citations read as "1,2,3" rather than a run-together "123". */
+  .cite-num + .cite-num::before {
+    content: ',';
+    color: color-mix(in srgb, var(--color-ink) 45%, transparent);
+  }
+</style>

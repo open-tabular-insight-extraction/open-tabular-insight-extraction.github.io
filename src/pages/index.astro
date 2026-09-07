@@ -1,0 +1,612 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Wordmark from '../components/Wordmark.astro';
+import CitationNumeric from '../components/CitationNumeric.astro';
+import TermExplosion from '../components/islands/TermExplosion.svelte';
+import CityLayers from '../components/islands/CityLayers.svelte';
+import ExposureCompare from '../components/islands/ExposureCompare.svelte';
+import TheBarrier from '../contents/landing_page/01_motivation.mdx';
+import AnswerIsNotInsight from '../contents/landing_page/02_insights.mdx';
+import OpenTIUnpacked from '../contents/landing_page/03_openti.mdx';
+import insightsFigure from '../contents/assets/insights_figure.svg';
+import { getPaperSections } from '../lib/paper-structure';
+import { paperTitle, paperAuthors } from '../lib/paper-meta';
+
+// <Citation /> isn't imported inside the .mdx files themselves (they're plain prose
+// files, authored without any MDX plumbing) — the MDX runtime accepts unresolved
+// component names via this `components` override prop instead, so the content files stay
+// pure copy. That same override is what swaps in the landing page's compact superscript
+// numerals (CitationNumeric) for the paper pages' author–year markers, without the
+// content files knowing anything about it.
+const mdxComponents = { Citation: CitationNumeric };
+
+// Beat 4's four parallel term blocks (.local/plans/landing_page_plan.md), copied verbatim
+// from the original draft. Structured here, rather than left as flowing prose in
+// 03_openti.mdx, so <TermExplosion /> can animate them as the title splits into panels.
+const openTITerms = [
+  {
+    word: 'Open',
+    description:
+        "Insight needs are expressed over large corpora of tables whose contents, schema, and coverage may be unknown in advance. This requires systems to explore the available data and locate what is relevant.",
+  },
+  {
+    word: 'Tabular',
+    description:
+      'It concerns tabular data. The tabular structure enables analysis and it also shapes how data is discovered and how separate tables are combined.',
+  },
+  {
+    word: 'Insight',
+    description:
+      "The central objective is to provide insights, not just answer questions. An insight is the derived analytical knowledge read within a person's own context and understanding, shifting the focus on serving the need a person has instead of serving what they ask for out of context.",
+  },
+  {
+    word: 'Extraction',
+    description:
+      'The analytical knowledge is not necessarily directly stored in any single table. It is derived by composing analytical operations over the discovered data.',
+  },
+];
+
+const withBase = (path: string) =>
+  `${import.meta.env.BASE_URL.replace(/\/$/, '')}/${path.replace(/^\//, '')}`;
+
+// Orientation nav (.local/04_minimal_website.md): the site's primary navigation now lives
+// here rather than in a persistent menu bar. Section links are derived from
+// getPaperSections() — the same source of truth full-paper/[slug].astro uses — so this
+// list can't drift from what sections actually exist.
+const paperSections = getPaperSections();
+
+const exploreLinks = [
+  {
+    label: 'Overview of systems',
+    href: withBase('/methods-benchmarks/'),
+    description: 'Systems working towards OpenTI.',
+  },
+  {
+    label: 'Overview of benchmarks',
+    href: withBase('/methods-benchmarks/benchmarks/'),
+    description: 'Benchmarks for evaluating OpenTI systems.',
+  },
+];
+---
+
+<BaseLayout title="OpenTî — Open Tabular Insight Extraction">
+  <div class="page">
+    <section id="top" class="hero">
+      <Wordmark display />
+      <blockquote class="hero__premise">
+        Towards democratizing insights from tabular data.
+      </blockquote>
+      <p class="hero__companion">
+        An interactive companion website to the paper <em class="hero__paper-title">"{paperTitle}"</em> by{' '}
+        {
+          paperAuthors.map((author, i) => (
+            <>
+              {i > 0 && (i === paperAuthors.length - 1 ? ' and ' : ', ')}
+              <a href={author.href}>{author.name}</a>
+            </>
+          ))
+        }.{' '}
+        <!-- TODO(content): swap for the real paper URL once it's on arXiv — same TODO as paper-meta.ts's paperPdfUrl. -->
+        <a class="hero__paper-link" href="#">Read the paper →</a>
+      </p>
+    </section>
+
+    <!--
+      Titles-only by default. Keeping ten description sentences permanently expanded made
+      this block, the second thing on the page, read as a wall of small text before the
+      visitor had learned anything — so each description now appears in one shared line
+      reserved at the foot of the whole slab (see .orientation__description below), which
+      the hovered or focused item writes into. A single fixed slot rather than a panel
+      floating at each item: nothing overlaps the content, nothing moves, and there is
+      exactly one place on the page where this text can ever appear.
+    -->
+    <!--
+      Load-flicker insurance. Astro's scoped <style> below is a render-blocking <link> in
+      production, but under `npm run dev` Vite injects it via JS after first paint — so for
+      one frame these eleven sentences would render as a plain visible block of text before
+      the slot styles land. `is:inline` is the one form Astro emits verbatim into the
+      markup, so the parser applies it immediately, in dev and production alike.
+
+      The scoped rules win afterwards on specificity alone (they carry Astro's
+      [data-astro-cid-…] attribute, this doesn't), so no !important is involved and nothing
+      here fights the real styles. Note the `hidden` attribute is NOT an option in this
+      project: Tailwind's preflight sets [hidden]{display:none!important}, which no author
+      rule can override.
+    -->
+    <style is:inline>
+      .orientation__description,
+      .orientation__hint {
+        display: none;
+      }
+    </style>
+    <nav class="orientation" aria-label="Where to go next">
+      <div class="orientation__group">
+        <h2 class="orientation__group-title">Full paper</h2>
+        <ul class="orientation__sections">
+          {
+            paperSections.map((section) => (
+              <li>
+                <a class="orientation__sections-link" href={withBase(`/full-paper/${section.slug}/`)}>
+                  {section.appendix ? (
+                    'Appendix'
+                  ) : (
+                    <span class="orientation__section-number">{section.number}</span>
+                  )}{' '}
+                  {section.title}
+                </a>
+                <span class="orientation__description">{section.description}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="orientation__group">
+        <h2 class="orientation__group-title">Explore</h2>
+        <ul class="orientation__explore">
+          {
+            exploreLinks.map((item) => (
+              <li>
+                <a class="orientation__explore-link" href={item.href}>
+                  {item.label}
+                </a>
+                <span class="orientation__description">{item.description}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <!--
+        Occupies the shared slot whenever nothing is hovered or focused, so the reserved
+        space never reads as an empty gap. Last in source order, after both groups, since
+        it is positioned against the <nav> itself rather than belonging to either column.
+      -->
+      <p class="orientation__hint">
+        Read the paper or explore OpenTI systems and benchmarks.
+      </p>
+    </nav>
+
+    <section class="lead-questions">
+      <p class="lead-questions__item">
+        What if anyone could get the insights they need from data available to them?
+      </p>
+      <p class="lead-questions__item">
+        What if data analysis would be as accessible as searching the web?
+      </p>
+    </section>
+
+    <section class="preamble-intro">
+      <h1 class="preamble-intro__heading">Preamble</h1>
+      <p class="preamble-intro__text">
+        Democratizing access to analytical knowledge would provide people with
+        information based on data, providing grounds for informing oneself and making decisions based on the data,
+        instead of guess-work. Research has long studied how to make analytical knowledge from tabular data accessible
+        through natural language interactions, studied under labels such as Text-to-SQL, Table Question Answering, or
+        Automated Data Science/Analysis. Over the past years, much progress has been made towards more capable and
+        increasingly end-to-end systems. At the same time, LLM-based agents are increasingly employed to automate
+        analysis as well. We propose <i>"Open Tabular Insight Extraction"</i> as a unified perspective to understand
+        what research is, and should be, working towards to make the democratization of insights from tabular data a
+        reality.
+      </p>
+    </section>
+
+    <section class="beat beat--openti">
+      <h2 class="beat__heading">What is Open Tabular Insight Extraction?</h2>
+      <div class="prose">
+        <OpenTIUnpacked components={mdxComponents} />
+      </div>
+      <img
+        class="openti-figure"
+        src={insightsFigure.src}
+        width={insightsFigure.width}
+        height={insightsFigure.height}
+        alt="Diagram of the user-system interaction: a user's insight need is resolved by a system's realization over a corpus of tables, producing analytical knowledge as an insight."
+      />
+      <TermExplosion
+        client:visible
+        words={['Open', 'Tabular', 'Insight', 'Extraction']}
+        terms={openTITerms}
+      />
+    </section>
+
+    <section class="beat">
+      <h2 class="beat__heading">Why Open Tabular Insight Extraction?</h2>
+      <div class="prose">
+        <TheBarrier components={mdxComponents} />
+      </div>
+      <CityLayers client:visible />
+    </section>
+
+    <section class="beat beat--sub">
+      <h3 class="beat__heading">From Answers to Insights</h3>
+      <div class="prose">
+        <AnswerIsNotInsight components={mdxComponents} />
+      </div>
+      <ExposureCompare client:visible />
+    </section>
+
+    <a href="#top" class="go-to-top">↑ Back to top</a>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    max-width: 72rem;
+    margin-inline: auto;
+    padding: clamp(1.25rem, 3vw, 2.5rem) 1.5rem clamp(2rem, 6vw, 6rem);
+
+    /*
+      Reading width for everything from "Preamble" down — the single knob to turn when
+      tuning how wide the lower half of the page runs. The hero and the orientation slab
+      deliberately keep the full 72rem: they're a mark, a list and a nav, not running text,
+      and holding them wide is what makes the narrower column below read as a deliberate
+      change of gear rather than as the page being narrow.
+    */
+    --content-measure: 62rem;
+  }
+
+  .hero {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-bottom: clamp(1.5rem, 5vw, 3rem);
+    scroll-margin-top: var(--nav-height, 4rem);
+  }
+
+  .hero__premise {
+    margin: 0;
+    padding-left: 1rem;
+    border-left: 2px solid var(--color-accent-mid);
+    font-family: var(--font-heading);
+    font-weight: 500;
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    line-height: 1.35;
+    color: var(--color-ink);
+  }
+
+  .hero__companion {
+    margin-top: 0.25rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-hairline);
+    font-size: 1rem;
+    line-height: 1.65;
+    color: color-mix(in srgb, var(--color-ink) 82%, transparent);
+  }
+
+  .hero__paper-title {
+    font-style: normal;
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+
+  .hero__companion a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .hero__companion a:hover,
+  .hero__companion a:focus-visible {
+    color: var(--color-accent);
+    text-decoration: underline;
+  }
+
+  .hero__paper-link {
+    font-family: var(--font-heading);
+    font-weight: 500;
+    color: var(--color-accent);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .hero__paper-link:hover,
+  .hero__paper-link:focus-visible {
+    text-decoration: underline;
+  }
+
+  /*
+    Deliberately the largest gap on the page — larger than the .beat rhythm below — so the
+    lead questions read as a separate band rather than as the top of the orientation slab.
+  */
+  .lead-questions {
+    margin-top: clamp(9rem, 20vw, 15rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  /* Tight underneath the lead questions — they read as the opening beat of the same
+     thought that "Preamble" then names and the running text continues. */
+  .preamble-intro {
+    margin-top: clamp(3.5rem, 8vw, 5rem);
+  }
+
+  /*
+    Narrower than the hero and nav above, and pulled in only on the right: the left edge
+    stays flush with the wordmark and the section links, so the page keeps one continuous
+    left rhythm and just the line length shortens. Figures and islands come in with the
+    text rather than staying full-bleed, which keeps a single clean right edge all the way
+    down instead of a ragged one.
+  */
+  .preamble-intro,
+  .beat {
+    max-width: var(--content-measure);
+  }
+
+  .lead-questions {
+    max-width: var(--content-measure);
+    margin-inline: auto;
+    gap: 1.75rem;
+  }
+
+  .lead-questions__item {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-weight: 400;
+    font-style: italic;
+    font-size: clamp(0.95rem, 1.6vw, 1.15rem);
+    line-height: 1.5;
+    color: color-mix(in srgb, var(--color-ink) 62%, transparent);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 640px) {
+    .lead-questions__item {
+      white-space: normal;
+    }
+  }
+
+  .preamble-intro__heading {
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
+    font-weight: 600;
+  }
+
+  .preamble-intro__text {
+    margin-top: 0.75rem;
+    font-size: 1rem;
+    line-height: 1.75;
+    color: color-mix(in srgb, var(--color-ink) 70%, transparent);
+  }
+
+  .beat {
+    margin-top: clamp(4rem, 10vw, 7rem);
+  }
+
+  .beat--sub {
+    margin-top: clamp(2.5rem, 6vw, 4rem);
+  }
+
+  .beat__heading {
+    margin-bottom: 1.5rem;
+  }
+
+  h3.beat__heading {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--color-ink) 55%, transparent);
+  }
+
+  .prose {
+    /* Overrides Tailwind Typography's default max-width: 65ch so this text matches
+       the page's other content instead of running narrower than it. */
+    max-width: none;
+  }
+
+
+  .beat :global(figure.city-layers),
+  .beat :global(figure.exposure-compare) {
+    margin-top: 2.5rem;
+  }
+
+  .beat--openti .prose {
+    margin-bottom: 1rem;
+  }
+
+  .openti-figure {
+    display: block;
+    width: 100%;
+    max-width: 620px;
+    height: auto;
+    margin: 2.5rem auto 0;
+  }
+
+  .orientation {
+    /* Offset parent for the shared description slot, which spans both columns. */
+    position: relative;
+    margin-top: 3rem;
+    display: grid;
+    gap: 2.5rem;
+    grid-template-columns: 2fr 1fr;
+    border-top: 1px solid var(--color-hairline);
+    border-bottom: 1px solid var(--color-hairline);
+    /* Bottom padding reserves the slot's height (--slot-height) on top of the usual 2rem,
+       which is what keeps the block from resizing as descriptions come and go, plus a
+       clear gap so the slot line doesn't crowd the last row of links. */
+    padding: 2rem 0 calc(2rem + var(--slot-height) + var(--slot-gap));
+    --slot-height: 2.6rem;
+    --slot-gap: 1.25rem;
+  }
+
+  @media (max-width: 720px) {
+    .orientation {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .orientation__group-title {
+    margin: 0 0 1rem 0;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--color-ink) 55%, transparent);
+  }
+
+  .orientation__sections {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.65rem 2rem;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 480px) {
+    .orientation__sections {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .orientation__sections-link {
+    display: block;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+
+  .orientation__sections-link:hover,
+  .orientation__sections-link:focus-visible {
+    color: var(--color-accent);
+  }
+
+  .orientation__section-number {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--color-accent);
+    margin-right: 0.3em;
+  }
+
+  .orientation__explore {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .orientation__explore-link {
+    display: block;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+
+  .orientation__explore-link:hover,
+  .orientation__explore-link:focus-visible {
+    color: var(--color-accent);
+  }
+
+  /*
+    Every description, and the idle hint, occupy the same reserved slot at the foot of the
+    slab — stacked on top of each other, only one ever at opacity 1. They stay inside their
+    own <li> in the markup (that's what makes the plain `li:hover` selector below work) but
+    position against the <nav>, so all ten land in the same line regardless of which item
+    they belong to. display:block is also what overrides the `hidden` attribute's UA
+    display:none; see the markup comment above.
+  */
+  .orientation__description,
+  .orientation__hint {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 2rem;
+    display: block;
+    margin: 0;
+    min-height: var(--slot-height);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    /* Nothing here is ever hovered or clicked, and it must not sit over the links. */
+    pointer-events: none;
+    transition: opacity 140ms ease;
+  }
+
+  .orientation__description {
+    opacity: 0;
+    color: color-mix(in srgb, var(--color-ink) 72%, transparent);
+  }
+
+  .orientation__hint {
+    opacity: 1;
+    color: color-mix(in srgb, var(--color-ink) 48%, transparent);
+  }
+
+  /* :focus-within, not just :hover, so tabbing through the links reveals the same text. */
+  .orientation li:hover .orientation__description,
+  .orientation li:focus-within .orientation__description {
+    opacity: 1;
+  }
+
+  /*
+    :has() rather than a plain .orientation:hover — hovering the slab's own padding or the
+    gap between columns should leave the hint alone, only landing on an actual item swaps it.
+  */
+  .orientation:has(li:hover) .orientation__hint,
+  .orientation:has(li:focus-within) .orientation__hint {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .orientation__description,
+    .orientation__hint {
+      transition: opacity 1ms linear;
+    }
+  }
+
+  /*
+    No hover to reveal with, so fall back to the previous always-visible layout, and drop
+    both the reserved slot and the idle hint along with it. The lists are single-column at
+    these widths anyway, and a touch visitor scrolling past a taller block is a far smaller
+    cost than descriptions they can never reach.
+  */
+  @media (hover: none) {
+    .orientation {
+      padding-block: 2rem;
+    }
+
+    .orientation__description {
+      position: static;
+      min-height: 0;
+      margin-top: 0.35rem;
+      font-size: 0.85rem;
+      opacity: 1;
+      color: color-mix(in srgb, var(--color-ink) 58%, transparent);
+    }
+
+    .orientation__hint {
+      display: none;
+    }
+
+    .orientation__sections {
+      gap: 1rem 2rem;
+    }
+
+    .orientation__explore {
+      gap: 1.25rem;
+    }
+  }
+
+  .go-to-top {
+    display: inline-block;
+    margin-top: clamp(4rem, 10vw, 7rem);
+    font-family: var(--font-heading);
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+
+  .go-to-top:hover,
+  .go-to-top:focus-visible {
+    text-decoration: underline;
+  }
+</style>

@@ -1,0 +1,61 @@
+---
+/*
+  The single peak shape behind the brand — "one glyph, reused across marker, icon, and
+  interaction" (.local/03_visual_identity.md). Drawn pointing up (^) by default, which is
+  the wordmark/nav hat mark; rotated 90/180/270deg it becomes the same shape read as a
+  right chevron (>), a down chevron (v), or a left chevron (<), so every rotating
+  disclosure/cursor/hover indicator on the site is this one path, never a separate icon.
+
+  Geometry matches public/favicon.svg's hand-drawn peak (same width:height ratio), just
+  reparented into a 24x24 viewBox so it sits comfortably at UI icon sizes.
+*/
+interface Props {
+  /** Which way the peak points. 'up' is the brand hat mark. */
+  direction?: 'up' | 'right' | 'down' | 'left';
+  /** Rendered size in pixels (square). */
+  size?: number;
+  strokeWidth?: number;
+  class?: string;
+}
+
+const { direction = 'up', size = 16, strokeWidth = 2.5, class: className = '' } = Astro.props;
+
+const rotation: Record<typeof direction, number> = {
+  up: 0,
+  right: 90,
+  down: 180,
+  left: 270,
+};
+---
+
+<svg
+  class:list={['chevron', className]}
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  fill="none"
+  aria-hidden="true"
+  style={`--chevron-rotate: ${rotation[direction]}deg`}
+>
+  <path
+    d="M5 16 L12 8 L19 16"
+    stroke="currentColor"
+    stroke-width={strokeWidth}
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+</svg>
+
+<style>
+  .chevron {
+    display: inline-block;
+    transform: rotate(var(--chevron-rotate));
+    transition: transform 200ms ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .chevron {
+      transition: none;
+    }
+  }
+</style>

@@ -1,0 +1,7 @@
+[
+  { "name": "Westbridge", "population": 42000 },
+  { "name": "Northgate", "population": 58000 },
+  { "name": "Eastgate", "population": 31000 },
+  { "name": "Harborview", "population": 76000 },
+  { "name": "Southmoor", "population": 24500 }
+]

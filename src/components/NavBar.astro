@@ -1,0 +1,251 @@
+---
+/*
+  Minimal header: brand mark on the left, linking home; citation + PDF actions on the
+  right so "cite this paper" is visible on every page instead of buried in the footer
+  (see CiteAs.astro for the footer's plain-text fallback). The plan for the minimal site
+  (.local/04_minimal_website.md) moves real navigation onto the landing page itself and
+  onto prev/next controls on paper pages, so this bar otherwise stays minimal — no
+  mega-menu, no scroll-hide behavior.
+
+  --nav-height is still measured and kept in sync here (rather than hardcoded) because
+  other pages' sticky sidebars (full-paper, concepts) position themselves against it.
+*/
+import Chevron from './Chevron.astro';
+import Wordmark from './Wordmark.astro';
+import { paperTitle, paperAuthors, citationBibtex, paperPdfUrl } from '../lib/paper-meta';
+
+const authorNames = paperAuthors.map((author) => author.name).join(', ');
+
+interface Props {
+  class?: string;
+}
+const { class: className = '' } = Astro.props;
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const withBase = (path: string) => `${base}${path}`;
+---
+
+<nav id="site-nav" class:list={['nav', className]} aria-label="Main">
+  <a href={withBase('/')} class="nav__brand">
+    <Chevron direction="up" size={18} strokeWidth={2.6} class="nav__hat" />
+    <Wordmark />
+  </a>
+
+  <div class="nav__actions">
+    <div class="nav__cite-wrap">
+      <button
+        type="button"
+        class="nav__cite"
+        data-copy-bibtex={citationBibtex}
+        title="Copy BibTeX citation"
+      >
+        <span class="nav__cite-title">{paperTitle}</span>
+        <span class="nav__cite-authors">{authorNames}</span>
+      </button>
+      <p class="nav__snackbar" id="nav-snackbar" role="status" aria-live="polite"></p>
+    </div>
+    <a class="nav__pdf" href={paperPdfUrl} target="_blank" rel="noopener">PDF</a>
+  </div>
+</nav>
+
+<style>
+  .nav {
+    position: fixed;
+    inset-block-start: 0;
+    inset-inline: 0;
+    z-index: 40;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.75rem 1.1rem;
+    background: var(--color-paper);
+    border-bottom: 2px solid color-mix(in srgb, var(--color-ink) 22%, var(--color-hairline));
+  }
+
+  .nav__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-heading);
+    font-weight: 500;
+    font-size: 1rem;
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+
+  .nav__hat {
+    color: var(--color-accent);
+  }
+
+  .nav__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .nav__cite-wrap {
+    position: relative;
+  }
+
+  .nav__cite {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.05rem;
+    max-width: min(26rem, 40vw);
+    background: none;
+    border: none;
+    padding: 0.3rem 0.5rem;
+    border-radius: 0.35rem;
+    cursor: pointer;
+    text-align: left;
+    transition: background-color 160ms ease;
+  }
+
+  .nav__cite:hover,
+  .nav__cite:focus-visible {
+    background: var(--color-accent-tint);
+  }
+
+  .nav__cite:focus-visible {
+    outline: 2px solid var(--color-accent-mid);
+    outline-offset: 1px;
+  }
+
+  .nav__cite-title,
+  .nav__cite-authors {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .nav__cite-title {
+    font-family: var(--font-heading);
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--color-ink);
+  }
+
+  .nav__cite-authors {
+    font-size: 0.72rem;
+    color: color-mix(in srgb, var(--color-ink) 60%, transparent);
+  }
+
+  .nav__pdf {
+    padding: 0.45rem 0.9rem;
+    background: var(--color-accent);
+    color: white;
+    text-decoration: none;
+    border-radius: 0.35rem;
+    font-size: 0.82rem;
+    font-family: var(--font-heading);
+    white-space: nowrap;
+    transition: background-color 160ms ease, transform 120ms ease;
+  }
+
+  .nav__pdf:hover,
+  .nav__pdf:focus-visible {
+    background: var(--color-accent-mid);
+    transform: translateY(-1px);
+  }
+
+  .nav__snackbar {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    right: 0;
+    margin: 0;
+    padding: 0.5rem 0.8rem;
+    background: var(--color-ink);
+    color: var(--color-paper);
+    font-size: 0.78rem;
+    font-family: var(--font-heading);
+    border-radius: 0.35rem;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--color-ink) 25%, transparent);
+    opacity: 0;
+    transform: translateY(-0.25rem);
+    pointer-events: none;
+    transition: opacity 200ms ease, transform 200ms ease;
+  }
+
+  .nav__snackbar--visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nav__snackbar {
+      transition: opacity 1ms linear;
+    }
+  }
+
+  @media (max-width: 30rem) {
+    .nav__cite {
+      max-width: min(11rem, 55vw);
+    }
+
+    .nav__cite-authors {
+      display: none;
+    }
+
+    .nav__snackbar {
+      right: auto;
+      left: 50%;
+      transform: translate(-50%, -0.25rem);
+    }
+
+    .nav__snackbar--visible {
+      transform: translate(-50%, 0);
+    }
+  }
+</style>
+
+<script>
+  // Event delegation on `document` rather than binding directly to `.nav__cite` — Astro's
+  // ClientRouter (view transitions) re-renders NavBar's markup on every navigation, but
+  // this module script (like the resize listener below) only ever evaluates once, and
+  // `document` itself persists across navigations, so delegation is what keeps the click
+  // handler working on the freshly rendered button.
+  let hideTimeout: ReturnType<typeof setTimeout> | undefined;
+
+  function showSnackbar(message: string) {
+    const snackbar = document.getElementById('nav-snackbar');
+    if (!snackbar) return;
+    snackbar.textContent = message;
+    snackbar.classList.add('nav__snackbar--visible');
+    clearTimeout(hideTimeout);
+    hideTimeout = setTimeout(() => {
+      snackbar.classList.remove('nav__snackbar--visible');
+    }, 2600);
+  }
+
+  document.addEventListener('click', async (event) => {
+    const trigger = (event.target as HTMLElement).closest<HTMLElement>('[data-copy-bibtex]');
+    if (!trigger) return;
+    const bibtex = trigger.dataset.copyBibtex ?? '';
+    try {
+      await navigator.clipboard.writeText(bibtex);
+      showSnackbar('Copied BibTeX to clipboard');
+    } catch {
+      showSnackbar('Could not copy — see the BibTeX in the footer');
+    }
+  });
+
+  // Re-measures on every navigation (including the first) since a module script only
+  // ever evaluates once per document — without this, --nav-height would stay pinned to
+  // whichever page happened to load first. Astro's ClientRouter swaps the DOM without a
+  // full reload, so `astro:page-load` (fires on first load and after every transition)
+  // is what re-runs this.
+  function syncNavHeight() {
+    const nav = document.getElementById('site-nav');
+    if (!nav) return;
+    document.documentElement.style.setProperty('--nav-height', `${nav.offsetHeight}px`);
+  }
+
+  document.addEventListener('astro:page-load', syncNavHeight);
+  // Registered once at module evaluation (not inside syncNavHeight/astro:page-load)
+  // since the listener itself doesn't depend on which page is current.
+  window.addEventListener('resize', syncNavHeight);
+</script>

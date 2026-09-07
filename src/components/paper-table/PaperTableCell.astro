@@ -1,0 +1,177 @@
+---
+// Dispatches a single table cell to its renderer based on `kind`. Plain strings (the
+// common case) are run through renderMathText for `$...$` inline math and injected
+// directly; the structured kinds below reuse the site's five-capability palette and the
+// shared Citation trigger so table content stays traceable and visually consistent with
+// the rest of the paper.
+import Citation from '../Citation.astro';
+import { getCitation } from '../../lib/citations';
+import {
+  renderMathText,
+  CAPABILITY_LABEL,
+  SETTING_LABEL,
+  SETTING_GLYPH,
+  INSIGHT_GROUP_LABEL,
+  MARK_GLYPH,
+  MARK_LABEL,
+  SCOPE_SEGMENTS,
+  SCOPE_SEGMENT_LABEL,
+  type PaperTableCell,
+} from '../../lib/paper-table-render';
+
+interface Props {
+  cell: PaperTableCell;
+}
+
+const { cell } = Astro.props;
+---
+
+{typeof cell === 'string' ? (
+  <Fragment set:html={renderMathText(cell)} />
+) : cell.kind === 'cite' ? (
+  <>
+    {cell.text && <>{cell.text} </>}
+    <Citation cite={cell.citekey} label={`(${getCitation(cell.citekey).year})`} />
+  </>
+) : cell.kind === 'tags' ? (
+  <span class="pt-tags" title={CAPABILITY_LABEL[cell.capability]} data-cap={cell.capability}>
+    {cell.items.map((item) => (
+      <span class="pt-tag">{item}</span>
+    ))}
+  </span>
+) : cell.kind === 'setting' ? (
+  <span class="pt-setting" title={SETTING_LABEL[cell.variant]}>
+    <span class="pt-setting__glyph">{SETTING_GLYPH[cell.variant]}</span>
+    {cell.value && <span class="pt-setting__value">{cell.value}</span>}
+    {cell.note && <span class="pt-setting__note">{cell.note}</span>}
+  </span>
+) : cell.kind === 'pills' ? (
+  <span class="pt-pills">
+    {cell.items.map((item) => (
+      <span class="pt-pill" class:list={{ 'pt-pill--bordered': item.bordered }} title={INSIGHT_GROUP_LABEL[item.group]}>
+        {item.label}
+      </span>
+    ))}
+  </span>
+) : cell.kind === 'mark' ? (
+  <span class="pt-mark" title={MARK_LABEL[cell.value]} aria-label={MARK_LABEL[cell.value]}>
+    {MARK_GLYPH[cell.value]}
+  </span>
+) : cell.kind === 'scope' ? (
+  <span class="pt-scope">
+    {SCOPE_SEGMENTS.map((seg, i) => (
+      <span class="pt-scope__seg" data-on={cell.segments[i] ? 'true' : 'false'} title={SCOPE_SEGMENT_LABEL[seg]}>
+        {seg}
+      </span>
+    ))}
+  </span>
+) : null}
+
+<style>
+  .pt-tags,
+  .pt-pills {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+
+  .pt-tag {
+    display: inline-block;
+    padding: 0.1rem 0.45rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-family: var(--font-mono);
+    line-height: 1.5;
+    white-space: nowrap;
+    background: color-mix(in srgb, var(--tag-color, var(--color-ink)) 12%, white);
+    color: color-mix(in srgb, var(--tag-color, var(--color-ink)) 80%, black);
+    border: 1px solid color-mix(in srgb, var(--tag-color, var(--color-ink)) 35%, transparent);
+  }
+
+  .pt-tags[data-cap='interpretation'] .pt-tag { --tag-color: var(--color-cap-interpretation); }
+  .pt-tags[data-cap='retrieval'] .pt-tag { --tag-color: var(--color-cap-data-retrieval); }
+  .pt-tags[data-cap='analysis'] .pt-tag { --tag-color: var(--color-cap-analytical); }
+  .pt-tags[data-cap='output'] .pt-tag { --tag-color: var(--color-cap-output-synthesis); }
+  .pt-tags[data-cap='governance'] .pt-tag { --tag-color: var(--color-cap-process-governance); }
+
+  .pt-setting {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.3rem;
+    white-space: nowrap;
+  }
+
+  .pt-setting__glyph {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.4em;
+    padding: 0 0.15em;
+    border-radius: 0.3rem;
+    background: var(--color-accent-tint);
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .pt-setting__value,
+  .pt-setting__note {
+    font-size: 0.85em;
+    color: color-mix(in srgb, var(--color-ink) 70%, transparent);
+  }
+
+  .pt-pill {
+    display: inline-block;
+    padding: 0.05rem 0.4rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-family: var(--font-mono);
+    line-height: 1.5;
+    white-space: nowrap;
+    background: var(--color-accent-tint);
+    color: var(--color-ink);
+    border: 1px solid transparent;
+  }
+
+  /* Unfilled and muted rather than accent-coloured on purpose: this marks an instance that
+     only partially fits the pill's category (it targets an artifact, not an insight), so it
+     should read as fainter than a plain pill, not as a highlighted/positive one. */
+  .pt-pill--bordered {
+    background: transparent;
+    border-color: color-mix(in srgb, var(--color-ink) 30%, transparent);
+    color: color-mix(in srgb, var(--color-ink) 55%, transparent);
+  }
+
+  .pt-mark {
+    display: inline-block;
+    font-size: 0.95em;
+    cursor: default;
+  }
+
+  .pt-scope {
+    display: inline-flex;
+    gap: 1px;
+    border-radius: 0.3rem;
+    overflow: hidden;
+    border: 1.5px solid var(--color-accent);
+  }
+
+  .pt-scope__seg {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.6em;
+    height: 1.4em;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    font-weight: 600;
+    background: white;
+    color: var(--color-accent);
+  }
+
+  .pt-scope__seg[data-on='true'] {
+    background: var(--color-accent);
+    color: white;
+  }
+</style>

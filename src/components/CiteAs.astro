@@ -1,0 +1,116 @@
+---
+/*
+  Sitewide "Cite as" block, in the footer (.local/04_minimal_website.md's landing-page
+  revisions, applied to every page since it lives in Footer.astro). The primary,
+  click-to-copy citation action now lives in NavBar.astro instead, since a footer block
+  is easy to overlook — this stays as a no-JS-required fallback (also what NavBar's copy
+  failure message points to).
+
+  The BibTeX itself is collapsed by default behind a plain inline "Show BibTeX" toggle
+  (native <details>/<summary>, so no JS or Chevron icon needed), placed right after the
+  citation sentence rather than the "Cite as" label — it used to render unfolded, which
+  made the footer noticeably tall on every page for a block most visitors never need.
+*/
+import { citationText, citationBibtex } from '../lib/paper-meta';
+---
+
+<div class="cite-as">
+  <p class="cite-as__label">Cite as</p>
+  <details class="cite-as__details">
+    <summary class="cite-as__summary">
+      <span class="cite-as__text">{citationText}</span>
+      <span class="cite-as__toggle">
+        <span class="cite-as__toggle-closed">Show BibTeX</span>
+        <span class="cite-as__toggle-open">Hide BibTeX</span>
+      </span>
+    </summary>
+    <pre class="cite-as__bibtex"><code>{citationBibtex}</code></pre>
+  </details>
+</div>
+
+<style>
+  /*
+    Label and citation share one line rather than stacking — "Cite as" is three
+    characters' worth of information sitting on a line of its own, which is pure height in
+    a footer that repeats on every page. Wraps back to two lines when the row is too narrow.
+  */
+  .cite-as {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.15rem 0.55rem;
+  }
+
+  .cite-as__details {
+    flex: 1 1 22rem;
+    min-width: 0;
+  }
+
+  .cite-as__label {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--color-ink) 55%, transparent);
+  }
+
+  .cite-as__summary {
+    display: block;
+    list-style: none;
+    list-style-type: none;
+    cursor: pointer;
+  }
+
+  .cite-as__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .cite-as__summary::marker {
+    content: '';
+  }
+
+  .cite-as__text {
+    font-size: 0.85rem;
+    line-height: 1.55;
+    color: color-mix(in srgb, var(--color-ink) 75%, transparent);
+  }
+
+  .cite-as__toggle {
+    margin-inline-start: 0.5rem;
+    font-family: var(--font-heading);
+    font-size: 0.78rem;
+    color: var(--color-accent);
+    white-space: nowrap;
+  }
+
+  .cite-as__summary:hover .cite-as__toggle,
+  .cite-as__summary:focus-visible .cite-as__toggle {
+    text-decoration: underline;
+  }
+
+  .cite-as__toggle-open {
+    display: none;
+  }
+
+  .cite-as__details[open] .cite-as__toggle-open {
+    display: inline;
+  }
+
+  .cite-as__details[open] .cite-as__toggle-closed {
+    display: none;
+  }
+
+  .cite-as__bibtex {
+    margin: 0.6rem 0 0 0;
+    padding: 0.85rem 1rem;
+    background: var(--color-card);
+    border: 1px solid var(--color-hairline);
+    border-radius: 0.35rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    line-height: 1.6;
+    overflow-x: auto;
+    color: var(--color-ink);
+  }
+</style>

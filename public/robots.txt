@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://open-tabular-insight-extraction.github.io/sitemap-index.xml

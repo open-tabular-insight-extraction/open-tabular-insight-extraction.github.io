@@ -1,0 +1,110 @@
+/*
+  OpenTî — global styles and design tokens.
+  Tokens trace back to .local/03_visual_identity.md. Change them there first, then here.
+*/
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+
+/* Self-hosted variable fonts (no external requests). */
+@import '@fontsource-variable/space-grotesk';
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/jetbrains-mono';
+
+/* Self-hosted KaTeX styles + fonts for prerendered math in concept prose. */
+@import 'katex/dist/katex.min.css';
+
+@theme {
+  /* Type system */
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-heading: 'Space Grotesk Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, 'SFMono-Regular', monospace;
+
+  /* Core palette — light theme on warm paper */
+  --color-paper: #fbfaf8;
+  --color-card: #ffffff;
+  --color-ink: #1a1a1a;
+  --color-accent: #0f6e56;
+  --color-accent-mid: #1d9e75;
+  --color-accent-tint: #e1f5ee;
+  --color-hairline: #e4e1d9;
+
+  /*
+    Categorical palette for the five functional capabilities and orchestration
+    strategies. Names are settled; hex values below are provisional and must be
+    confirmed as colorblind-safe before they carry meaning in production views.
+    Always pair with a label or icon — never color alone.
+  */
+  --color-cap-interpretation: #2a6fb0; /* blue */
+  --color-cap-data-retrieval: #7b5ea7; /* purple */
+  --color-cap-analytical: #d1495b; /* coral */
+  --color-cap-output-synthesis: #c77b02; /* amber */
+  --color-cap-process-governance: #0f6e56; /* teal */
+}
+
+@layer base {
+  html {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    min-height: 100dvh;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+    font-weight: 500; /* medium — heavier weights avoided to keep the feel light */
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+
+  a {
+    color: var(--color-accent);
+  }
+
+  code,
+  kbd,
+  samp {
+    font-family: var(--font-mono);
+  }
+
+  /*
+    Margin/aside notes in concept prose (.local/plans/conceptual_foundation_plan.md) —
+    a secondary remark that survives from the paper's footnotes without breaking prose
+    flow. Deliberately quieter than <Formal>: dashed rule, smaller italic type.
+  */
+  aside.margin-note {
+    margin: 1.25rem 0;
+    padding-left: 1rem;
+    border-left: 2px dashed var(--color-hairline);
+    font-size: 0.85rem;
+    font-style: italic;
+    line-height: 1.65;
+    color: color-mix(in srgb, var(--color-ink) 65%, transparent);
+  }
+
+  aside.margin-note p {
+    margin: 0;
+  }
+
+  /* Reduced-motion is a hard rule across the site. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}

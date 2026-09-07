@@ -1,0 +1,59 @@
+---
+// Numbered formal-definition callout for full-paper content. See
+// Figure.astro for the authoring contract (`title` must be a plain string
+// literal — it is regex-scanned by paper-structure.ts and is the PaperRef
+// lookup key). Intended for the boxed definitions currently authored as
+// plain blockquotes (e.g. "An OpenTI system is..."); not yet retrofitted
+// onto existing content.
+//
+// Concept pages reuse this component to render the *same* numbered
+// definition the paper registers, so a definition introduced once in the
+// paper carries one number everywhere it's boxed. Their display title is
+// sometimes a shorter/friendlier variant of the paper's exact title text
+// (e.g. concept page "Sufficient Set of Tables" vs paper "Sufficient") —
+// `paperTitle`, when given, is used for the getPaperRef lookup instead of
+// `title`, which stays purely the rendered heading.
+import { getPaperRef } from '../lib/paper-structure';
+
+interface Props {
+  title: string;
+  paperTitle?: string;
+}
+
+const { title, paperTitle } = Astro.props;
+const entry = getPaperRef(paperTitle ?? title, 'definition');
+---
+
+<div class="paper-definition" id={entry.anchor}>
+  <p class="paper-definition__label">Definition {entry.number} ({title})</p>
+  <div class="paper-definition__body">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .paper-definition {
+    margin: 1.5rem 0;
+    padding: 1rem 1.25rem;
+    border-left: 3px solid var(--color-accent);
+    background: var(--color-accent-tint);
+    border-radius: 0 0.5rem 0.5rem 0;
+  }
+
+  .paper-definition__label {
+    margin: 0 0 0.5rem 0;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  .paper-definition__body {
+    line-height: 1.7;
+  }
+
+  .paper-definition__body :global(p:last-child) {
+    margin-bottom: 0;
+  }
+</style>

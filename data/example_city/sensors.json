@@ -1,0 +1,226 @@
+[
+    {
+        "sensor_id": "SN-001",
+        "coordinate_x": 8,
+        "coordinate_y": 35,
+        "no2_umg3": 44.33,
+        "_street": "Koi Ln",
+        "_borough": "Westbridge"
+    },
+    {
+        "sensor_id": "SN-002",
+        "coordinate_x": 13,
+        "coordinate_y": 39,
+        "no2_umg3": 44.40,
+        "_street": "Koi Ln",
+        "_borough": "Westbridge"
+    },
+    {
+        "sensor_id": "SN-003",
+        "coordinate_x": 19,
+        "coordinate_y": 44,
+        "no2_umg3": 48.27,
+        "_street": "Koi Ln",
+        "_borough": "Westbridge"
+    },
+    {
+        "sensor_id": "SN-004",
+        "coordinate_x": 34,
+        "coordinate_y": 48,
+        "no2_umg3": 39.58,
+        "_street": "Koi Ln",
+        "_borough": "Westbridge"
+    },
+    {
+        "sensor_id": "SN-005",
+        "coordinate_x": 49,
+        "coordinate_y": 51,
+        "no2_umg3": 48.58,
+        "_street": "Koi Ln",
+        "_borough": "Northgate"
+    },
+    {
+        "sensor_id": "SN-006",
+        "coordinate_x": 64,
+        "coordinate_y": 55,
+        "no2_umg3": 39.07,
+        "_street": "Koi Ln",
+        "_borough": "Northgate"
+    },
+    {
+        "sensor_id": "SN-007",
+        "coordinate_x": 90,
+        "coordinate_y": 58,
+        "no2_umg3": 45.82,
+        "_street": "Koi Ln",
+        "_borough": "Eastgate"
+    },
+    {
+        "sensor_id": "SN-008",
+        "coordinate_x": 12,
+        "coordinate_y": 20,
+        "no2_umg3": 105.36,
+        "_street": "Main St",
+        "_borough": "Westbridge"
+    },
+    {
+        "sensor_id": "SN-009",
+        "coordinate_x": 29,
+        "coordinate_y": 32,
+        "no2_umg3": 102.40,
+        "_street": "Main St",
+        "_borough": "Westbridge"
+    },
+    {
+        "sensor_id": "SN-010",
+        "coordinate_x": 43,
+        "coordinate_y": 39,
+        "no2_umg3": 85.44,
+        "_street": "Main St",
+        "_borough": "Westbridge"
+    },
+    {
+        "sensor_id": "SN-011",
+        "coordinate_x": 65,
+        "coordinate_y": 44,
+        "no2_umg3": 90.65,
+        "_street": "Main St",
+        "_borough": "Harborview"
+    },
+    {
+        "sensor_id": "SN-012",
+        "coordinate_x": 74,
+        "coordinate_y": 45,
+        "no2_umg3": 108.09,
+        "_street": "Main St",
+        "_borough": "Eastgate"
+    },
+    {
+        "sensor_id": "SN-013",
+        "coordinate_x": 82,
+        "coordinate_y": 44,
+        "no2_umg3": 99.55,
+        "_street": "Main St",
+        "_borough": "Eastgate"
+    },
+    {
+        "sensor_id": "SN-014",
+        "coordinate_x": 90,
+        "coordinate_y": 43,
+        "no2_umg3": 106.71,
+        "_street": "Main St",
+        "_borough": "Eastgate"
+    },
+    {
+        "sensor_id": "SN-015",
+        "coordinate_x": 98,
+        "coordinate_y": 40,
+        "no2_umg3": 99.84,
+        "_street": "Main St",
+        "_borough": "Eastgate"
+    },
+    {
+        "sensor_id": "SN-016",
+        "coordinate_x": 102,
+        "coordinate_y": 37,
+        "no2_umg3": 97.43,
+        "_street": "Main St",
+        "_borough": "Eastgate"
+    },
+    {
+        "sensor_id": "SN-017",
+        "coordinate_x": 31,
+        "coordinate_y": 10,
+        "no2_umg3": 33.52,
+        "_street": "Carp Ln",
+        "_borough": "Westbridge"
+    },
+    {
+        "sensor_id": "SN-018",
+        "coordinate_x": 53,
+        "coordinate_y": 20,
+        "no2_umg3": 33.09,
+        "_street": "Carp Ln",
+        "_borough": "Southmoor"
+    },
+    {
+        "sensor_id": "SN-019",
+        "coordinate_x": 70,
+        "coordinate_y": 22,
+        "no2_umg3": 25.32,
+        "_street": "Carp Ln",
+        "_borough": "Southmoor"
+    },
+    {
+        "sensor_id": "SN-020",
+        "coordinate_x": 86,
+        "coordinate_y": 13,
+        "no2_umg3": 33.94,
+        "_street": "Herring Ln",
+        "_borough": "Southmoor"
+    },
+    {
+        "sensor_id": "SN-021",
+        "coordinate_x": 94,
+        "coordinate_y": 16,
+        "no2_umg3": 35.9,
+        "_street": "Herring Ln",
+        "_borough": "Harborview"
+    },
+    {
+        "sensor_id": "SN-022",
+        "coordinate_x": 108,
+        "coordinate_y": 49,
+        "no2_umg3": 20.02,
+        "_street": "Cod Ln",
+        "_borough": "Eastgate"
+    },
+    {
+        "sensor_id": "SN-023",
+        "coordinate_x": 40,
+        "coordinate_y": 62,
+        "no2_umg3": 42.81,
+        "_street": "Oak Ave",
+        "_borough": "Northgate"
+    },
+    {
+        "sensor_id": "SN-024",
+        "coordinate_x": 52,
+        "coordinate_y": 14,
+        "no2_umg3": 34.98,
+        "_street": "Oak Ave",
+        "_borough": "Southmoor"
+    },
+    {
+        "sensor_id": "SN-025",
+        "coordinate_x": 56,
+        "coordinate_y": 4,
+        "no2_umg3": 32.49,
+        "_street": "Oak Ave",
+        "_borough": "Southmoor"
+    },
+    {
+        "sensor_id": "SN-026",
+        "coordinate_x": 76,
+        "coordinate_y": 68,
+        "no2_umg3": 66.63,
+        "_street": "Pine Ave",
+        "_borough": "Northgate"
+    },
+    {
+        "sensor_id": "SN-027",
+        "coordinate_x": 78,
+        "coordinate_y": 36,
+        "no2_umg3": 69.04,
+        "_street": "Pine Ave",
+        "_borough": "Harborview"
+    },
+    {
+        "sensor_id": "SN-028",
+        "coordinate_x": 79,
+        "coordinate_y": 18,
+        "no2_umg3": 61.23,
+        "_street": "Pine Ave",
+        "_borough": "Southmoor"
+    }
+]

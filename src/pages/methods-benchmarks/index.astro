@@ -1,0 +1,239 @@
+---
+// Overview of systems (.local/04_minimal_website.md § "Add initial versions of the systems
+// and benchmark overview pages"): all 58 surveyed systems in one sortable, filterable
+// table, generated from the distilled evidence records — never hand-written.
+//
+// The columns mirror the paper's Table 3 (capability overview) and use the same labels,
+// glyphs and palette, so a system reads identically here and in the paper. Differences,
+// all additive: this table covers every surveyed system rather than the 29 that fit on the
+// printed page, and it carries orchestration strategy, input modes and evaluation datasets
+// as extra columns not in the printed table.
+//
+// Page furniture (header, key, notes) comes from styles/record-overview.css, shared with
+// the benchmarks overview so the two pages stay identical in everything but content.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Chevron from '../../components/Chevron.astro';
+import RecordTable from '../../components/records/RecordTable.svelte';
+import { getSystemRecords } from '../../lib/records';
+import '../../styles/record-overview.css';
+import {
+  citeCell,
+  capabilityCell,
+  pillsCell,
+  settingCell,
+} from '../../lib/record-cells';
+import {
+  CAPABILITY_LABEL,
+  DATA_SETTING_LABEL,
+  DATA_SETTING_VARIANT,
+  INTERACTION_MODE_LABEL,
+  INTERACTION_MODE_ORDER,
+  ORCHESTRATION_LABEL,
+  ORCHESTRATION_ORDER,
+  SETTING_GLYPH,
+  label,
+} from '../../lib/record-vocab';
+import Ref from '../../components/Ref.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const withBase = (path: string) => `${base}${path}`;
+
+const records = getSystemRecords();
+
+// Sort keys are ordinals rather than labels so "Fixed → Plan-based → Reactive → Hybrid"
+// and "1 → N± → N → ∞" sort in their meaningful paper order, not alphabetically.
+const SETTING_ORDER = ['single_table', 'bounded_set', 'multi_table_provided', 'open_corpus'];
+
+// The paper's Table 3 spans its five capability columns under one heading; so does this.
+const CAPABILITY_GROUP = 'Functional capabilities';
+
+const columns = [
+  { key: 'system', label: 'System', sortable: true, minWidth: '9rem' },
+  { key: 'setting', label: 'Setting', align: 'center', sortable: true,
+    filter: { label: 'Data setting',
+      options: SETTING_ORDER.map((value) => ({ value, label: DATA_SETTING_LABEL[value] })) } },
+  { key: 'orchestration', label: 'Orchestration', sortable: true,
+    filter: { label: 'Orchestration',
+      options: ORCHESTRATION_ORDER.map((value) => ({ value, label: ORCHESTRATION_LABEL[value] })) } },
+  // The capability columns are capped so their tag lists wrap instead of stretching the
+  // table past the viewport: all five capabilities plus the insight types have to be
+  // comparable at a glance, which is the whole point of the overview, and that is worth
+  // one extra line in the occasional dense cell.
+  { key: 'interpretation', label: 'Interpretation', group: CAPABILITY_GROUP,
+    sortable: false, maxWidth: '9.5rem' },
+  { key: 'retrieval', label: 'Data retrieval', group: CAPABILITY_GROUP,
+    sortable: false, maxWidth: '9.5rem' },
+  { key: 'analysis', label: 'Analysis', group: CAPABILITY_GROUP,
+    sortable: false, maxWidth: '9.5rem' },
+  { key: 'output', label: 'Output', group: CAPABILITY_GROUP,
+    sortable: false, maxWidth: '9.5rem' },
+  { key: 'governance', label: 'Governance', group: CAPABILITY_GROUP,
+    sortable: false, maxWidth: '9.5rem' },
+  { key: 'inputModes', label: 'Input modes', sortable: false, maxWidth: '9rem',
+    filter: { label: 'Input mode',
+      options: INTERACTION_MODE_ORDER.map((value) => ({ value, label: INTERACTION_MODE_LABEL[value] })) } },
+  { key: 'datasets', label: 'Evaluated on', sortable: false, width: '13rem', maxWidth: '13rem' },
+];
+
+const rows = records.map((record) => ({
+  id: record.citekey,
+  cells: {
+    system: citeCell(record.citekey, record.name),
+    setting: settingCell(record.dataSetting),
+    orchestration: label(ORCHESTRATION_LABEL, record.orchestration),
+    interpretation: capabilityCell('interpretation', record.capabilities.interpretation),
+    retrieval: capabilityCell('retrieval', record.capabilities.retrieval),
+    analysis: capabilityCell('analysis', record.capabilities.analysis),
+    output: capabilityCell('output', record.capabilities.output),
+    governance: capabilityCell('governance', record.capabilities.governance),
+    inputModes: pillsCell(
+      record.inputModes.map((mode) => ({ label: INTERACTION_MODE_LABEL[mode] ?? mode })),
+    ),
+    datasets: pillsCell(record.datasets.map((dataset) => ({ label: dataset }))),
+  },
+  sortValues: {
+    system: record.name.toLowerCase(),
+    setting: SETTING_ORDER.indexOf(record.dataSetting),
+    orchestration: ORCHESTRATION_ORDER.indexOf(record.orchestration),
+  },
+  filterValues: {
+    setting: [record.dataSetting],
+    orchestration: [record.orchestration],
+    inputModes: record.inputModes,
+  },
+}));
+
+// The compact key above the table: the five capability colours, then the data-setting
+// glyphs. Both are generated from the same vocabulary the cells use, so the key can't
+// fall out of step with what it explains.
+const CAPABILITY_KEY = [
+  { key: 'interpretation', token: '--color-cap-interpretation' },
+  { key: 'retrieval', token: '--color-cap-data-retrieval' },
+  { key: 'analysis', token: '--color-cap-analytical' },
+  { key: 'output', token: '--color-cap-output-synthesis' },
+  { key: 'governance', token: '--color-cap-process-governance' },
+] as const;
+
+const settingKey = SETTING_ORDER.map((value) => ({
+  glyph: SETTING_GLYPH[DATA_SETTING_VARIANT[value]],
+  label: DATA_SETTING_LABEL[value],
+}));
+
+---
+
+<BaseLayout
+  title="Overview of systems — OpenTî"
+  description="All systems reviewed in the paper, with their functional capabilities, orchestration strategy, data setting and covered insight types."
+>
+  <div class="rec-page">
+    <a class="rec-back" href={withBase('/')}>
+      <Chevron direction="left" size={14} strokeWidth={2.4} />
+      Back to main page
+    </a>
+
+    <header class="rec-head">
+      <div class="rec-head__text">
+        <p class="rec-eyebrow">Methods &amp; benchmarks</p>
+        <h1>Overview of systems</h1>
+        <p class="rec-lead">
+          This page provides an overview of systems that work towards (parts of) the end-to-end scope of OpenTI.
+        </p>
+      </div>
+
+      <ul class="rec-stats">
+        <li class="rec-stat">
+          <span class="rec-stat__value">{records.length}</span>
+          <span class="rec-stat__label">systems<br />surveyed</span>
+        </li>
+      </ul>
+    </header>
+
+    <div class="rec-key">
+      <span class="rec-key__title">Capability</span>
+      <ul class="rec-key__items">
+        {CAPABILITY_KEY.map((cap) => (
+          <li class="rec-key__item">
+            <span class="rec-key__swatch" style={`--key-color: var(${cap.token})`} />
+            {CAPABILITY_LABEL[cap.key]}
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="rec-key">
+      <span class="rec-key__title">Setting</span>
+      <ul class="rec-key__items">
+        {settingKey.map((item) => (
+          <li class="rec-key__item">
+            <span class="rec-key__glyph">{item.glyph}</span>
+            {item.label.toLowerCase()}
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <RecordTable
+      columns={columns}
+      rows={rows}
+      unit="systems"
+      searchLabel="Find a system"
+      client:visible
+    />
+
+    <section class="rec-notes">
+      <h2 class="rec-notes__heading">Reading the table</h2>
+      <dl class="rec-notes__grid">
+        <div>
+          <dt>Functional capabilities</dt>
+          <dd>
+            Each tag captures one aspect of a capability the system implements; an empty cell
+            means it does not address that capability at all.
+          </dd>
+        </div>
+        <div>
+          <dt>Orchestration</dt>
+          <dd>
+            Orchestration strategy for the functional capabilities: <strong>fixed</strong> at design time,{' '}
+            <strong>plan-based</strong> at invocation time, <strong>reactive</strong> during
+            execution, or <strong>hybrid</strong>.
+          </dd>
+        </div>
+        <div>
+          <dt>Setting</dt>
+          <dd>
+            What data the system is presented with. Differentiating when a single table is provided, multiple tables,
+            a bounded set (like a database), or a full corpus.
+          </dd>
+        </div>
+        <div>
+          <dt>Interaction modes</dt>
+          <dd>
+            The interaction mode by which the system and user interact to communicate the insight need:
+            a <strong>single</strong> upfront input, a <strong>step-wise</strong> sequence of inputs,
+            <strong>system-initiated clarification</strong>, <strong>iterative elicitation</strong> refined over
+            turns, or steering off an <strong>output-driven</strong> intermediate result. See Section <Ref name="sec:user_facing:interaction_modes"/>.
+          </dd>
+        </div>
+        <div>
+          <dt>Evaluated on</dt>
+          <dd>
+            The datasets/benchmarks the system is evaluated against, as reported by the authors.
+          </dd>
+        </div>
+      </dl>
+
+      <div class="rec-source">
+        <nav class="rec-onward" aria-label="Related pages">
+          <a class="rec-onward__link" href={withBase('/full-paper/anatomy-of-openti-systems/')}>
+            Section 3, Anatomy of OpenTI systems
+            <Chevron direction="right" size={12} strokeWidth={2.4} />
+          </a>
+          <a class="rec-onward__link" href={withBase('/methods-benchmarks/benchmarks/')}>
+            Overview of benchmarks
+            <Chevron direction="right" size={12} strokeWidth={2.4} />
+          </a>
+        </nav>
+      </div>
+    </section>
+  </div>
+</BaseLayout>

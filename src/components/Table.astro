@@ -1,0 +1,87 @@
+---
+// Numbered table wrapper for full-paper content. See Figure.astro for the
+// authoring contract — `name` is a stable identifier that doubles as the
+// label (children are the full caption, not a short title), and `src` names
+// a data source under src/contents/full_paper/tables/<name>.json (see
+// src/lib/paper-tables.ts). Renders a placeholder for any table whose JSON
+// hasn't been transcribed yet, so partially-migrated content still builds.
+import { getPaperLabel } from '../lib/paper-structure';
+import { getPaperTable } from '../lib/paper-tables';
+import PaperTableGrid from './paper-table/PaperTableGrid.astro';
+import PaperTableSectioned from './paper-table/PaperTableSectioned.astro';
+import PaperTableGrouped from './paper-table/PaperTableGrouped.astro';
+
+interface Props {
+  name: string;
+  src?: string;
+}
+
+const { name, src } = Astro.props;
+const entry = getPaperLabel(name);
+const data = src ? getPaperTable(src) : undefined;
+---
+
+<figure class="paper-table" id={entry.anchor}>
+  <figcaption class="paper-table__caption">
+    <span class="paper-table__label">Table {entry.number}.</span> <slot />
+  </figcaption>
+  <div class="paper-table__body">
+    {data ? (
+      data.layout === 'grid' ? (
+        <PaperTableGrid data={data} />
+      ) : data.layout === 'sectioned' ? (
+        <PaperTableSectioned data={data} />
+      ) : (
+        <PaperTableGrouped data={data} />
+      )
+    ) : (
+      <div class="paper-table__placeholder">
+        <span>Table data pending</span>
+        {src && <code>{src}</code>}
+      </div>
+    )}
+  </div>
+</figure>
+
+<style>
+  .paper-table {
+    margin: 2rem 0;
+  }
+
+  .paper-table__caption {
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: color-mix(in srgb, var(--color-ink) 75%, transparent);
+  }
+
+  .paper-table__label {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+
+  .paper-table__body {
+    overflow-x: auto;
+    border: 1px solid var(--color-hairline);
+    border-radius: 0.5rem;
+  }
+
+  .paper-table__placeholder {
+    min-height: 6rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    padding: 1rem;
+    color: color-mix(in srgb, var(--color-ink) 45%, transparent);
+    font-size: 0.85rem;
+  }
+
+  .paper-table__placeholder code {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: color-mix(in srgb, var(--color-ink) 60%, transparent);
+  }
+</style>

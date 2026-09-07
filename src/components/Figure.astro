@@ -1,0 +1,136 @@
+---
+// Numbered figure wrapper for full-paper content. `name` is a stable
+// identifier (e.g. "fig:insight_need") rather than a short caption — the
+// full descriptive caption is the component's children instead, since
+// figures don't have a separate short title. `name` doubles as the label:
+// paper-structure.ts registers it directly (like an explicit <Label/>), so
+// <Ref name="fig:insight_need" /> resolves it without any extra wiring.
+//
+// `src` is a comma-separated list of one or more figure PDF paths (e.g. a
+// path under figures/pdf, or several for side-by-side subfigures), resolved
+// to their generated SVG rendering via getFigureAsset (see src/lib/figures.ts;
+// run `npm run convert:figures` after adding/changing a figure PDF). A single
+// image always spans the full figure width, matching the paper's own
+// \includegraphics[width=\linewidth] figures. Multiple images (subfigures)
+// share a row at a common scale, proportional to each one's own natural
+// width, rather than being stretched to equal container widths — the source
+// PDFs' page sizes are the subfigures' actual relative sizes (e.g. fig:stats'
+// two plots share a height in the paper), so equal-width flex items would
+// otherwise misalign their heights.
+//
+// For figures too structured for a plain image (e.g. schematic + per-row
+// reference lists), pass a `figure` named slot instead of `src` — the
+// default slot always renders as the caption:
+//   <Figure name="fig:orchestration_strategies">
+//     <OrchestrationStrategiesFigure slot="figure" />
+//     Overview of orchestration strategies alongside works that employ them.
+//   </Figure>
+// Omitting both `src` and the `figure` slot renders a placeholder, for
+// figures not yet available as assets.
+import { getPaperLabel } from '../lib/paper-structure';
+import { getFigureAsset } from '../lib/figures';
+
+interface Props {
+  name: string;
+  src?: string;
+}
+
+const { name, src } = Astro.props;
+const entry = getPaperLabel(name);
+const hasCustomBody = Astro.slots.has('figure');
+const images = !hasCustomBody && src ? src.split(',').map((p) => getFigureAsset(p)) : [];
+---
+
+<figure class="paper-figure" id={entry.anchor}>
+  <div class="paper-figure__body">
+    {hasCustomBody ? (
+      <slot name="figure" />
+    ) : images.length > 0 ? (
+      <div class="paper-figure__images" data-count={images.length}>
+        {images.map((image) => (
+          <img
+            class="paper-figure__image"
+            src={image.url}
+            width={image.width}
+            height={image.height}
+            style={images.length > 1 ? `flex-grow: ${image.width}` : undefined}
+            alt=""
+            loading="lazy"
+          />
+        ))}
+      </div>
+    ) : (
+      <div class="paper-figure__placeholder">
+        <span>Figure asset pending</span>
+      </div>
+    )}
+  </div>
+  <figcaption class="paper-figure__caption">
+    <span class="paper-figure__label">Figure {entry.number}.</span> <slot />
+  </figcaption>
+</figure>
+
+<style>
+  .paper-figure {
+    margin: 2rem 0;
+  }
+
+  .paper-figure__body {
+    border: 1px solid var(--color-hairline);
+    border-radius: 0.5rem;
+    background: var(--color-card);
+    padding: 1.25rem;
+  }
+
+  .paper-figure__images {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+
+  .paper-figure__image {
+    display: block;
+    height: auto;
+    max-width: 100%;
+  }
+
+  /* A single image spans the full figure width. */
+  .paper-figure__images[data-count='1'] .paper-figure__image {
+    width: 100%;
+  }
+
+  /* Subfigures grow from a zero basis in proportion to their own natural width
+     (set inline as flex-grow), so the row renders them all at one shared
+     scale instead of stretching each to an equal share of the row. */
+  .paper-figure__images:not([data-count='1']) .paper-figure__image {
+    flex-shrink: 1;
+    flex-basis: 0;
+    min-width: 10rem;
+  }
+
+  .paper-figure__placeholder {
+    min-height: 8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    color: color-mix(in srgb, var(--color-ink) 45%, transparent);
+    font-size: 0.85rem;
+  }
+
+  .paper-figure__caption {
+    margin-top: 0.75rem;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: color-mix(in srgb, var(--color-ink) 75%, transparent);
+  }
+
+  .paper-figure__label {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+</style>

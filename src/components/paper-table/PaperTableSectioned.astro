@@ -1,0 +1,78 @@
+---
+// Two-column glossary layout (symbol / description) with full-width section dividers —
+// used only by the notation overview, which is a long flat list grouped by the paper
+// section that introduces each symbol rather than a data grid.
+import type { SectionedTableData } from '../../lib/paper-tables';
+import { renderMathText } from '../../lib/paper-table-render';
+
+interface Props {
+  data: SectionedTableData;
+}
+
+const { data } = Astro.props;
+---
+
+<div class="pt-sec-wrap">
+  <table class="pt-sec">
+    <thead>
+      <tr>
+        <th class="pt-sec__term-col">{data.columns[0]}</th>
+        <th>{data.columns[1]}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {data.entries.map((entry) =>
+        entry.section ? (
+          <tr class="pt-sec__section">
+            <td colspan={2}>{entry.section}</td>
+          </tr>
+        ) : (
+          <tr>
+            <td class="pt-sec__term-col" set:html={renderMathText(entry.term ?? '')} />
+            <td set:html={renderMathText(entry.description ?? '')} />
+          </tr>
+        ),
+      )}
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .pt-sec-wrap {
+    overflow-x: auto;
+  }
+
+  .pt-sec {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+
+  .pt-sec th,
+  .pt-sec td {
+    padding: 0.45rem 0.65rem;
+    border-bottom: 1px solid var(--color-hairline);
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .pt-sec__term-col {
+    white-space: nowrap;
+    width: 1%;
+  }
+
+  .pt-sec thead th {
+    font-family: var(--font-heading);
+    font-size: 0.78rem;
+    font-weight: 600;
+    border-bottom: 2px solid var(--color-hairline);
+  }
+
+  .pt-sec__section td {
+    background: var(--color-paper);
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 0.78rem;
+    color: var(--color-accent);
+  }
+</style>

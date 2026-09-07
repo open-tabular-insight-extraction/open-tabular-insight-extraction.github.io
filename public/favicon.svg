@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="OpenTî">
+  <rect width="32" height="32" rx="8" fill="#E1F5EE" />
+  <path
+    d="M9 19 L16 11 L23 19"
+    fill="none"
+    stroke="#0F6E56"
+    stroke-width="2.75"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+</svg>

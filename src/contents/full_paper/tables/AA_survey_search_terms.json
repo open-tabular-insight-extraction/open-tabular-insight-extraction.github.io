@@ -1,0 +1,17 @@
+{
+  "layout": "grid",
+  "columns": [
+    { "key": "query", "label": "Query" },
+    { "key": "matches", "label": "Matches", "align": "right" },
+    { "key": "retained", "label": "Retained", "align": "right" }
+  ],
+  "rows": [
+    { "query": "\"data analysis\" AND (\"agent\" OR \"automated\" OR \"LLM\")", "matches": "91", "retained": "25" },
+    { "query": "\"data science\" AND \"table\" AND (\"agent\" OR \"automated\" OR \"LLM\")", "matches": "13", "retained": "6" },
+    { "query": "\"open-domain\" AND \"table\"", "matches": "81", "retained": "15" },
+    { "query": "\"table understanding\" OR \"table reasoning\"", "matches": "110", "retained": "36" },
+    { "query": "\"table retrieval\"", "matches": "20", "retained": "11" },
+    { "query": "\"table question answering\" OR \"TableQA\" OR \"(TQA)\"", "matches": "62", "retained": "39" },
+    { "query": "\"text-to-sql\"", "matches": "206", "retained": "54" }
+  ]
+}

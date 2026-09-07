@@ -1,0 +1,53 @@
+---
+// Resolves a citekey against references.bib at build time. Renders a plain
+// static trigger (data-* attributes only, no per-instance island) — the full
+// paper cites ~1,900 times, and giving each its own hydrated Svelte island
+// (the previous approach) meant ~1,900 separate hydration boundaries and
+// serialized-props payloads on one page, which was the dominant cost behind
+// slow full-paper loads. A single shared <CitationLayer client:idle /> (see
+// BaseLayout.astro) handles hover/focus/click for all of them via event
+// delegation instead. An unknown citekey fails the build rather than
+// silently rendering nothing, matching the "malformed contribution fails the
+// build" rule for content elsewhere.
+import { getCitation, formatCitationLabel, getCitationHref } from '../lib/citations';
+
+interface Props {
+  cite: string;
+  label?: string;
+}
+
+const { cite, label } = Astro.props;
+const entry = getCitation(cite);
+const meta = formatCitationLabel(entry);
+const marker = label ?? `(${meta})`;
+const href = getCitationHref(entry);
+---
+
+<button
+  type="button"
+  class="citation-trigger"
+  data-title={entry.title ?? ''}
+  data-meta={meta}
+  data-venue={entry.containerTitle ?? entry.publisher ?? ''}
+  data-href={href ?? ''}
+>{marker}</button>
+
+<style>
+  .citation-trigger {
+    all: unset;
+    cursor: pointer;
+    color: var(--color-accent);
+    border-bottom: 1px dotted var(--color-accent);
+    font: inherit;
+  }
+
+  .citation-trigger:hover,
+  .citation-trigger:focus-visible {
+    border-bottom-style: solid;
+  }
+
+  .citation-trigger:focus-visible {
+    outline: 2px solid var(--color-accent-mid);
+    outline-offset: 2px;
+  }
+</style>

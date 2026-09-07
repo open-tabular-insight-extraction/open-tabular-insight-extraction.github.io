@@ -1,0 +1,99 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import '../styles/global.css';
+import NavBar from '../components/NavBar.astro';
+import Footer from '../components/Footer.astro';
+import CitationLayer from '../components/CitationLayer.svelte';
+import NotationLayer from '../components/NotationLayer.svelte';
+import { loadNotationEntries } from '../lib/notation-data';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const {
+  title,
+  description = 'Companion website for the Open Tabular Insight Extraction (OpenTI) survey.',
+} = Astro.props;
+
+// Mounted site-wide (like CitationLayer below) rather than only on paper pages — cheap
+// (~26 small pre-rendered entries, see lib/notation-data.ts) and keeps this layout the
+// single place that wires up every page-wide overlay, matching CitationLayer's precedent.
+const notationEntries = loadNotationEntries().map((e) => ({
+  id: e.id,
+  symbolTokens: e.symbolTokens,
+  termHtml: e.termHtml,
+  descriptionHtml: e.descriptionHtml,
+}));
+
+// Resolve public asset paths against the configured base so links work under the Pages subpath.
+const withBase = (path: string) =>
+  `${import.meta.env.BASE_URL.replace(/\/$/, '')}/${path.replace(/^\//, '')}`;
+const faviconHref = withBase('favicon.svg');
+
+// Astro.url is already absolute (built from `site` + the current path), so it's the
+// canonical URL for every page without each page needing to pass one in.
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site).toString();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href={faviconHref} />
+    <link rel="canonical" href={canonicalUrl} />
+    <title>{title}</title>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content="OpenTî" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <ClientRouter />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <NavBar />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <CitationLayer client:idle />
+    <NotationLayer entries={notationEntries} client:idle />
+  </body>
+</html>
+
+<style>
+  .skip-link {
+    position: absolute;
+    left: -999px;
+    top: 0;
+    z-index: 100;
+    padding: 0.6rem 1rem;
+    background: var(--color-accent);
+    color: white;
+    border-radius: 0 0 0.4rem 0;
+  }
+
+  .skip-link:focus {
+    left: 0;
+  }
+
+  /*
+    The nav is fixed-position (see NavBar.astro), so it's out of normal flow — this
+    reserves the space it would otherwise occupy, permanently, regardless of its
+    scroll-hidden state (hiding it should reveal page background where it was, not
+    reflow content up under it). --nav-height is measured and kept in sync by NavBar's
+    own script; the static fallback covers the instant before that script runs.
+  */
+  main {
+    padding-top: var(--nav-height, 4rem);
+  }
+</style>

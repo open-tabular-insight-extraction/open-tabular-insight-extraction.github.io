@@ -1,0 +1,244 @@
+---
+title: "Open Tabular Insight Extraction"
+order: 2
+slug: "open-tabular-insight-extraction"
+description: "Defining and formalizing OpenTI, core concepts and taxonomy of insight types."
+---
+
+<Label name="sec:problem"/>
+
+Since research towards OpenTI originates in different communities that address overlapping problems with divergent terminology and assumptions, this section develops a formal framework for Open Tabular Insight Extraction (OpenTI). We lay out this shared understanding by establishing the core concepts and formalizing OpenTI (Section <Ref name="sec:problem:conceptual_foundations"/>). We then examine the conditions under which insight needs can be satisfied (Section <Ref name="sec:problem:sufficiency"/>). Finally, we cover the spectrum of insight needs that OpenTI addresses (Section <Ref name="sec:problem:spectrum"/>).
+
+<Figure name="fig:insight_need" src="figures/pdf/02_insight.pdf">
+
+Relationships and dependencies among core concepts of OpenTI. A user holds an insight need $i$, consisting of a data need $i_d$, methodological need $i_m$, and output need $i_o$, and expresses it as $\hat{i}$. A system maps $\hat{i}$ to a realization $r=(O,E,\beta)$, a graph of operations $O$ connected by dataflow edges $E$ with a binding $\beta$ that links operations to tables from the corpus $T$. Executing $r$ yields analytical knowledge as output $\text{out}(r)$, which is the basis for an insight.
+
+</Figure>
+
+### Conceptual Foundation
+
+<Label name="sec:problem:conceptual_foundations"/>
+
+We develop the conceptual foundation of OpenTI from first principles. We first ground the general notion of an *insight* as the form of knowledge to be delivered (Section <Ref name="sec:problem:conceptual_foundations:insights"/>). We then operationalize this into *insight needs*, characterizing what users seek in tabular data and along which dimensions it varies (Section <Ref name="sec:problem:conceptual_foundations:insight_needs"/>). Building on this, we formulate the problem of OpenTI (Section <Ref name="sec:problem:conceptual_foundations:open_tix"/>), show how the analytical knowledge that serves an insight need derives from data through realizations, executable compositions of operations bound to data (Section <Ref name="sec:problem:conceptual_foundations:realizations"/>), and finally formulate OpenTI as an optimization problem (Section <Ref name="sec:problem:conceptual_foundations:problem_formulation"/>). Figure <Ref name="fig:insight_need"/> provides an overview of the relationships between the concepts introduced throughout this section.
+
+#### Insights
+
+<Label name="sec:problem:conceptual_foundations:insights"/>
+
+*Insights* have been defined and discussed in various ways across visualization research <Citation cite="north_measuring_2006" /> <Citation cite="chang_defining_2009" /> <Citation cite="saraiya_insightbased_2005" />, cognitive science <Citation cite="sternberg_nature_1994" /> <Citation cite="mai_aha_2004" />, and data analytics <Citation cite="mikalef_big_2018" /> <Citation cite="tang_extracting_2017" /> <Citation cite="ding_quickinsights_2019" />, with ongoing debate about their defining characteristics, including whether insights arise unexpectedly by definition or not <Citation cite="north_measuring_2006" /> <Citation cite="chang_defining_2009" /> <Citation cite="battle_what_2024" />. Adapting the recent synthesis of Battle and Ottley <Citation cite="battle_what_2024" label="(2024)" />, which consolidates these perspectives, we understand an insight as a *collection of knowledge* that links *analytical knowledge* derived from data with a person's pre-existing *contextual understanding*. Analytical knowledge is the direct output of computational operations on data, whereas contextual understanding denotes a person's pre-existing knowledge, including domain expertise, organizational background, prior experiences, and previously acquired information <Citation cite="pirolli_sensemaking_2005" />. As such, insights exhibit the following characteristics:
+
+- *Grounded in data.* An insight is grounded in analytical knowledge extracted from data through analytical operations, such as transformations, statistical modeling, or other computations <Citation cite="battle_what_2024" />.
+- *Contextual.* An insight is not the analytical knowledge itself but its interpretation within a person's contextual understanding <Citation cite="battle_what_2024" /> <Citation cite="karer_insight_2021" />. The role of contextual understanding ranges from minimal, when the analytical knowledge is largely self-explanatory (e.g., a retrieved fact), to substantial, where domain expertise fundamentally shapes interpretation (e.g., in understanding ROC curves or residual plots).
+- *Independent of presentation.* Since insights emerge from interpretation, they are not bound to a specific form of presenting analytical knowledge <Citation cite="battle_what_2024" />. Instead, different forms of presenting analytical knowledge may invoke the same insights.
+- *Compositional.* Insights contribute to a person's contextual understanding, and subsequent insights can build on this enriched context <Citation cite="battle_what_2024" />. This hierarchical structure means that complex insights may build on the context of prior insights <Citation cite="north_measuring_2006" />, that is, there exist insights that compose a set of sub-insights, which may themselves be composed of sub-insights.
+
+#### Insight Needs
+
+<Label name="sec:problem:conceptual_foundations:insight_needs"/>
+
+An *insight need* arises when a person[^1] requires analytical knowledge that is derived from data. We ground this concept in the established notion of *information needs* from information retrieval, where an information need represents the gap in a person's knowledge that motivates interaction with an information system <Citation cite="taylor_process_1962" /> <Citation cite="belkin_anomalous_1980" />. An insight need specializes this to the analytical domain by targeting a knowledge gap concerning analytical conclusions residing in data, where satisfying this need requires computationally deriving knowledge rather than retrieving pre-existing information alone.
+
+<Label name="def:insight_need"/>
+
+<Definition title="Insight Need">
+
+An **insight need** $i$ is a person's requirement for analytical knowledge which, when interpreted within their contextual understanding, constitutes an insight.
+
+</Definition>
+
+Insight needs are *analytical* and *insight-centered*. They seek analytically derived knowledge (i.e., facts, patterns, relationships, predictions, or other analytical conclusions), rather than to produce an artifact. For instance, a need for a trained machine learning model is not an insight need, though artifacts may be instrumental in delivering insights, such as when a model is applied to make a desired prediction.
+
+In addition to these characteristics, insight needs vary along the following *dimensions*:
+
+- *Directedness.* Insight needs range from highly directed, targeting specific phenomena, entities, or relationships (e.g., “What is the correlation between drug dosage and patient recovery time?”), to loosely directed, where the analytical perspective remains open (e.g., “What patterns exist in hospital readmission data?”) <Citation cite="marchionini_exploratory_2006" />. The degree of directedness determines whether it is possible to evaluate whether candidate analytical knowledge satisfies the insight need.
+- *Latency.* The actual insight need $i$ exists in a person's mind and may not be entirely specified in their expression of it <Citation cite="zhu_automated_2025" />. A person can express an approximation $\hat{i}$ through utterances and contextual signals. This gap between latent need and expressed need mirrors the classical model of information need formation by Taylor <Citation cite="taylor_process_1962" label="(1962)" />, which traces how needs progress from an unexpressed visceral sense through conscious and formalized stages to a compromised expression adapted to system capabilities. For insight needs, the complexity of the need is compounded by the analytical requirements of selecting which operations should be performed on which data. Latency is rooted in the person's contextual understanding, including tacit knowledge the person cannot fully articulate <Citation cite="polanyi_tacit_1967" />, assumptions the person considers obvious, and preferences the person has not consciously examined <Citation cite="belkin_anomalous_1980" /> <Citation cite="taylor_process_1962" />.
+- *Compositionality.* Following the compositional nature of insights, insight needs can also be composed of atomic needs. They may decompose into sub-needs that jointly describe the insight need, which may themselves decompose recursively, allowing arbitrarily complex compositions of insight needs.
+
+#### Open Tabular Insight Extraction
+
+<Label name="sec:problem:conceptual_foundations:open_tix"/>
+
+Insight needs may target any form of data and any analytical domain. Open Tabular Insight Extraction scopes this to satisfying insight needs by deriving analytical knowledge from a corpus of tables, where users may have an incomplete knowledge of its contents, schemas, and coverage.
+
+<Label name="def:opentix"/>
+
+<Definition title="Open Tabular Insight Extraction (OpenTI)">
+
+**Open Tabular Insight Extraction (OpenTI)** is the task of satisfying a sufficiently directed insight need by deriving and presenting the analytical knowledge that most fully serves it, over a corpus of tabular data in an open setting where corpus contents are potentially diverse and not known when the need is expressed.
+
+</Definition>
+
+Recalling the directedness dimension introduced above, OpenTI addresses insight needs that are sufficiently directed so that it is determinable whether candidate analytical knowledge satisfies the need. Since the need itself is latent, no party can check this condition directly. We thus operationalize this sufficient specification on the observable expression of the insight need $\hat{i}$ in Section <Ref name="sec:problem:sufficiency:specification"/>.
+
+##### Tabular Data.
+
+The task operates on a collection of tabular data. A table $t$ consists of a header, an ordered set of column names that defines the table's schema, a data matrix holding the core data values, where a row typically corresponds to an entity and a cell holds the value of the attribute named by its column, and metadata that may provide contextual information such as titles, captions, column descriptions, or surrounding text <Citation cite="liu_rethinking_2024" />. A corpus $T = \{t_1, t_2,...,t_n\} \subset \mathcal{T}$ comprises $n$ such tables and can correspond to any large-scale collection of tables like a data lake, warehouse, or repository. In practice, tabular data largely exists in relational databases <Citation cite="codd_relational_1970" />, which add interconnections between tables through explicit schema relationships such as primary and foreign keys that define how entities relate across tables and how distributed information can be combined. In contrast, data lakes <Citation cite="nargesian_data_2019" /> and collections of web tables <Citation cite="cafarella_webtables_2008" /> <Citation cite="hulsebos_gittables_2023" /> aggregate tables from heterogeneous sources without such explicit relationships, exhibiting variation in schema quality, naming conventions, and completeness. The existence or absence of these relationships places different requirements on systems (Section <Ref name="sec:problem:conceptual_foundations:realizations"/>).
+
+##### Open Setting.
+
+OpenTI operates under an *open* setting in which users express insight needs over a corpus whose contents, schemas, and coverage are unknown to them. This contrasts with closed settings <Citation cite="yu_spider_2018" /> <Citation cite="li_can_2024" />, where users formulate requests with implicit knowledge of the available data. Users therefore cannot be expected to express insight needs in terms that align with the data's vocabulary, structure, or scope, requiring systems to identify relevant data from $T$. As under the open-world assumption <Citation cite="reiter_closed_1981" />, users do not know whether relevant data is captured in the corpus, meaning the system has to establish whether $T$ covers a given insight need. As in open-domain (tabular) question answering and retrieval <Citation cite="voorhees_trec_2001" /> <Citation cite="kong_opentab_2023" /> <Citation cite="chen_open_2020" /> <Citation cite="herzig_open_2021" />, the relevant data must be retrieved from $T$, though without being contingent on topical breadth, meaning that a large single-domain data lake is also considered open under OpenTI.
+
+##### Decomposition of Insight Needs.
+
+We decompose insight needs into data, methodological, and output factors following task typologies in visualization, which distinguish the dimensions of “what”, “how”, and “why” <Citation cite="brehmer_multilevel_2013" />, and mirroring the implicit structure of database queries, which separately specify data selection, analytical operations, and output formatting:
+
+1. **Data need** ($i_d$): The specification of what data entities, temporal scope, and domain boundaries are relevant for the analysis. This may be explicitly stated (e.g., “revenue of Fortune 500 companies in 2023”) or implicitly indicated through contextual cues and conventions (e.g., “GDP of Liechtenstein last year”, if the current year is known by the system).
+1. **Methodological need** ($i_m$): The specification of what analytical operations and procedures should be applied to extract the desired analytical knowledge. This ranges from explicit methodological directives (e.g., “calculate the Pearson correlation”) to high-level analytical goals that delegate methodological choices to the system (e.g., “analyze the relationship between…”).
+1. **Output need** ($i_o$): The specification of how results should be presented. This may remain completely unspecified by a user that expects the system to select an appropriate presentation.
+
+#### Realizations
+
+<Label name="sec:problem:conceptual_foundations:realizations"/>
+We formalize the relationship between data and the derived analytical knowledge as *realizations*:
+
+<Label name="def:realization"/>
+
+<Definition title="Realization">
+
+A **realization** $r=(O,E,\beta)$ is a complete, executable specification of computational logic with a binding of specific tables to that logic, which, when executed, yields analytical knowledge as output $\text{out}(r)$.
+
+</Definition>
+
+We adopt the term from systems theory, where a realization denotes a concrete implementation of an input-output behavior <Citation cite="kailath_linear_1980" /> <Citation cite="kalman_mathematical_1963" />. In OpenTI, a realization captures a derivation path from data in the corpus to analytical knowledge end-to-end. Whether the analytical knowledge a realization derives satisfies a given need is a property of the realization relative to that need.
+
+We represent realizations as a Directed Acyclic Graph (DAG) of operations connected by edges denoting data flow, similar to representations of computations established in scientific workflow specifications <Citation cite="ludascher_scientific_2006" /> <Citation cite="deelman_workflows_2009" /> and database query execution plans <Citation cite="graefe_volcano_1994" />. We adapt this representation to insight extraction, where computational operations are anchored to data discovered from a corpus rather than pre-specified inputs. Unlike a database query, a realization is often a multistep workflow involving data discovery, integration, transformation, analysis, and presentation.
+Formally, a realization $r \in \mathcal{R}$ is a tuple $r = (O, E, \beta)$ describing a converging directed acyclic graph of operations:
+
+- $O = \{o_1, o_2, \ldots, o_m\}$ is the set of fully parameterized operations applied in the derivation.
+- $E \subset O \times O$ is a set of directed edges connecting the output of operations to the inputs of subsequent operations, defining the data flow.
+- $\beta \subset \mathcal{T} \times O$ is the data binding that connects specific tables $T_r \subseteq \mathcal{T}$ to the source nodes of the graph.
+
+An *operation* $o$ represents a discrete functional unit, which can range from granular primitives (e.g., filter, join, …) to high-level analytical functions (e.g., fit a regression model, solve an optimization problem, …). Each operation in $O$ is fully parameterized, meaning all relevant choices, such as aggregation functions, model specification, or visualization parameters, are determined. The edges $E$ capture the compositional structure of the derivation, specifying how intermediate results flow between operations. The data binding $\beta$ anchors the computation to concrete tables, specifying which tables serve as inputs to which operations. The DAG converges into a single sink operation, which produces the final output resulting from the realization. Figure <Ref name="fig:formalization_realization"/> exemplifies an abstracted realization that derives analytical knowledge to address an insight need.
+
+Importantly, a realization is a declarative account of *how* analytical knowledge is derived from data. It does not capture the process by which a system arrived at this specification, which may include exploratory search, retrieval failures, user interactions, and iterative refinement. This parallels the established differentiation between *prospective provenance* (the specification of a computational task) and *retrospective provenance* (the record of what was actually executed) in scientific workflow research <Citation cite="davidsonProvenanceScientificWorkflows2008" /> <Citation cite="freire_provenance_2008" />. Section <Ref name="sec:orchestration"/> examines the process by which systems derive realizations.
+
+<Figure name="fig:formalization_realization" src="figures/pdf/02_realization.pdf">
+
+Example of an abstracted realization $r=(O,E,\beta)$. Nodes are fully parameterized operations $O$, edges $E$ denote dataflow, and the binding $\beta$ anchors source operations to corpus tables. The graph converges to a single sink operation producing the output.
+
+</Figure>
+
+##### Multiple Realizations and Utility.
+
+A single insight need may admit many realizations. When users express a methodological goal like “analyze the relationship between X and Y,” different operational compositions (e.g., Pearson correlation, Spearman correlation, regression analysis) may each constitute a valid way to address this intent. Similarly, different combinations of tables from $T$ could support distinct realizations. This one-to-many relationship reflects a division of labor in cooperative interaction between the user and the system <Citation cite="gomm_are_2025" /> <Citation cite="horvitz_principles_1999" />, where users grant systems agency over the aspects of their needs they leave open, requiring the system to select among the resulting alternatives.
+These alternatives, however, are rarely equal in value. A realization drawing on more recent or more complete data, employing more robust analytical methods, or producing clearer output may substantially better serve the user's goals. We model this qualitative dimension through a utility function $u_i$.
+
+<Label name="def:utility"/>
+
+<Definition title="Realization Utility Function">
+
+For a given insight need $i$, the **realization utility function** $u_i: \mathcal{R} \to \mathbb{R}$ maps possible realizations to a real-valued score, where a higher value indicates a realization that more effectively, accurately, or suitably satisfies the user's insight need.
+
+</Definition>
+
+The utility function aggregates the quality with which a realization addresses data, methodological, and output needs, capturing not just the value of the final outputs but the full realization performed <Citation cite="ghallab_automated_2004" />. For the data component, utility reflects the relevance of the data <Citation cite="saracevic_relevance_2007" /> <Citation cite="cooper_definition_1971" />, reflecting factors such as recency, completeness, and reliability <Citation cite="wang_accuracy_1996" />. For the methodological structure, utility may capture the appropriateness and rigor of analytical procedures given the analytical intent. For the output presentation, utility may reflect clarity, informativeness, as well as the effectiveness and appropriateness of visualizations <Citation cite="lei_dacomp_2025" />. While users do not explicitly specify what contributes to their utility functions <Citation cite="borlund_concept_2003" />, these functions embody the implicit quality criteria that distinguish superior realizations from adequate ones. Utility only captures how well a realization satisfies an insight need, regardless of how it was derived. Computational effort, latency, and the interaction burden placed on the user are properties of the process by which a system constructs a realization, which influence the usefulness of a system but do not influence the utility of a realization.
+
+#### Problem Formulation
+
+<Label name="sec:problem:conceptual_foundations:problem_formulation"/>
+
+A realization is *valid* for an insight need $i$ if the tables bound through $\beta$ provide the information the data need $i_d$ mandates, its operations and their composition correctly address the methodological need $i_m$, and its output delivers the kind of result the output need $i_o$ calls for. Validity is a property of the realization relative to the insight need, judged on the content of the bound tables and the analytical logic applied to them, independent of whether the bound tables actually exist in the corpus. We denote the set of valid realizations for an insight need $i$ as $R_{\text{valid}}(i) \subset \mathcal{R}$. Validity and utility are complementary. Validity is a binary criterion that separates realizations addressing the insight need from those that do not, whereas the utility function $u_i$ grades how well realizations serve it. A realization can thus be valid yet exhibit low utility, for instance when its output delivers the required analytical knowledge but presents it poorly.
+
+A realization is *feasible* given a corpus $T$ if the tables it requires are present in the corpus, that is, all tables bound via $\beta$ exist in $T$, $T_r \subseteq T$. Feasibility is a property of the data binding relative to the corpus, independent of whether the realization addresses any particular insight need or whether a given system possesses the capabilities to combine the bound tables. We denote the set of feasible realizations as $R_{\text{feasible}}(T) \subset \mathcal{R}$.
+
+The set of *candidate realizations* $R_{\text{cand}}(i, T) = R_{\text{valid}}(i) \cap R_{\text{feasible}}(T)$ captures realizations that both address the insight need and are grounded in available data. The realization that optimally satisfies the insight need is then the candidate realization $r^*$ that maximizes utility:
+
+<Label name="eq:objective"/>
+
+$$
+    r^* = \begin{cases}
+    \arg\max_{r \in R_{\text{cand}}(i, T)} u_i(r), & \text{if}\ R_{\text{cand}}(i, T) \neq \varnothing \\
+    \bot, & \text{if}\ R_{\text{cand}}(i, T) = \varnothing,
+    \end{cases}
+$$
+
+where $\bot$ represents a distinct failure state indicating that the insight need cannot be resolved given the corpus.
+This objective is defined relative to the insight need $i$ and thus characterizes an idealized target. A system never has direct access to $i$, and consequently not to $R_{\text{valid}}(i)$ or $u_i$, observing only the expressed need $\hat{i}$. To construct an approximation of $r^*$, a system must construct its own representation of the need, denoted as $\hat{i}^s$, from the expression $\hat{i}$ and available contextual information, bringing $\hat{i}^{s}$ into closer correspondence with $i$ (see Section <Ref name="sec:user_facing"/>). The realization space $\mathcal{R}$ is combinatorially vast, as the number of possible operation compositions, parameterizations, and data bindings grows with the scale of the corpus and the expressiveness of the available operations. Neither an analytical solution nor enumeration is practical. Section <Ref name="sec:orchestration"/> thus explores how systems can navigate this space effectively to construct utility-maximizing realizations.
+
+### Sufficiency Criteria
+
+<Label name="sec:problem:sufficiency"/>
+
+Not all insight needs can be satisfied in OpenTI. As implied in the formalization, a system can only produce an output that satisfies the insight need if the candidate set $R_{\text{cand}}(i, T) = R_{\text{valid}}(i) \cap R_{\text{feasible}}(T)$ is non-empty. This requires that the expression of the insight need $\hat{i}$ is sufficiently specified for a system to delineate $R_{\text{valid}}(i)$ (Section <Ref name="sec:problem:sufficiency:specification"/>), and that the corpus $T$ contains sufficient data so that at least one valid realization is feasible, i.e., $R_{\text{valid}}(i) \cap R_{\text{feasible}}(T)$ is non-empty (Section <Ref name="sec:problem:sufficiency:data"/>).
+
+#### Sufficient Specification
+
+<Label name="sec:problem:sufficiency:specification"/>
+
+Sufficient specification describes the expressed need $\hat{i}$ relative to the underlying need $i$. $\hat{i}$ needs to allow delineating $R_{\text{valid}}(i)$, separating realizations that satisfy the insight need from those that do not. This requires that the data, methodological, and output components $i_d$, $i_m$, $i_o$ are specified or can be inferred accordingly. For instance, “What is the average temperature in Amsterdam in January?” is sufficiently specified since the implicit methodological details can be resolved through conventions and reasonable defaults. In contrast, “How does construction waste compare?” is insufficient since no convention fixes what to compare against, by what metric, or in what region, leaving valid and invalid realizations indistinguishable. We discuss how systems close such gaps autonomously and in collaboration with the user in Section <Ref name="sec:user_facing"/>.
+
+#### Data Sufficiency
+
+<Label name="sec:problem:sufficiency:data"/>
+
+Even a fully specified insight need is impossible to satisfy if the corpus lacks the required data, which is particularly relevant when users are unaware of the contents and structure of $T$. Satisfiability requires that the corpus $T$ supports at least one valid realization. We formalize this as sufficient sets of tables:
+
+<Label name="def:sufficient_data"/>
+
+<Definition title="Sufficient">
+
+*A set of tables $T_s \subseteq T$ is **sufficient** for an insight need $i$ if there exists at least one valid realization $r=(O, E, \beta) \in R_{\text{valid}}(i)$ where the set of tables $T_r$ bound via $\beta$ satisfies $T_r \subseteq T_s$.*
+
+</Definition>
+
+When no sufficient set exists within the corpus, that is $\nexists T_s \subseteq T$ sufficient for $i$, the candidate set is empty and the insight need cannot be resolved, an instance of *insufficient data coverage* for $i$ in $T$. Within a sufficient set, tables align both with the insight need and with each other. Following Kothyari et al. <Citation cite="kothyari_crush4sql_2023" label="(2023)" /> and Chen et al. <Citation cite="chen_table_2024" label="(2024)" />, we distinguish two forms of alignment:
+
+1. **Semantic alignment (need-table):** The tables in $T_s$ collectively cover all semantic concepts specified in the data need $i_d$.
+1. **Structural alignment (table-table):** Tables holding complementary information are combinable through the operations available to the system (e.g., joinable via shared keys, unionable,…).
+
+The two forms are independent. A set may cover all relevant semantic concepts yet be structurally incompatible, and tables may be perfectly joinable yet lack the required semantic coverage, both rendering the set insufficient. The insight need defines how semantic components must relate, while a system's operational capabilities determine how information can be combined across tables.
+
+<Figure name="f:alignment_example" src="figures/tikz/02_table_alignment_example.pdf">
+
+Example of semantic and structural alignment. A candidate set is semantically aligned when its tables jointly cover the required concepts and structurally aligned when they are combinable, here via a join on CountryCode. Both must hold for sufficiency.
+
+</Figure>
+
+Figure <Ref name="f:alignment_example"/> exemplifies these conditions. Where the required information does not reside in a single table, it must be integrated across multiple tables. As shown, a sufficient set must cover population counts, GDP values, country identifiers, and the year 2021 (semantic alignment), and these must be integrable through the means a system possesses, here through shared keys like CountryCode (structural alignment). The conditions for structural alignment depend on the capabilities of the system processing the data. For a system capable of aligning French and English contents, for example, the middle column would be structurally aligned. How systems surface such sets and navigate the search over candidate sets that both conditions induce is examined under the data retrieval capability in Section <Ref name="sec:orchestration:capabilities:retrieval"/>.
+
+### Taxonomy of Insight Types
+
+<Label name="sec:problem:spectrum"/>
+
+Deriving the analytical knowledge that satisfies an insight need requires substantially different assumptions and capabilities depending on which kind of knowledge is sought. We organize this space by *insight type*, the kind of analytical knowledge a realization derives, rather than by insight need. An insight need $i$ is latent and only partially captured by its expression $\hat{i}$ (Section <Ref name="sec:problem:conceptual_foundations:insight_needs"/>), whereas the insight type is observable on the realization and most directly determines the capabilities a system requires. The operations $O$ and their composition $E$ differ categorically across types, such as between reading a stored value and estimating a causal effect, while data and output complexity vary within a type without imposing qualitatively different requirements. Figure <Ref name="fig:insight_types_taxonomy"/> organizes insight types into three tiers ordered by what must be assumed, beyond locating the relevant data, for the derived knowledge to be justified, following the established distinction between descriptive, inferential, and causal analysis <Citation cite="tukey_exploratory_1977" /> <Citation cite="pearl_causality_2009" /> applied to OpenTI.
+
+<Figure name="fig:insight_types_taxonomy" src="figures/tikz/02_insight_types_taxonomy.pdf">
+
+Taxonomy of insight types in OpenTI, organized by the assumptions required for the derived analytical knowledge. Each tier encompasses representative insight types with examples.
+
+</Figure>
+
+*Descriptive* insight types concern the observed data itself and require no assumptions about anything beyond it. They form the most varied and, in current research, the most common tier (see Figure <Ref name="fig:stats:insight_types_trend"/>), ranging from exact computed facts to summary characterizations of the data. Retrieving a cell value or selecting entities that meet a criterion (*Lookup*), summarizing values over records such as counts, sums, extrema, and rankings (*Aggregation*), describing the distribution of a variable (*Characterization*), measuring how variables co-vary (*Association*), and surfacing latent groups among records (*Grouping*) all describe what is present in the data and commit to nothing further. Many such needs, like computing a key performance indicator or ranking entities by an aggregate, have a single correct answer fixed by the data, yet deriving them can demand considerable retrieval, integration, and computation across a corpus. Others, like characterizing a distribution or quantifying an association, produce summary statistics, but these still describe the actual records rather than generalizing beyond them.
+*Inferential* insight types concern the data-generating process behind the observed data, making claims that are meant to hold for instances the corpus does not contain and therefore relying on assumptions that link the data to that process. Determining whether an observed pattern reflects a stable feature of the process rather than noise (*Statistical Inference*) and estimating values for instances the corpus does not contain, including future states (*Prediction*), both reach beyond the data at hand, differing in whether the goal is to characterize the process or to forecast values <Citation cite="shmueli_explain_2010" /> <Citation cite="breiman_statistical_2001" />.
+*Causal* insight types make the strongest claims, concerning not what the process looks like but how it would respond to intervention. Estimating the effect of an action or policy at the population level (*Interventional*) and determining the outcome of a specific case under a condition contrary to fact (*Counterfactual*) cannot be settled from observed patterns alone and require assumptions about the causes behind the data, such as a structural causal model <Citation cite="pearl_causality_2009" />.
+
+These tiers stand in an asymmetric relationship to each other. Knowledge from a higher tier entails regularities on a lower tier, but not vice versa. A model of the process entails the patterns in any data it generates, and a causal account of the process entails both those patterns and the effects of intervening on it. On the other hand, no observed association, however strong, implies how the process would respond to intervention, and no body of observations uniquely determines the process that produced them. For example, a structural causal model fixes the distribution of the data it generates and the effect of intervening on any variable, whereas that same distribution is consistent with many distinct causal models that disagree about those effects. The familiar maxim that correlation does not imply causation is an example of this relationship.
+
+The tiers in the taxonomy shown in Figure <Ref name="fig:insight_types_taxonomy"/> span the full spectrum of possible insight types based on analytical knowledge extracted from tabular data. An analytical claim either concerns the observed data or generalizes beyond it to the process that produced it. A claim about that process either concerns the process as observed or under intervention <Citation cite="pearl_causality_2009" />. Any analytical outcome thus falls into exactly one tier, and no further level of assumptions exists between them. The insight types listed within each tier are representative but not necessarily exhaustive, capturing the categories most relevant in OpenTI. We ground the descriptive types in established accounts of low-level analytical primitives <Citation cite="amar_lowlevel_2005" />, the inferential split in the distinction between explanatory and predictive modeling <Citation cite="shmueli_explain_2010" /> <Citation cite="breiman_statistical_2001" />, and the causal tier in the causal hierarchy <Citation cite="pearl_causality_2009" />.
+
+The insight types in the taxonomy are atomic. Since insights are inherently compositional (Section <Ref name="sec:problem:conceptual_foundations:insights"/>), an insight may compose an arbitrary number of atomic insights of the same or different types, and many common analytical tasks represent such compositions. For instance, comparing two means composes two aggregations when it asks which is larger, and becomes a statistical inference when it asks whether the difference reflects the underlying process rather than noise. Similarly, analyzing a trend decomposes into a descriptive slope over observed values or an inferential forecast. At the far end of this spectrum, insight needs may demand elaborate compositions that layer substantial methodology onto atomic types, as in scientific workflows that apply optimization, computational modeling, or simulation, all of which inherit the tier of the knowledge they operate over rather than forming a tier of their own. The latent nature of insight needs means that the type implied by an expression need not match the type that satisfies the underlying need. The same comparison, expressed as “Does X or Y have the larger mean Z?”, resolves on its surface to a composition of aggregations, yet the user may actually seek to know whether the two means differ meaningfully, which is a question of statistical inference. We develop this methodological latency in Sections <Ref name="sec:user_facing"/> and <Ref name="sec:research_agenda"/>.
+
+<Figure name="fig:fragmentation">
+
+<SubfigureRow slot="figure">
+<Subfigure name="fig:fragmentation:matrix" src="figures/plots/02_paper_fragmentation_matrix.pdf">
+
+Share of chronologically feasible citations between works by their task label.
+
+</Subfigure>
+<Subfigure name="fig:fragmentation:capabilities" src="figures/plots/02_paper_fragmentation_capabilities.pdf">
+
+Citation rate among reviewed systems by the number of capabilities two systems have in common.
+
+</Subfigure>
+</SubfigureRow>
+
+Citation rates between reviewed works against how they label the task they target. Appendix <Ref name="s:appendix:citation_analysis"/> details the analysis.
+
+</Figure>
+
+This taxonomy situates OpenTI within a landscape of related but independently studied tasks. A substantial body of work covers deriving knowledge from tables, yet this work originates from different research communities that frame the challenge in diverging terminology and without an overarching direction. *Tabular question answering* <Citation cite="zhang_reactable_2024" /> <Citation cite="zhao_tapera_2024" /> <Citation cite="zhu_autotqa_2024" />, *table-based reasoning* <Citation cite="kong_opentab_2023" /> <Citation cite="wang_chainoftable_2024" /> <Citation cite="lu_tart_2025" />, *text-to-SQL* <Citation cite="zhang_murre_2025" /> <Citation cite="kothyari_crush4sql_2023" /> <Citation cite="wang_dbcopilot_2025" />, *data science and analysis agents* <Citation cite="huang_dacode_2024" /> <Citation cite="hu_infiagentdabench_2024" /> <Citation cite="guo_dsagent_2024" />, and various further characterizations <Citation cite="wang_aop_2025" /> <Citation cite="chen_tablerag_2024" /> <Citation cite="li_are_2025" /> all address the problem space of OpenTI, facing similar challenges and often arriving at substantially similar system designs. Looking at how works across these task terminologies cite each other shows this fragmentation. Figure <Ref name="fig:fragmentation:matrix"/> shows that across the reviewed works, works cite $10.6\%$ of works that are chronologically possible within the same label against just $1.8\%$ of the works of a different label.
+
+These labels primarily reflect conventions, such as the assumed input format or data setting, rather than the covered analytical scope. A tabular question answering system may address only *Lookup*, or it may extend across the descriptive tier and into inferential or causal types, which demand categorically different capabilities, and the label alone does not reveal which. Conversely, systems operating under different labels may address the same insight types with similar capabilities. As shown in Figure <Ref name="fig:fragmentation:capabilities"/>, the more capabilities two systems share, the more likely they are to cite one another when they share the same label, but they are barely more likely to do so if they do not. The taxonomy of insight types makes the analytical scope explicit. Together with the preceding formalization, which centers the insight need as the object a system seeks to satisfy, it provides a unified vocabulary for describing what a given work actually concerns. The subsequent sections employ this framework to examine how systems construct realizations (Section <Ref name="sec:orchestration"/>), the possibilities of user-system interaction (Section <Ref name="sec:user_facing"/>), how evaluation methodology can assess system capabilities (Section <Ref name="sec:eval"/>), and what research is missing on the path toward capable OpenTI systems (Section <Ref name="sec:research_agenda"/>).
+
+[^1]: We refer to a *person* when characterizing insight needs conceptually and to a *user* when referring to the entity interacting with a system. We note that this entity need not be human and may instead be an automated agent acting on an insight need.

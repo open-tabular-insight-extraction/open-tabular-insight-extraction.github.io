@@ -1,0 +1,261 @@
+---
+// Overview of benchmarks (.local/04_minimal_website.md § "Add initial versions of the
+// systems and benchmark overview pages"): all 42 surveyed benchmarks in one sortable,
+// filterable table, generated from the distilled evidence records.
+//
+// Columns and grouping mirror the paper's Table 5 (Corpus / Inputs / Validation), with two
+// additions the printed page has no room for: the corpus format and the input protocol.
+// Every surveyed benchmark is listed, not just the 23 in the paper's table.
+//
+// Page furniture (header, key, notes) comes from styles/record-overview.css, shared with
+// the systems overview so the two pages stay identical in everything but content.
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Chevron from '../../../components/Chevron.astro';
+import RecordTable from '../../../components/records/RecordTable.svelte';
+import { getBenchmarkRecords } from '../../../lib/records';
+import '../../../styles/record-overview.css';
+import {
+  citeCell,
+  insightTypesCell,
+  numericSortValue,
+  pillsCell,
+  settingCell,
+} from '../../../lib/record-cells';
+import {
+  ASSEMBLY_LABEL,
+  CORPUS_FORMAT_LABEL,
+  DATA_SETTING_LABEL,
+  INPUT_PROTOCOL_LABEL,
+  INSIGHT_TYPE_LABEL,
+  INSIGHT_TYPE_ORDER,
+  INSIGHT_TYPE_SHORT,
+  OUTPUT_MODALITY_LABEL,
+  OUTPUT_MODALITY_ORDER,
+  SETTING_GLYPH,
+  DATA_SETTING_VARIANT,
+  VALIDATION_FUNCTION_LABEL,
+  VALIDATION_FUNCTION_ORDER,
+  formatCount,
+  isMissing,
+  label,
+  sortValidationFunctions,
+} from '../../../lib/record-vocab';
+import Ref from "../../../components/Ref.astro";
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const withBase = (path: string) => `${base}${path}`;
+
+const records = getBenchmarkRecords();
+const SETTING_ORDER = ['single_table', 'bounded_set', 'multi_table_provided', 'open_corpus'];
+
+const columns = [
+  { key: 'name', label: 'Name', sortable: true, minWidth: '9rem' },
+
+  { key: 'numTables', label: '#Tab', group: 'Corpus', align: 'right', sortable: true, numeric: true },
+  { key: 'source', label: 'Source', group: 'Corpus', sortable: false,
+    width: '11rem', maxWidth: '11rem', clampLines: 3 },
+  { key: 'curation', label: 'Curation', group: 'Corpus', sortable: true,
+    filter: { label: 'Curation',
+      options: ['manual', 'synthetic', 'mixed'].map((v) => ({ value: v, label: ASSEMBLY_LABEL[v] })) } },
+  { key: 'format', label: 'Format', group: 'Corpus', sortable: true,
+    filter: { label: 'Corpus format',
+      options: Object.keys(CORPUS_FORMAT_LABEL)
+        .filter((v) => v !== 'not_reported')
+        .map((v) => ({ value: v, label: CORPUS_FORMAT_LABEL[v] })) } },
+  { key: 'supplement', label: 'Supplement data', group: 'Corpus', sortable: false,
+    width: '15rem', maxWidth: '15rem', clampLines: 3 },
+
+  { key: 'numInstances', label: '#Inst.', group: 'Inputs', align: 'right', sortable: true, numeric: true },
+  { key: 'setting', label: 'Setting', group: 'Inputs', align: 'center', sortable: true,
+    filter: { label: 'Data setting',
+      options: SETTING_ORDER.map((value) => ({ value, label: DATA_SETTING_LABEL[value] })) } },
+  { key: 'protocol', label: 'Protocol', group: 'Inputs', sortable: true,
+    filter: { label: 'Input protocol',
+      options: Object.keys(INPUT_PROTOCOL_LABEL).map((v) => ({ value: v, label: INPUT_PROTOCOL_LABEL[v] })) } },
+  { key: 'insightTypes', label: 'Insight types', group: 'Inputs', sortable: false,
+    filter: { label: 'Insight type',
+      options: INSIGHT_TYPE_ORDER.map((v) => ({ value: v, label: INSIGHT_TYPE_LABEL[v] })) } },
+
+  { key: 'validation', label: 'Function', group: 'Validation', sortable: false,
+    filter: { label: 'Validation function',
+      options: VALIDATION_FUNCTION_ORDER.map((v) => ({ value: v, label: VALIDATION_FUNCTION_LABEL[v] })) } },
+  { key: 'output', label: 'Output', group: 'Validation', sortable: false },
+];
+
+const rows = records.map((record) => {
+  const { corpus, setting, interaction, validation } = record;
+  const sortedModalities = [...setting.outputModalities].sort(
+    (a, b) => OUTPUT_MODALITY_ORDER.indexOf(a) - OUTPUT_MODALITY_ORDER.indexOf(b),
+  );
+
+  return {
+    id: record.citekey,
+    cells: {
+      name: citeCell(record.citekey, record.name),
+      numTables: formatCount(corpus.numTables),
+      source: isMissing(corpus.provenance) ? '' : corpus.provenance,
+      curation: label(ASSEMBLY_LABEL, corpus.assembly),
+      format: label(CORPUS_FORMAT_LABEL, corpus.format),
+      supplement: isMissing(corpus.additionalData) ? '' : corpus.additionalData,
+      numInstances: formatCount(setting.numInstances),
+      setting: settingCell(setting.dataSetting),
+      protocol: label(INPUT_PROTOCOL_LABEL, interaction.inputProtocol),
+      insightTypes: insightTypesCell(record.insightTypes),
+      validation: pillsCell(
+        sortValidationFunctions(validation.functions).map((fn) => ({
+          label: VALIDATION_FUNCTION_LABEL[fn] ?? fn,
+        })),
+      ),
+      output: pillsCell(
+        sortedModalities.map((modality) => ({ label: OUTPUT_MODALITY_LABEL[modality] ?? modality })),
+      ),
+    },
+    sortValues: {
+      name: record.name.toLowerCase(),
+      numTables: numericSortValue(corpus.numTables),
+      curation: corpus.assembly,
+      format: corpus.format,
+      numInstances: numericSortValue(setting.numInstances),
+      setting: SETTING_ORDER.indexOf(setting.dataSetting),
+      protocol: interaction.inputProtocol,
+    },
+    filterValues: {
+      curation: [corpus.assembly],
+      format: [corpus.format],
+      setting: [setting.dataSetting],
+      protocol: [interaction.inputProtocol],
+      insightTypes: record.insightTypes.map((t) => t.type),
+      validation: validation.functions,
+    },
+  };
+});
+
+const settingKey = SETTING_ORDER.map((value) => ({
+  glyph: SETTING_GLYPH[DATA_SETTING_VARIANT[value]],
+  label: DATA_SETTING_LABEL[value],
+}));
+
+const insightGlossary = INSIGHT_TYPE_ORDER.map((type) => ({
+  short: INSIGHT_TYPE_SHORT[type],
+  long: INSIGHT_TYPE_LABEL[type],
+}));
+
+const authoritativeCount = records.filter((r) => r.insightTypesAuthoritative).length;
+const inPaperTable = records.filter((r) => r.inOverviewTable).length;
+const simulationCount = records.filter(
+  (r) => r.interaction.inputProtocol === 'user_simulation',
+).length;
+---
+
+<BaseLayout
+  title="Overview of benchmarks — OpenTî"
+  description="All benchmarks analyzed in the paper, with their corpora, input protocols, insight types and validation mechanisms."
+>
+  <div class="rec-page">
+    <a class="rec-back" href={withBase('/')}>
+      <Chevron direction="left" size={14} strokeWidth={2.4} />
+      Back to main page
+    </a>
+
+    <header class="rec-head">
+      <div class="rec-head__text">
+        <p class="rec-eyebrow">Methods &amp; benchmarks</p>
+        <h1>Overview of benchmarks</h1>
+        <p class="rec-lead">
+          Overview of the analyzed benchmarks.
+        </p>
+      </div>
+
+      <ul class="rec-stats">
+        <li class="rec-stat">
+          <span class="rec-stat__value">{records.length}</span>
+          <span class="rec-stat__label">benchmarks<br />analyzed</span>
+        </li>
+      </ul>
+    </header>
+
+    <div class="rec-key">
+      <span class="rec-key__title">Setting</span>
+      <ul class="rec-key__items">
+        {settingKey.map((item) => (
+          <li class="rec-key__item">
+            <span class="rec-key__glyph">{item.glyph}</span>
+            {item.label.toLowerCase()}
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="rec-key">
+      <span class="rec-key__title">Insight types</span>
+      <ul class="rec-key__items">
+        <li class="rec-key__item">
+          <span class="rec-key__pill rec-key__pill--bordered">bordered</span>
+          requires an artifact (a trained model, say), not just an insight
+        </li>
+      </ul>
+    </div>
+
+    <RecordTable
+      columns={columns}
+      rows={rows}
+      unit="benchmarks"
+      searchLabel="Find a benchmark"
+      client:visible
+    />
+
+    <section class="rec-notes">
+      <h2 class="rec-notes__heading">Reading the table</h2>
+      <dl class="rec-notes__grid">
+        <div>
+          <dt>Corpus</dt>
+          <dd>
+            <strong>#Tab</strong> number of tables, <strong>Source</strong> source of the tables,
+            <strong>Curation</strong> how the tables are filled with data, <strong>Format</strong
+            > how the tables are stored, and <strong>Supplement data</strong> what is
+            provided alongside the tables.
+          </dd>
+        </div>
+        <div>
+          <dt>Inputs</dt>
+          <dd>
+            <strong>#Inst.</strong> the number of instances, <strong>Setting</strong> the data setting under which
+            the evaluation operates. <strong>Protocol</strong> how the input is supplied to the system.
+          </dd>
+        </div>
+        <div>
+          <dt>Validation</dt>
+          <dd>
+            <strong>Function</strong> the validation function the benchmark uses to check the validity, and{' '}
+            <strong>Output</strong> the output modalities it expects/supports.
+          </dd>
+        </div>
+        <div>
+          <dt>Insight types</dt>
+          <dd>
+            The insight types that the inputs in the benchmark ask for. The items with border indicate that the
+            benchmark asks for an artifact (e.g., a prediction model) instead of some specific analytical knowledge.
+            <ul class="rec-gloss">
+              {insightGlossary.map((item) => (
+                <li><b>{item.short}</b> {item.long.toLowerCase()}</li>
+              ))}
+            </ul>
+          </dd>
+        </div>
+      </dl>
+
+      <div class="rec-source">
+        <nav class="rec-onward" aria-label="Related pages">
+          <a class="rec-onward__link" href={withBase('/full-paper/evaluations-in-openti/')}>
+            Section 5, Evaluations in OpenTI
+            <Chevron direction="right" size={12} strokeWidth={2.4} />
+          </a>
+          <a class="rec-onward__link" href={withBase('/methods-benchmarks/')}>
+            Overview of systems
+            <Chevron direction="right" size={12} strokeWidth={2.4} />
+          </a>
+        </nav>
+      </div>
+    </section>
+  </div>
+</BaseLayout>

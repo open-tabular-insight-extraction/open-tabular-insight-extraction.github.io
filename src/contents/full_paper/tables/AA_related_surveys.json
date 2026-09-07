@@ -1,0 +1,95 @@
+{
+  "layout": "grid",
+  "columns": [
+    { "key": "work", "label": "Work" },
+    { "key": "focus", "label": "Focus" },
+    { "key": "communities", "label": "Research communities" },
+    { "key": "scope", "label": "End-to-end scope coverage" },
+    { "key": "open", "label": "Open setting", "align": "center" },
+    { "key": "insight", "label": "Insight-centered", "align": "center" },
+    { "key": "formal", "label": "Formal definition", "align": "center" },
+    { "key": "userfacing", "label": "User-facing concerns", "align": "center" }
+  ],
+  "rows": [
+    {
+      "work": { "kind": "cite", "citekey": "liu_survey_2025" },
+      "focus": "Text-to-SQL",
+      "communities": "DB, NLP",
+      "scope": { "kind": "scope", "segments": [true, false, false, true, false] },
+      "open": { "kind": "mark", "value": "none" },
+      "insight": { "kind": "mark", "value": "none" },
+      "formal": { "kind": "mark", "value": "partial" },
+      "userfacing": { "kind": "mark", "value": "none" }
+    },
+    {
+      "work": { "kind": "cite", "citekey": "fang_large_2024" },
+      "focus": "LLMs for tabular tasks",
+      "communities": "NLP, DB",
+      "scope": { "kind": "scope", "segments": [false, false, false, true, true] },
+      "open": { "kind": "mark", "value": "none" },
+      "insight": { "kind": "mark", "value": "none" },
+      "formal": { "kind": "mark", "value": "partial" },
+      "userfacing": { "kind": "mark", "value": "none" }
+    },
+    {
+      "work": { "kind": "cite", "citekey": "lu_large_2025" },
+      "focus": "LLMs for tabular tasks",
+      "communities": "NLP, DB",
+      "scope": { "kind": "scope", "segments": [false, false, false, true, true] },
+      "open": { "kind": "mark", "value": "none" },
+      "insight": { "kind": "mark", "value": "partial" },
+      "formal": { "kind": "mark", "value": "partial" },
+      "userfacing": { "kind": "mark", "value": "partial" }
+    },
+    {
+      "work": { "kind": "cite", "citekey": "zhou_table_2026" },
+      "focus": "Table question answering",
+      "communities": "NLP, IR",
+      "scope": { "kind": "scope", "segments": [false, true, false, true, false] },
+      "open": { "kind": "mark", "value": "partial" },
+      "insight": { "kind": "mark", "value": "partial" },
+      "formal": { "kind": "mark", "value": "none" },
+      "userfacing": { "kind": "mark", "value": "partial" }
+    },
+    {
+      "work": { "kind": "cite", "citekey": "tian_realworld_2026" },
+      "focus": "LLM-agents for tabular tasks",
+      "communities": "NLP, DB",
+      "scope": { "kind": "scope", "segments": [false, true, true, true, false] },
+      "open": { "kind": "mark", "value": "partial" },
+      "insight": { "kind": "mark", "value": "partial" },
+      "formal": { "kind": "mark", "value": "partial" },
+      "userfacing": { "kind": "mark", "value": "partial" }
+    },
+    {
+      "work": { "kind": "cite", "citekey": "chen_large_2025" },
+      "focus": "LLM-agents for tabular tasks",
+      "communities": "NLP, ML/AI",
+      "scope": { "kind": "scope", "segments": [false, true, true, true, true] },
+      "open": { "kind": "mark", "value": "none" },
+      "insight": { "kind": "mark", "value": "none" },
+      "formal": { "kind": "mark", "value": "none" },
+      "userfacing": { "kind": "mark", "value": "partial" }
+    },
+    {
+      "work": { "kind": "cite", "citekey": "tang_llm_2025" },
+      "focus": "LLM-agents for data science",
+      "communities": "DB, NLP, ML/AI",
+      "scope": { "kind": "scope", "segments": [false, true, true, true, true] },
+      "open": { "kind": "mark", "value": "partial" },
+      "insight": { "kind": "mark", "value": "none" },
+      "formal": { "kind": "mark", "value": "none" },
+      "userfacing": { "kind": "mark", "value": "partial" }
+    },
+    {
+      "work": "**This paper**",
+      "focus": "Open Tabular Insight Extraction",
+      "communities": "DB, HCI, IR, ML/AI, NLP",
+      "scope": { "kind": "scope", "segments": [true, true, true, true, true] },
+      "open": { "kind": "mark", "value": "full" },
+      "insight": { "kind": "mark", "value": "full" },
+      "formal": { "kind": "mark", "value": "full" },
+      "userfacing": { "kind": "mark", "value": "full" }
+    }
+  ]
+}

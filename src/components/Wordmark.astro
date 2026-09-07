@@ -1,0 +1,109 @@
+---
+/*
+  The OpenTî wordmark. Inline/nav usage renders the final letter as a dotless i (ı,
+  U+0131) plus the shared <Chevron direction="up" /> peak standing in for the tittle —
+  the paper's symbol for the expressed, possibly underspecified insight need, written as
+  a lowercase hatted i. The hat is real markup rather than a font's own circumflex glyph,
+  so it is pixel-identical to the favicon/loading-glyph peak everywhere.
+
+  display=true (the landing hero) renders a distinct static mark instead: an uppercase
+  "I" permanently squashed with the hat resting on it, as if just landed — no animated
+  intro (an earlier GSAP drop/bounce/morph version turned out fiddly to get feeling right
+  and wasn't worth the complexity). The one motion budget it keeps: hovering the hat spins
+  it a full turn, pure CSS, no script.
+*/
+import Chevron from './Chevron.astro';
+
+interface Props {
+  /** Render as a larger display mark (hero), with the squashed-letter treatment. */
+  display?: boolean;
+  class?: string;
+}
+const { display = false, class: className = '' } = Astro.props;
+---
+
+<span
+  class:list={['wordmark', { 'wordmark--display': display }, className]}
+  aria-label="OpenTî"
+>
+  <span>OpenT</span><span class="wordmark__i-wrap"
+    ><span class:list={['wordmark__i', { 'wordmark__i--squashed': display }]} aria-hidden="true"
+      >{display ? 'I' : 'ı'}</span
+    ><span
+      class:list={['wordmark__hat', { 'wordmark__hat--squashed': display }]}
+      aria-hidden="true"
+      ><Chevron direction="up" strokeWidth={2.6} /></span
+    ></span
+  >
+</span>
+
+<style>
+  .wordmark {
+    position: relative;
+    display: inline-block;
+    font-family: var(--font-heading);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--color-ink);
+    white-space: nowrap;
+  }
+
+  .wordmark--display {
+    font-size: clamp(3rem, 10vw, 6rem);
+    line-height: 1;
+  }
+
+  .wordmark__i-wrap {
+    position: relative;
+    display: inline-block;
+  }
+
+  .wordmark__i {
+    display: inline-block;
+  }
+
+  /* The hero mark's letter stays permanently squashed, as if just landed on — anchored
+     at the baseline so it compresses downward rather than growing from the middle. */
+  .wordmark__i--squashed {
+    transform: scaleY(0.8);
+    transform-origin: 50% 100%;
+  }
+
+  /* The hat carries the accent — the site's signature flourish. Sized to sit close over
+     the i rather than floating above it as an oversized cap. */
+  .wordmark__hat {
+    position: absolute;
+    left: 50%;
+    top: -0.42em;
+    width: 0.52em;
+    height: 0.4em;
+    color: var(--color-accent);
+    transform: translateX(-50%);
+  }
+
+  /* Sits a bit higher above the shorter, squashed letter. */
+  .wordmark__hat--squashed {
+    top: -0.4em;
+    cursor: pointer;
+  }
+
+  .wordmark__hat :global(svg) {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* The one motion flourish this mark keeps: a full spin on hover, pure CSS. Animated on
+     the inner svg rather than this wrapper — the wrapper's own transform is
+     translateX(-50%) for centering, and composing a rotate into that same transform list
+     would pivot around the pre-translate anchor instead of the mark's own center, making
+     it swing/orbit rather than spin in place. */
+  .wordmark__hat--squashed:hover :global(svg) {
+    animation: wordmark-hat-spin 0.4s ease-in-out;
+  }
+
+  @keyframes wordmark-hat-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+</style>

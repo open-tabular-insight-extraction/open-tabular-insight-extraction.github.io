@@ -1,0 +1,82 @@
+---
+/*
+  Minimal site footer. The vision's "the paper is always reachable" cross-cutting rule
+  is covered by the navbar's PDF link (NavBar.astro) rather than here — that link stays a
+  placeholder until the paper lands on arXiv, at which point paper-meta.ts's `paperPdfUrl`
+  is the one place to update.
+
+  Also carries the sitewide "Cite as" block (.local/04_minimal_website.md) — this is the
+  one component every page shares, so it's the natural home for anything that must appear
+  on all of them.
+*/
+import CiteAs from './CiteAs.astro';
+const year = new Date().getFullYear();
+const repoUrl = 'https://github.com/open-tabular-insight-extraction/open-tabular-insight-extraction.github.io';
+---
+
+<footer class="footer">
+  <div class="footer__inner">
+    <!-- Wrapper so this file can size the cite block as a flex item; CiteAs's own
+         .cite-as carries that component's scope id, out of reach from here. -->
+    <div class="footer__cite"><CiteAs /></div>
+    <div class="footer__colophon">
+      <p class="footer__line footer__line--meta">
+        <a href={repoUrl} target="_blank" rel="noopener">Source on GitHub</a>
+        <span aria-hidden="true">·</span>
+        <span>© {year}</span>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--color-hairline);
+    margin-top: 2.5rem;
+  }
+
+  /*
+    One row, not a stack: the citation and the colophon are both single lines, so sitting
+    them side by side (citation left, colophon pushed right) collapses the footer to a
+    single line of content plus its padding. It wraps back to two rows when there isn't
+    room, which is why the cite block declares a flex-basis rather than a width.
+  */
+  .footer__inner {
+    /* Matches the landing page's .page content width (src/pages/index.astro) so the
+       footer's contents line up with it instead of sitting in a much narrower column. */
+    max-width: 72rem;
+    margin-inline: auto;
+    padding: clamp(0.9rem, 2vw, 1.4rem) 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem 2rem;
+  }
+
+  .footer__cite {
+    /* min-width:0 so the citation text can shrink instead of forcing an early wrap. */
+    flex: 1 1 30rem;
+    min-width: 0;
+  }
+
+  .footer__colophon {
+    margin-inline-start: auto;
+  }
+
+  .footer__line {
+    font-size: 0.85rem;
+    color: color-mix(in srgb, var(--color-ink) 60%, transparent);
+  }
+
+  .footer__line--meta {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .footer__line--meta a {
+    color: var(--color-accent);
+  }
+</style>

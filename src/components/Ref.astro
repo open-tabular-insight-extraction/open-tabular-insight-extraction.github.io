@@ -1,0 +1,27 @@
+---
+// LaTeX-style cross-reference: <Ref name="sec:introduction" /> resolves
+// whatever <Label name="sec:introduction" /> was attached to elsewhere in the
+// paper (see Label.astro) and renders just the number ("1", "3", …) — or
+// `label` to override the auto-generated text. The prose always supplies the
+// kind word itself ("Section <Ref .../>", "Figure <Ref .../>"), matching the
+// paper's own \Cref-less \ref usage, so Ref must not repeat it — it used to
+// render "Section 1" and produce "Section Section 1" in context.
+//
+// Preferred over PaperRef (title-text lookup) for anything newly authored:
+// label names are unique by construction, so this never needs a `kind` hint,
+// and it keeps working if the referenced heading/caption is later reworded.
+// An unknown label name fails the build.
+import { getPaperLabel } from '../lib/paper-structure';
+import RefLink from './RefLink.astro';
+
+interface Props {
+  name: string;
+  label?: string;
+}
+
+const { name, label } = Astro.props;
+const entry = getPaperLabel(name);
+const text = label ?? entry.number;
+---
+
+<RefLink entry={entry} text={text} />

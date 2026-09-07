@@ -1,0 +1,31 @@
+---
+// In-paper cross-reference by title text — see Ref.astro for the preferred,
+// LaTeX-style alternative (<Label name="..."/> + <Ref name="..."/>), which
+// doesn't need a `kind` hint and survives the referenced title being edited.
+// This one exists because the paper's prose already had plain-text
+// "Section 'X'"/"Figure 'Y'" references using titles before Label/Ref
+// existed; it resolves against the same build-time scan (paper-structure.ts).
+//
+// Renders just the number by default (see Ref.astro) — the prose supplies
+// the kind word itself.
+//
+// Not yet wired into the .mdx prose. An unknown title fails the build,
+// matching Citation.astro's "malformed contribution fails the build" rule.
+import { getPaperRef, type RefKind } from '../lib/paper-structure';
+import RefLink from './RefLink.astro';
+
+interface Props {
+  to: string;
+  label?: string;
+  // Disambiguates titles shared across kinds, e.g. a "Data Sufficiency"
+  // definition boxed inside the "Data Sufficiency" section — pass
+  // kind="definition" to mean the box, not the section.
+  kind?: RefKind;
+}
+
+const { to, label, kind } = Astro.props;
+const entry = getPaperRef(to, kind);
+const text = label ?? entry.number;
+---
+
+<RefLink entry={entry} text={text} />

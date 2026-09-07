@@ -1,0 +1,149 @@
+---
+// Custom body for Figure "fig:orchestration_strategies" (Section 3.2): one row per
+// orchestration strategy, pairing its control-flow schematic with the systems classified
+// under it, plus a shared legend. Unlike a plain <Figure src="...">, the per-row system
+// lists are derived from src/contents/data/systems.json (via getSystemRecords) rather than
+// hand-transcribed, so this can't drift from the paper's own evidence records the way a
+// hardcoded list copied from the LaTeX source would.
+import { getSystemRecords } from '../lib/records';
+import { getCitation } from '../lib/citations';
+import { getFigureAsset } from '../lib/figures';
+import Citation from './Citation.astro';
+
+const STRATEGIES: { key: string; label: string; image: string }[] = [
+  {
+    key: 'fixed',
+    label: 'Fixed',
+    image: 'figures/pdf/orchestration/orchestration_strategies_fixed.pdf',
+  },
+  {
+    key: 'plan_based',
+    label: 'Plan-based',
+    image: 'figures/pdf/orchestration/orchestration_strategies_planed.pdf',
+  },
+  {
+    key: 'reactive',
+    label: 'Reactive',
+    image: 'figures/pdf/orchestration/orchestration_strategies_reactive.pdf',
+  },
+  {
+    key: 'hybrid',
+    label: 'Hybrid',
+    image: 'figures/pdf/orchestration/orchestration_strategies_hybrid.pdf',
+  },
+];
+
+const allSystems = getSystemRecords();
+
+const rows = STRATEGIES.map((strategy) => {
+  const systems = allSystems
+    .filter((system) => system.orchestration === strategy.key)
+    .map((system) => ({ ...system, year: getCitation(system.citekey).year ?? 0 }))
+    .sort((a, b) => a.year - b.year || a.name.localeCompare(b.name));
+  return { ...strategy, asset: getFigureAsset(strategy.image), systems };
+});
+
+const legend = getFigureAsset('figures/pdf/orchestration/orchestration_strategies_legend.pdf');
+---
+
+<div class="orchestration-figure">
+  {
+    rows.map((row) => (
+      <div class="orchestration-figure__row">
+        <div class="orchestration-figure__schematic">
+          <img
+            src={row.asset.url}
+            width={row.asset.width}
+            height={row.asset.height}
+            alt={`${row.label} orchestration control flow`}
+            loading="lazy"
+          />
+          <span class="orchestration-figure__row-label">{row.label}</span>
+        </div>
+        <p class="orchestration-figure__systems">
+          {row.systems.map((system, i) => (
+            <>
+              <span class="orchestration-figure__system">
+                <strong>{system.name}</strong> <Citation cite={system.citekey} />
+              </span>
+              {i < row.systems.length - 1 ? ', ' : ''}
+            </>
+          ))}
+        </p>
+      </div>
+    ))
+  }
+  <div class="orchestration-figure__legend">
+    <img
+      src={legend.url}
+      width={legend.width}
+      height={legend.height}
+      alt="Legend for the orchestration strategy schematics"
+      loading="lazy"
+    />
+  </div>
+</div>
+
+<style>
+  .orchestration-figure {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .orchestration-figure__row {
+    display: grid;
+    grid-template-columns: minmax(9rem, 14rem) 1fr;
+    gap: 1.25rem;
+    align-items: center;
+  }
+
+  .orchestration-figure__schematic {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .orchestration-figure__schematic img {
+    width: 100%;
+    height: auto;
+  }
+
+  .orchestration-figure__row-label {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--color-accent);
+  }
+
+  .orchestration-figure__systems {
+    margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: color-mix(in srgb, var(--color-ink) 80%, transparent);
+  }
+
+  .orchestration-figure__system strong {
+    color: var(--color-ink);
+    font-weight: 600;
+  }
+
+  .orchestration-figure__legend {
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--color-hairline);
+  }
+
+  .orchestration-figure__legend img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 40rem) {
+    .orchestration-figure__row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

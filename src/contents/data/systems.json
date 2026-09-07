@@ -1,0 +1,1870 @@
+[
+  {
+    "citekey": "li_are_2025",
+    "name": "ACR",
+    "dataSetting": "single_table",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [
+        "augment",
+        "clarify",
+        "contextualize"
+      ],
+      "retrieval": [],
+      "analysis": [
+        "gpl_generation",
+        "data_preparation"
+      ],
+      "output": [
+        "text_output",
+        "table_output",
+        "visualization_output",
+        "contextualization"
+      ],
+      "governance": [
+        "error_handling"
+      ]
+    },
+    "inputModes": [
+      "step_wise",
+      "system_initiated_clarification",
+      "output_driven"
+    ],
+    "datasets": [
+      "COTA"
+    ]
+  },
+  {
+    "citekey": "zhang_aixelask_2025",
+    "name": "AixelAsk",
+    "dataSetting": "single_table",
+    "orchestration": "plan_based",
+    "capabilities": {
+      "interpretation": [
+        "decompose",
+        "augment",
+        "scope"
+      ],
+      "retrieval": [],
+      "analysis": [
+        "direct_inference",
+        "data_preparation"
+      ],
+      "output": [
+        "text_output",
+        "result_integration"
+      ],
+      "governance": [
+        "error_handling"
+      ]
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "FeTaQA+",
+      "TabFact+",
+      "WikiSQL+",
+      "WikiTQ+",
+      "WikiTQ-4k"
+    ]
+  },
+  {
+    "citekey": "zhang_alter_2025",
+    "name": "ALTER",
+    "dataSetting": "single_table",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [
+        "decompose",
+        "augment",
+        "scope"
+      ],
+      "retrieval": [],
+      "analysis": [
+        "dsl_generation",
+        "data_preparation",
+        "direct_inference"
+      ],
+      "output": [
+        "text_output",
+        "result_integration"
+      ],
+      "governance": [
+        "ensembling"
+      ]
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "TabFact",
+      "WikiTQ"
+    ]
+  },
+  {
+    "citekey": "wang_aop_2025",
+    "name": "AOP",
+    "dataSetting": "open_corpus",
+    "orchestration": "hybrid",
+    "capabilities": {
+      "interpretation": [
+        "decompose",
+        "augment"
+      ],
+      "retrieval": [
+        "table_and_input_representations",
+        "retrieval_granularity",
+        "semantic_and_structural_alignment",
+        "dynamic_retrieval"
+      ],
+      "analysis": [
+        "dsl_generation",
+        "tool_calling",
+        "direct_inference",
+        "data_preparation"
+      ],
+      "output": [
+        "text_output",
+        "contextualization",
+        "result_integration"
+      ],
+      "governance": [
+        "error_handling",
+        "result_validation",
+        "adaptive_steering",
+        "ensembling"
+      ]
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "CRAG",
+      "Sports StackExchange"
+    ]
+  },
+  {
+    "citekey": "zhu_autotqa_2024",
+    "name": "AutoTQA",
+    "dataSetting": "bounded_set",
+    "orchestration": "hybrid",
+    "capabilities": {
+      "interpretation": [
+        "decompose",
+        "augment",
+        "contextualize"
+      ],
+      "retrieval": [
+        "table_and_input_representations"
+      ],
+      "analysis": [
+        "dsl_generation",
+        "gpl_generation"
+      ],
+      "output": [
+        "text_output",
+        "table_output",
+        "result_integration",
+        "contextualization"
+      ],
+      "governance": [
+        "error_handling",
+        "result_validation",
+        "adaptive_steering"
+      ]
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "FeTaQA",
+      "Industrial Dataset",
+      "TabFact",
+      "WiKiTQ"
+    ]
+  },
+  {
+    "citekey": "cao_apiassisted_2023",
+    "name": "Cao et al.",
+    "dataSetting": "bounded_set",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [
+        "decompose"
+      ],
+      "retrieval": [
+        "semantic_and_structural_alignment"
+      ],
+      "analysis": [
+        "gpl_generation",
+        "dsl_generation",
+        "tool_calling",
+        "data_preparation"
+      ],
+      "output": [
+        "text_output"
+      ],
+      "governance": [
+        "ensembling"
+      ]
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "AIT-QA",
+      "HiTab",
+      "Spider",
+      "WikiTQ"
+    ]
+  },
+  {
+    "citekey": "wang_chainoftable_2024",
+    "name": "Chain-of-Table",
+    "dataSetting": "single_table",
+    "orchestration": "reactive",
+    "capabilities": {
+      "interpretation": [],
+      "retrieval": [],
+      "analysis": [
+        "tool_calling",
+        "direct_inference",
+        "data_preparation"
+      ],
+      "output": [
+        "text_output"
+      ],
+      "governance": []
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "FeTaQA",
+      "TabFact",
+      "WikiTQ"
+    ]
+  },
+  {
+    "citekey": "pourreza_chasesql_2025",
+    "name": "CHASE-SQL",
+    "dataSetting": "bounded_set",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [
+        "decompose",
+        "contextualize"
+      ],
+      "retrieval": [
+        "retrieval_granularity"
+      ],
+      "analysis": [
+        "dsl_generation"
+      ],
+      "output": [
+        "table_output"
+      ],
+      "governance": [
+        "error_handling",
+        "ensembling"
+      ]
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "BIRD",
+      "Spider"
+    ]
+  },
+  {
+    "citekey": "xiao_cqrsql_2022",
+    "name": "CQR-SQL",
+    "dataSetting": "bounded_set",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [
+        "augment",
+        "contextualize"
+      ],
+      "retrieval": [],
+      "analysis": [
+        "dsl_generation"
+      ],
+      "output": [],
+      "governance": []
+    },
+    "inputModes": [
+      "step_wise"
+    ],
+    "datasets": [
+      "CANARD",
+      "COSQL",
+      "SPARC"
+    ]
+  },
+  {
+    "citekey": "kothyari_crush4sql_2023",
+    "name": "CRUSH4SQL",
+    "dataSetting": "open_corpus",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [
+        "augment"
+      ],
+      "retrieval": [
+        "table_and_input_representations",
+        "retrieval_granularity",
+        "semantic_and_structural_alignment"
+      ],
+      "analysis": [
+        "dsl_generation"
+      ],
+      "output": [],
+      "governance": []
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "BirdUnion",
+      "SocialDB",
+      "SpiderUnion"
+    ]
+  },
+  {
+    "citekey": "huang_dacode_2024",
+    "name": "DA-Agent",
+    "dataSetting": "bounded_set",
+    "orchestration": "reactive",
+    "capabilities": {
+      "interpretation": [],
+      "retrieval": [],
+      "analysis": [
+        "dsl_generation",
+        "gpl_generation",
+        "data_preparation"
+      ],
+      "output": [
+        "text_output",
+        "table_output",
+        "visualization_output"
+      ],
+      "governance": [
+        "error_handling",
+        "result_validation",
+        "adaptive_steering"
+      ]
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "DA-Code",
+      "DA-Code-100"
+    ]
+  },
+  {
+    "citekey": "hu_infiagentdabench_2024",
+    "name": "DAAgent",
+    "dataSetting": "single_table",
+    "orchestration": "reactive",
+    "capabilities": {
+      "interpretation": [
+        "decompose"
+      ],
+      "retrieval": [],
+      "analysis": [
+        "gpl_generation",
+        "data_preparation"
+      ],
+      "output": [
+        "text_output"
+      ],
+      "governance": [
+        "error_handling"
+      ]
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "DAEval",
+      "DAInstruct"
+    ]
+  },
+  {
+    "citekey": "wu_daco_2024a",
+    "name": "DACO",
+    "dataSetting": "bounded_set",
+    "orchestration": "reactive",
+    "capabilities": {
+      "interpretation": [
+        "decompose"
+      ],
+      "retrieval": [],
+      "analysis": [
+        "gpl_generation"
+      ],
+      "output": [
+        "text_output",
+        "contextualization",
+        "result_integration"
+      ],
+      "governance": [
+        "error_handling"
+      ]
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "DACO",
+      "FeTaQA",
+      "InfiAgent-DA"
+    ]
+  },
+  {
+    "citekey": "xu_dagent_2025",
+    "name": "DAgent",
+    "dataSetting": "bounded_set",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [
+        "decompose",
+        "contextualize"
+      ],
+      "retrieval": [
+        "table_and_input_representations",
+        "retrieval_granularity"
+      ],
+      "analysis": [
+        "dsl_generation",
+        "direct_inference"
+      ],
+      "output": [
+        "text_output",
+        "contextualization",
+        "result_integration"
+      ],
+      "governance": [
+        "result_validation"
+      ]
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "DA-BIRD",
+      "DA-CCKS"
+    ]
+  },
+  {
+    "citekey": "qiao_scaling_2025",
+    "name": "DATAMIND",
+    "dataSetting": "bounded_set",
+    "orchestration": "reactive",
+    "capabilities": {
+      "interpretation": [
+        "scope"
+      ],
+      "retrieval": [],
+      "analysis": [
+        "dsl_generation",
+        "gpl_generation",
+        "data_preparation"
+      ],
+      "output": [
+        "text_output"
+      ],
+      "governance": [
+        "error_handling"
+      ]
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "BIRD",
+      "DABench",
+      "DATAMIND-12K",
+      "OmniSQL",
+      "QRData",
+      "TableBench"
+    ]
+  },
+  {
+    "citekey": "kochedykov_conversing_2023",
+    "name": "DataQue",
+    "dataSetting": "bounded_set",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [
+        "augment",
+        "clarify",
+        "contextualize"
+      ],
+      "retrieval": [
+        "table_and_input_representations",
+        "retrieval_granularity"
+      ],
+      "analysis": [
+        "dsl_generation",
+        "tool_calling"
+      ],
+      "output": [
+        "table_output",
+        "visualization_output",
+        "contextualization",
+        "modality_selection"
+      ],
+      "governance": [
+        "error_handling",
+        "result_validation"
+      ]
+    },
+    "inputModes": [
+      "output_driven",
+      "system_initiated_clarification",
+      "single_input"
+    ],
+    "datasets": [
+      "Own Dataset"
+    ]
+  },
+  {
+    "citekey": "ye_large_2023",
+    "name": "Dater",
+    "dataSetting": "single_table",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [
+        "decompose",
+        "augment",
+        "scope"
+      ],
+      "retrieval": [],
+      "analysis": [
+        "dsl_generation",
+        "direct_inference"
+      ],
+      "output": [
+        "text_output",
+        "result_integration"
+      ],
+      "governance": [
+        "ensembling"
+      ]
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "FetaQA",
+      "TabFact",
+      "WikiTableQuestion"
+    ]
+  },
+  {
+    "citekey": "wang_dbcopilot_2025",
+    "name": "DBCopilot",
+    "dataSetting": "open_corpus",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [],
+      "retrieval": [
+        "table_and_input_representations",
+        "retrieval_granularity",
+        "semantic_and_structural_alignment",
+        "generative_retrieval"
+      ],
+      "analysis": [
+        "dsl_generation"
+      ],
+      "output": [],
+      "governance": []
+    },
+    "inputModes": [
+      "single_input",
+      "system_initiated_clarification"
+    ],
+    "datasets": [
+      "Bird",
+      "Fiben",
+      "Spider",
+      "Spiderreal",
+      "Spidersyn"
+    ]
+  },
+  {
+    "citekey": "pourreza_dinsql_2023",
+    "name": "DIN-SQL",
+    "dataSetting": "bounded_set",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [
+        "augment",
+        "decompose"
+      ],
+      "retrieval": [],
+      "analysis": [
+        "dsl_generation"
+      ],
+      "output": [
+        "table_output"
+      ],
+      "governance": [
+        "error_handling"
+      ]
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "BIRD",
+      "Spider"
+    ]
+  },
+  {
+    "citekey": "lai_kramabench_2026",
+    "name": "DS-GURU",
+    "dataSetting": "bounded_set",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [
+        "augment"
+      ],
+      "retrieval": [
+        "table_and_input_representations",
+        "semantic_and_structural_alignment"
+      ],
+      "analysis": [
+        "gpl_generation",
+        "data_preparation"
+      ],
+      "output": [
+        "text_output"
+      ],
+      "governance": [
+        "error_handling",
+        "result_validation"
+      ]
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "KramaBench"
+    ]
+  },
+  {
+    "citekey": "menon_fisql_2025",
+    "name": "FISQL",
+    "dataSetting": "bounded_set",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [
+        "clarify",
+        "augment"
+      ],
+      "retrieval": [],
+      "analysis": [
+        "dsl_generation"
+      ],
+      "output": [
+        "text_output",
+        "table_output",
+        "contextualization"
+      ],
+      "governance": []
+    },
+    "inputModes": [
+      "output_driven"
+    ],
+    "datasets": [
+      "Spider"
+    ]
+  },
+  {
+    "citekey": "zou_rag_2025",
+    "name": "GTR",
+    "dataSetting": "open_corpus",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [],
+      "retrieval": [
+        "table_and_input_representations",
+        "retrieval_granularity"
+      ],
+      "analysis": [
+        "direct_inference",
+        "data_preparation"
+      ],
+      "output": [
+        "text_output"
+      ],
+      "governance": []
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "MUTLITABLEQA"
+    ]
+  },
+  {
+    "citekey": "abhyankar_hstar_2025",
+    "name": "H-STAR",
+    "dataSetting": "single_table",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [
+        "decompose",
+        "scope"
+      ],
+      "retrieval": [],
+      "analysis": [
+        "dsl_generation",
+        "direct_inference",
+        "data_preparation"
+      ],
+      "output": [
+        "text_output",
+        "result_integration"
+      ],
+      "governance": [
+        "ensembling",
+        "result_validation"
+      ]
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "FeTaQA",
+      "TabFact",
+      "WikiTQ"
+    ]
+  },
+  {
+    "citekey": "lin_inner_2023",
+    "name": "Inner Table Retriever (ITR)",
+    "dataSetting": "single_table",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [
+        "scope"
+      ],
+      "retrieval": [],
+      "analysis": [
+        "direct_inference",
+        "dsl_generation"
+      ],
+      "output": [
+        "text_output"
+      ],
+      "governance": [
+        "result_validation",
+        "ensembling"
+      ]
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "WikiSQL",
+      "WikiTableQuestions"
+    ]
+  },
+  {
+    "citekey": "chen_table_2024",
+    "name": "JAR",
+    "dataSetting": "open_corpus",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [
+        "decompose",
+        "augment"
+      ],
+      "retrieval": [
+        "table_and_input_representations",
+        "retrieval_granularity",
+        "semantic_and_structural_alignment"
+      ],
+      "analysis": [
+        "dsl_generation"
+      ],
+      "output": [
+        "table_output"
+      ],
+      "governance": []
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "Bird",
+      "Spider"
+    ]
+  },
+  {
+    "citekey": "lin_lirage_2023",
+    "name": "LI-RAGE",
+    "dataSetting": "open_corpus",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [],
+      "retrieval": [
+        "table_and_input_representations",
+        "retrieval_granularity"
+      ],
+      "analysis": [
+        "direct_inference",
+        "data_preparation"
+      ],
+      "output": [
+        "text_output"
+      ],
+      "governance": [
+        "ensembling"
+      ]
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "E2E-WTQ",
+      "NQ-TABLES",
+      "WikiTableQuestions"
+    ]
+  },
+  {
+    "citekey": "piao_litesql_2026",
+    "name": "LitE-SQL",
+    "dataSetting": "bounded_set",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [],
+      "retrieval": [
+        "table_and_input_representations",
+        "retrieval_granularity"
+      ],
+      "analysis": [
+        "dsl_generation"
+      ],
+      "output": [
+        "text_output"
+      ],
+      "governance": [
+        "error_handling"
+      ]
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "BIRD",
+      "Spider 1.0"
+    ]
+  },
+  {
+    "citekey": "zhou_efficient_2025",
+    "name": "MACT",
+    "dataSetting": "single_table",
+    "orchestration": "reactive",
+    "capabilities": {
+      "interpretation": [
+        "decompose",
+        "augment"
+      ],
+      "retrieval": [],
+      "analysis": [
+        "gpl_generation",
+        "tool_calling"
+      ],
+      "output": [
+        "text_output"
+      ],
+      "governance": [
+        "error_handling",
+        "ensembling"
+      ]
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "CRT",
+      "SCITAB",
+      "TAT",
+      "WTQ"
+    ]
+  },
+  {
+    "citekey": "kumar_multirow_2023",
+    "name": "MITQA",
+    "dataSetting": "open_corpus",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [
+        "scope"
+      ],
+      "retrieval": [
+        "table_and_input_representations",
+        "retrieval_granularity",
+        "dynamic_retrieval"
+      ],
+      "analysis": [
+        "direct_inference",
+        "data_preparation"
+      ],
+      "output": [
+        "text_output"
+      ],
+      "governance": [
+        "ensembling"
+      ]
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "HybridQA",
+      "MS MARCO Passage Retrieval",
+      "OTT-QA"
+    ]
+  },
+  {
+    "citekey": "pal_multitabqa_2023",
+    "name": "MultiTabQA",
+    "dataSetting": "multi_table_provided",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [],
+      "retrieval": [],
+      "analysis": [
+        "direct_inference"
+      ],
+      "output": [
+        "table_output"
+      ],
+      "governance": []
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "Atis",
+      "GeoQuery",
+      "Spider"
+    ]
+  },
+  {
+    "citekey": "zhang_murre_2025",
+    "name": "MURRE",
+    "dataSetting": "open_corpus",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [
+        "augment"
+      ],
+      "retrieval": [
+        "table_and_input_representations",
+        "semantic_and_structural_alignment",
+        "dynamic_retrieval"
+      ],
+      "analysis": [
+        "dsl_generation"
+      ],
+      "output": [],
+      "governance": [
+        "ensembling"
+      ]
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "BirdUnion",
+      "SpiderUnion"
+    ]
+  },
+  {
+    "citekey": "kong_opentab_2023",
+    "name": "OpenTab",
+    "dataSetting": "open_corpus",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [
+        "scope"
+      ],
+      "retrieval": [
+        "retrieval_granularity"
+      ],
+      "analysis": [
+        "dsl_generation",
+        "direct_inference",
+        "data_preparation"
+      ],
+      "output": [
+        "text_output"
+      ],
+      "governance": [
+        "error_handling",
+        "result_validation"
+      ]
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "FEVEROUS",
+      "Open-WikiTable",
+      "Spider",
+      "WikiTableQuestions"
+    ]
+  },
+  {
+    "citekey": "chi_pisql_2025",
+    "name": "PI-SQL",
+    "dataSetting": "bounded_set",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [
+        "augment",
+        "decompose"
+      ],
+      "retrieval": [],
+      "analysis": [
+        "dsl_generation",
+        "gpl_generation",
+        "data_preparation"
+      ],
+      "output": [
+        "text_output"
+      ],
+      "governance": [
+        "result_validation",
+        "ensembling",
+        "error_handling"
+      ]
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "Archer",
+      "BIRD"
+    ]
+  },
+  {
+    "citekey": "mao_potable_2024",
+    "name": "POTABLE",
+    "dataSetting": "single_table",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [],
+      "retrieval": [],
+      "analysis": [
+        "gpl_generation",
+        "data_preparation"
+      ],
+      "output": [
+        "text_output"
+      ],
+      "governance": [
+        "error_handling"
+      ]
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "TabFact",
+      "WikiTQ"
+    ]
+  },
+  {
+    "citekey": "shao_enhancing_2025",
+    "name": "QCMA-SQL",
+    "dataSetting": "bounded_set",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [
+        "decompose",
+        "augment",
+        "contextualize"
+      ],
+      "retrieval": [],
+      "analysis": [
+        "dsl_generation"
+      ],
+      "output": [
+        "text_output"
+      ],
+      "governance": [
+        "error_handling"
+      ]
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "CSpider",
+      "Spider",
+      "Spider-DK",
+      "Spider-Realistic",
+      "Spider-SYN"
+    ]
+  },
+  {
+    "citekey": "zhang_reactable_2024",
+    "name": "ReAcTable",
+    "dataSetting": "single_table",
+    "orchestration": "reactive",
+    "capabilities": {
+      "interpretation": [
+        "decompose"
+      ],
+      "retrieval": [],
+      "analysis": [
+        "dsl_generation",
+        "gpl_generation",
+        "data_preparation"
+      ],
+      "output": [
+        "text_output",
+        "table_output"
+      ],
+      "governance": [
+        "error_handling",
+        "ensembling"
+      ]
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "FeTaQA",
+      "TabFact",
+      "WikiTQ"
+    ]
+  },
+  {
+    "citekey": "zhang_refsql_2023",
+    "name": "ReFSQL",
+    "dataSetting": "bounded_set",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [
+        "contextualize"
+      ],
+      "retrieval": [],
+      "analysis": [
+        "dsl_generation"
+      ],
+      "output": [
+        "table_output"
+      ],
+      "governance": []
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "Spider",
+      "Spider-DK",
+      "Spider-Realistic",
+      "Spider-Syn",
+      "WikiSQL"
+    ]
+  },
+  {
+    "citekey": "qin_route_2024",
+    "name": "ROUTE",
+    "dataSetting": "bounded_set",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [
+        "augment"
+      ],
+      "retrieval": [],
+      "analysis": [
+        "dsl_generation"
+      ],
+      "output": [
+        "text_output"
+      ],
+      "governance": [
+        "error_handling",
+        "result_validation"
+      ]
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "BIRD",
+      "Dr.Spider",
+      "Spider",
+      "Spider-DK",
+      "Spider-Realistic",
+      "Spider-SYN"
+    ]
+  },
+  {
+    "citekey": "chen_reliable_2026",
+    "name": "RTS++",
+    "dataSetting": "bounded_set",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [
+        "augment",
+        "clarify"
+      ],
+      "retrieval": [],
+      "analysis": [
+        "dsl_generation"
+      ],
+      "output": [
+        "text_output"
+      ],
+      "governance": [
+        "result_validation",
+        "ensembling"
+      ]
+    },
+    "inputModes": [
+      "system_initiated_clarification",
+      "single_input"
+    ],
+    "datasets": [
+      "BIRD",
+      "Spider"
+    ]
+  },
+  {
+    "citekey": "lei_s3hqa_2023",
+    "name": "S3HQA",
+    "dataSetting": "single_table",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [
+        "scope",
+        "augment"
+      ],
+      "retrieval": [],
+      "analysis": [
+        "direct_inference",
+        "data_preparation"
+      ],
+      "output": [
+        "text_output"
+      ],
+      "governance": []
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "HybridQA"
+    ]
+  },
+  {
+    "citekey": "lee_safesql_2025",
+    "name": "SAFE-SQL",
+    "dataSetting": "bounded_set",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [
+        "augment",
+        "contextualize"
+      ],
+      "retrieval": [],
+      "analysis": [
+        "dsl_generation"
+      ],
+      "output": [
+        "text_output"
+      ],
+      "governance": [
+        "result_validation"
+      ]
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "Bird dev dataset",
+      "Spider dev dataset"
+    ]
+  },
+  {
+    "citekey": "wang_plugging_2025",
+    "name": "SGAM",
+    "dataSetting": "bounded_set",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [
+        "decompose",
+        "augment"
+      ],
+      "retrieval": [
+        "table_and_input_representations",
+        "retrieval_granularity",
+        "semantic_and_structural_alignment"
+      ],
+      "analysis": [
+        "dsl_generation",
+        "direct_inference",
+        "data_preparation"
+      ],
+      "output": [
+        "text_output"
+      ],
+      "governance": []
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "BIRD",
+      "CISS"
+    ]
+  },
+  {
+    "citekey": "he_starsql_2025",
+    "name": "STaR-SQL",
+    "dataSetting": "bounded_set",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [],
+      "retrieval": [],
+      "analysis": [
+        "dsl_generation"
+      ],
+      "output": [
+        "text_output",
+        "table_output"
+      ],
+      "governance": [
+        "result_validation",
+        "ensembling"
+      ]
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "Spider"
+    ]
+  },
+  {
+    "citekey": "zhang_syntqa_2024",
+    "name": "SYNTQA",
+    "dataSetting": "single_table",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [],
+      "retrieval": [],
+      "analysis": [
+        "dsl_generation",
+        "direct_inference"
+      ],
+      "output": [
+        "text_output"
+      ],
+      "governance": [
+        "error_handling",
+        "result_validation",
+        "ensembling"
+      ]
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "ROBUT-WIKISQL",
+      "SQUALL",
+      "WIKISQL",
+      "WTQ"
+    ]
+  },
+  {
+    "citekey": "jiang_tabdsr_2025",
+    "name": "TABDSR",
+    "dataSetting": "single_table",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [
+        "decompose"
+      ],
+      "retrieval": [],
+      "analysis": [
+        "gpl_generation",
+        "data_preparation"
+      ],
+      "output": [
+        "text_output",
+        "result_integration"
+      ],
+      "governance": [
+        "error_handling",
+        "result_validation"
+      ]
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "CALTAB151",
+      "TAT-QA",
+      "TableBench"
+    ]
+  },
+  {
+    "citekey": "yu_tablecritic_2025",
+    "name": "Table-Critic",
+    "dataSetting": "single_table",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [],
+      "retrieval": [],
+      "analysis": [
+        "tool_calling",
+        "direct_inference",
+        "data_preparation"
+      ],
+      "output": [
+        "text_output"
+      ],
+      "governance": [
+        "result_validation",
+        "adaptive_steering"
+      ]
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "TabFact",
+      "WikiTableQuestions (WikiTQ)"
+    ]
+  },
+  {
+    "citekey": "su_tablegpt2_2024",
+    "name": "TableGPT2",
+    "dataSetting": "open_corpus",
+    "orchestration": "hybrid",
+    "capabilities": {
+      "interpretation": [
+        "scope",
+        "clarify",
+        "contextualize"
+      ],
+      "retrieval": [
+        "table_and_input_representations"
+      ],
+      "analysis": [
+        "dsl_generation",
+        "gpl_generation",
+        "tool_calling",
+        "data_preparation"
+      ],
+      "output": [
+        "text_output",
+        "table_output",
+        "visualization_output",
+        "contextualization",
+        "modality_selection"
+      ],
+      "governance": [
+        "error_handling",
+        "adaptive_steering"
+      ]
+    },
+    "inputModes": [
+      "step_wise",
+      "iterative_elicitation",
+      "single_input"
+    ],
+    "datasets": [
+      "BIRD (dev)",
+      "FEVEROUS",
+      "FeTaQA",
+      "HiTab",
+      "HybridQA",
+      "RealTabBench",
+      "Spider",
+      "TURL",
+      "TabFact",
+      "TableBench",
+      "ToTTo",
+      "WikiSQL",
+      "WikiTQ"
+    ]
+  },
+  {
+    "citekey": "wu_tablebench_2025",
+    "name": "TABLELLM",
+    "dataSetting": "single_table",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [],
+      "retrieval": [],
+      "analysis": [
+        "gpl_generation",
+        "direct_inference"
+      ],
+      "output": [
+        "text_output",
+        "visualization_output"
+      ],
+      "governance": []
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "TableBench",
+      "TableInstruct"
+    ]
+  },
+  {
+    "citekey": "chen_tablerag_2024",
+    "name": "TableRAG",
+    "dataSetting": "single_table",
+    "orchestration": "hybrid",
+    "capabilities": {
+      "interpretation": [
+        "augment",
+        "scope"
+      ],
+      "retrieval": [],
+      "analysis": [
+        "gpl_generation",
+        "data_preparation"
+      ],
+      "output": [
+        "text_output"
+      ],
+      "governance": [
+        "error_handling",
+        "ensembling"
+      ]
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "ArcadeQA",
+      "BirdQA",
+      "Synthetic TabFact",
+      "WikiTableQA"
+    ]
+  },
+  {
+    "citekey": "nahid_tabsqlify_2024",
+    "name": "TabSQLify",
+    "dataSetting": "single_table",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [
+        "scope"
+      ],
+      "retrieval": [],
+      "analysis": [
+        "dsl_generation",
+        "direct_inference",
+        "data_preparation"
+      ],
+      "output": [
+        "text_output"
+      ],
+      "governance": [
+        "error_handling",
+        "result_validation"
+      ]
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "FeTaQA",
+      "TabFact",
+      "WikiSQL",
+      "WikiTQ"
+    ]
+  },
+  {
+    "citekey": "jin_talon_2025",
+    "name": "TALON",
+    "dataSetting": "single_table",
+    "orchestration": "reactive",
+    "capabilities": {
+      "interpretation": [
+        "scope"
+      ],
+      "retrieval": [],
+      "analysis": [
+        "gpl_generation",
+        "tool_calling",
+        "data_preparation"
+      ],
+      "output": [
+        "text_output"
+      ],
+      "governance": [
+        "error_handling",
+        "adaptive_steering"
+      ]
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "BirdQA",
+      "WTQ",
+      "WTQ-L"
+    ]
+  },
+  {
+    "citekey": "li_table_2025",
+    "name": "TAMO",
+    "dataSetting": "multi_table_provided",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [],
+      "retrieval": [],
+      "analysis": [
+        "direct_inference",
+        "data_preparation"
+      ],
+      "output": [
+        "text_output"
+      ],
+      "governance": []
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "FeTaQA",
+      "HiTab",
+      "MultiTabQA-geoQuery",
+      "StructQA",
+      "WikiSQL",
+      "WikiTableQuestions (WikiTQ)"
+    ]
+  },
+  {
+    "citekey": "zhao_tapera_2024",
+    "name": "TaPERA",
+    "dataSetting": "single_table",
+    "orchestration": "hybrid",
+    "capabilities": {
+      "interpretation": [
+        "augment"
+      ],
+      "retrieval": [],
+      "analysis": [
+        "gpl_generation"
+      ],
+      "output": [
+        "text_output",
+        "result_integration",
+        "contextualization"
+      ],
+      "governance": [
+        "error_handling",
+        "adaptive_steering"
+      ]
+    },
+    "inputModes": [
+      "single_input",
+      "step_wise"
+    ],
+    "datasets": [
+      "FeTaQA",
+      "QTSumm"
+    ]
+  },
+  {
+    "citekey": "lu_tart_2025",
+    "name": "TART",
+    "dataSetting": "single_table",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [
+        "augment",
+        "scope"
+      ],
+      "retrieval": [],
+      "analysis": [
+        "gpl_generation",
+        "data_preparation"
+      ],
+      "output": [
+        "text_output",
+        "contextualization"
+      ],
+      "governance": [
+        "error_handling"
+      ]
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "FinQA",
+      "HiTab",
+      "HybridQA",
+      "PubHealthTab",
+      "SciTAB",
+      "TAT-QA",
+      "TOOLTAB",
+      "TabFact",
+      "TabMWP",
+      "WikiTableQuestion"
+    ]
+  },
+  {
+    "citekey": "zhu_automated_2025",
+    "name": "TiInsight",
+    "dataSetting": "open_corpus",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [
+        "decompose",
+        "augment",
+        "contextualize"
+      ],
+      "retrieval": [
+        "table_and_input_representations",
+        "retrieval_granularity",
+        "semantic_and_structural_alignment"
+      ],
+      "analysis": [
+        "dsl_generation"
+      ],
+      "output": [
+        "table_output",
+        "visualization_output",
+        "modality_selection"
+      ],
+      "governance": [
+        "error_handling",
+        "result_validation"
+      ]
+    },
+    "inputModes": [
+      "single_input",
+      "output_driven"
+    ],
+    "datasets": [
+      "Bird",
+      "Financial",
+      "Spider"
+    ]
+  },
+  {
+    "citekey": "gemmell_toolwriter_2023",
+    "name": "ToolWriter",
+    "dataSetting": "single_table",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [
+        "scope"
+      ],
+      "retrieval": [],
+      "analysis": [
+        "tool_calling",
+        "direct_inference"
+      ],
+      "output": [
+        "text_output"
+      ],
+      "governance": [
+        "error_handling"
+      ]
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "SQUALL",
+      "WikiSQL",
+      "WikiTableQuestions",
+      "WikiTableQuestions-Filter"
+    ]
+  },
+  {
+    "citekey": "wu_ucssql_2025",
+    "name": "UCS-SQL",
+    "dataSetting": "bounded_set",
+    "orchestration": "fixed",
+    "capabilities": {
+      "interpretation": [
+        "augment",
+        "contextualize"
+      ],
+      "retrieval": [
+        "retrieval_granularity",
+        "semantic_and_structural_alignment"
+      ],
+      "analysis": [
+        "dsl_generation"
+      ],
+      "output": [
+        "table_output"
+      ],
+      "governance": []
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "BIRD",
+      "Spider"
+    ]
+  },
+  {
+    "citekey": "khoja_weaver_2025",
+    "name": "Weaver",
+    "dataSetting": "single_table",
+    "orchestration": "plan_based",
+    "capabilities": {
+      "interpretation": [
+        "scope",
+        "decompose",
+        "augment"
+      ],
+      "retrieval": [],
+      "analysis": [
+        "dsl_generation",
+        "direct_inference",
+        "data_preparation"
+      ],
+      "output": [
+        "text_output"
+      ],
+      "governance": [
+        "adaptive_steering",
+        "error_handling"
+      ]
+    },
+    "inputModes": [
+      "single_input"
+    ],
+    "datasets": [
+      "BIRD",
+      "FinQA",
+      "FinQAMM",
+      "MMTabQAMM",
+      "OTT-QAMM",
+      "TabFact",
+      "WikiTQ"
+    ]
+  }
+]

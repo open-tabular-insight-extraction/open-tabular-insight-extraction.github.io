@@ -1,0 +1,113 @@
+{
+  "layout": "grouped-rows",
+  "columns": ["Validation function", "Benchmarks"],
+  "groups": [
+    {
+      "label": "Output-level",
+      "blocks": [
+        {
+          "description": "**Exact matching** matches the output, or sub-output $\\mathrm{out}_j(r)$, against a reference output $\\mathrm{out}^*$ under an equivalence function $\\mathbf{1}[\\cdot]$.",
+          "rows": [
+            {
+              "formula": "$v(r) = \\mathbf{1}[\\mathrm{out}(r) = \\mathrm{out}^*]$",
+              "benchmarks": [
+                { "citekey": "yu_spider_2018" }, { "citekey": "chen_open_2020" }, { "citekey": "herzig_open_2021" },
+                { "citekey": "kweon_openwikitable_2023" }, { "citekey": "li_can_2024" }, { "citekey": "zheng_archer_2024" },
+                { "citekey": "lei_Spider20_2025" }, { "citekey": "huang_dacode_2024" }, { "citekey": "zou_rag_2025" }, { "citekey": "dengTACOBenchmarkOpenDomain" },
+                { "citekey": "ji_topbench_2026" }, { "citekey": "lai_kramabench_2026" }
+              ]
+            },
+            {
+              "formula": "$v(r) = \\mathbf{1}[\\mathrm{out}_j(r) = \\mathrm{out}_j^*\\ \\forall\\ j \\in 1, \\dots, n]$",
+              "benchmarks": [{ "citekey": "hu_infiagentdabench_2024" }]
+            }
+          ]
+        },
+        {
+          "description": "**Similarity matching** measures the similarity of the output and a reference with a similarity measure $\\mathrm{sim}$.",
+          "rows": [
+            {
+              "formula": "$v(r) = \\mathrm{sim}(\\mathrm{out}(r), \\mathrm{out}^*)$",
+              "benchmarks": [
+                { "citekey": "nan_fetaqa_2022" }, { "citekey": "yin_natural_2023" }, { "citekey": "wu_tablebench_2025" },
+                { "citekey": "lai_kramabench_2026" }, { "citekey": "ji_topbench_2026" }, { "citekey": "sawarni_causalreasoningbenchmark_2026" },
+                { "citekey": "herzig_open_2021" }, { "citekey": "chen_open_2020" }, { "citekey": "zou_rag_2025" }
+              ]
+            },
+            {
+              "formula": "$v(r) = \\max\\big(\\mathbf{1}[\\mathrm{out}(r) = \\mathrm{out}^*], \\mathrm{sim}(\\mathrm{out}(r), \\mathrm{out}^*)\\big)$",
+              "benchmarks": [{ "citekey": "egg_dabstep_2025" }]
+            }
+          ]
+        },
+        {
+          "description": "**LLM-as-judge** prompts a language model to score the output against the reference following instructions $\\mathrm{instr}$ or a set of criteria $C$.",
+          "rows": [
+            {
+              "formula": "$v(r) = LLM(\\mathrm{out}(r), \\mathrm{out}^*, \\mathrm{instr})$",
+              "benchmarks": [{ "citekey": "xu_dagent_2025" }, { "citekey": "duttaConDABenchInteractiveEvaluation2025" }, { "citekey": "ji_topbench_2026" }]
+            },
+            {
+              "formula": "$v(r) = \\frac{1}{|C|}\\sum_{c \\in C} LLM(c, \\mathrm{out}(r))$",
+              "benchmarks": [{ "citekey": "seo_mtraig_2025" }, { "citekey": "lei_dacomp_2025" }]
+            }
+          ]
+        },
+        {
+          "description": "**Programmatic validation** checks the output against a set of per-instance programmatic test cases $\\mathrm{tests}$.",
+          "rows": [
+            {
+              "formula": "$v(r) = \\mathbf{1}[\\mathrm{check}(\\mathrm{out}(r), \\tau)\\ \\forall\\ \\tau \\in \\mathrm{tests}]$",
+              "benchmarks": [{ "citekey": "lei_Spider20_2025" }, { "citekey": "wu_tablebench_2025" }]
+            }
+          ]
+        },
+        {
+          "description": "**Human evaluation** asks annotators to judge the output against a set of criteria $C$.",
+          "rows": [
+            {
+              "formula": "$v(r) = \\frac{1}{|C|} \\sum_{c \\in C} \\mathrm{human}(\\mathrm{out}(r), c)$",
+              "benchmarks": [{ "citekey": "nan_fetaqa_2022" }]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Realization-level",
+      "blocks": [
+        {
+          "description": "**Program comparison** compares the code $p(\\cdot)$ of the realization with that of a reference realization.",
+          "rows": [
+            {
+              "formula": "$v(r) = \\mathrm{sim}(p(r), p(r^*))$",
+              "benchmarks": "none among the benchmarks in this table"
+            }
+          ]
+        },
+        {
+          "description": "**Structural matching** compares the operations of the realization $r=(O,E,\\beta)$ and their composition against a reference realization $r^* = (O^*, E^*, \\beta^*)$ directly.",
+          "rows": [
+            {
+              "formula": "$v(r) = \\frac{1}{|O^*|} \\sum_{o \\in O}\\mathbf{1}[o \\in O^*]$",
+              "benchmarks": [{ "citekey": "yu_spider_2018" }, { "citekey": "gu_blade_2024" }]
+            }
+          ]
+        },
+        {
+          "description": "**Component validation** checks the realization against a set of per-instance criteria $C$.",
+          "rows": [
+            {
+              "formula": "$v(r) = \\frac{1}{|C|}\\sum_{c \\in C}\\mathrm{check}(r, c)$",
+              "benchmarks": [{ "citekey": "gu_blade_2024" }, { "citekey": "lai_kramabench_2026" }]
+            },
+            {
+              "formula": "$v(r) = \\mathbf{1}[\\mathrm{check}(r, c)\\ \\forall\\ c \\in C]$",
+              "benchmarks": [{ "citekey": "sawarni_causalreasoningbenchmark_2026" }]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,120 @@
+---
+// Rotated row-group layout, used only by the validation-functions taxonomy: a sidebar
+// label ("Output-level" / "Realization-level") spans a whole group, and within each group
+// a highlighted description row introduces one or more formula/benchmarks rows.
+import type { GroupedRowsTableData } from '../../lib/paper-tables';
+import { renderMathText } from '../../lib/paper-table-render';
+import Citation from '../Citation.astro';
+import { getCitation } from '../../lib/citations';
+
+interface Props {
+  data: GroupedRowsTableData;
+}
+
+const { data } = Astro.props;
+---
+
+<div class="pt-grp-wrap">
+  <table class="pt-grp">
+    <thead>
+      <tr>
+        <th class="pt-grp__axis-col" aria-hidden="true"></th>
+        <th>{data.columns[0]}</th>
+        <th>{data.columns[1]}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {data.groups.flatMap((group) => {
+        const rowCount = group.blocks.reduce((n, b) => n + 1 + b.rows.length, 0);
+        return group.blocks.map((block, blockIndex) => (
+          <>
+            <tr class="pt-grp__desc">
+              {blockIndex === 0 && (
+                <td class="pt-grp__axis-col" rowspan={rowCount}>
+                  <span class="pt-grp__axis-label">{group.label}</span>
+                </td>
+              )}
+              <td colspan={2} set:html={renderMathText(block.description)} />
+            </tr>
+            {block.rows.map((row) => (
+              <tr>
+                <td class="pt-grp__formula" set:html={renderMathText(row.formula)} />
+                <td class="pt-grp__benchmarks">
+                  {typeof row.benchmarks === 'string' ? (
+                    row.benchmarks
+                  ) : (
+                    row.benchmarks.map((b, i) => (
+                      <>
+                        {i > 0 && ', '}
+                        <Citation cite={b.citekey} label={`(${getCitation(b.citekey).year})`} />
+                      </>
+                    ))
+                  )}
+                </td>
+              </tr>
+            ))}
+          </>
+        ));
+      })}
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .pt-grp-wrap {
+    overflow-x: auto;
+  }
+
+  .pt-grp {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.83rem;
+  }
+
+  .pt-grp th,
+  .pt-grp td {
+    padding: 0.45rem 0.6rem;
+    border-bottom: 1px solid var(--color-hairline);
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .pt-grp thead th {
+    font-family: var(--font-heading);
+    font-size: 0.78rem;
+    font-weight: 600;
+    border-bottom: 2px solid var(--color-hairline);
+  }
+
+  .pt-grp__axis-col {
+    width: 1.6rem;
+    background: var(--color-paper);
+    border-right: 1px solid var(--color-hairline);
+  }
+
+  .pt-grp__axis-label {
+    display: block;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    text-align: center;
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-size: 0.78rem;
+    color: color-mix(in srgb, var(--color-ink) 70%, transparent);
+    white-space: nowrap;
+  }
+
+  .pt-grp__desc td {
+    background: color-mix(in srgb, var(--color-ink) 5%, white);
+    font-size: 0.83rem;
+  }
+
+  .pt-grp__formula {
+    white-space: nowrap;
+  }
+
+  .pt-grp__benchmarks {
+    font-size: 0.78rem;
+    color: color-mix(in srgb, var(--color-ink) 80%, transparent);
+  }
+</style>

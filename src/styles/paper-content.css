@@ -1,0 +1,132 @@
+/*
+  Styling for rendered paper section content (headings, prose, footnotes). Shared,
+  plain (non-scoped) stylesheet rather than an Astro <style> block because full-paper/
+  [slug].astro renders each section on its own page and this keeps them all consistent
+  without duplicating the rules per page.
+
+  Selectors target .paper-section content directly (not :global(...)) since this file
+  is loaded as a real global stylesheet, not scoped through an Astro component.
+*/
+
+.paper-section {
+  margin-bottom: 4rem;
+}
+
+.paper-section__title {
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.25;
+  margin: 0 0 2rem 0;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--color-hairline);
+  scroll-margin-top: var(--nav-height, 4rem);
+}
+
+.paper-section h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.25;
+  margin-top: 3rem;
+  margin-bottom: 1.5rem;
+  scroll-margin-top: var(--nav-height, 4rem);
+}
+
+.paper-section h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.3;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  scroll-margin-top: var(--nav-height, 4rem);
+}
+
+.paper-section h4 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  line-height: 1.35;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  scroll-margin-top: var(--nav-height, 4rem);
+}
+
+/* Headings deeper than the numbered X.Y.Z hierarchy (see MAX_HEADING_LEVEL in
+   paper-numbering.ts) render as run-in bold paragraph labels rather than full section
+   headings — no number, no large type, no nav entry. */
+.paper-section .heading-runin {
+  display: block;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.8;
+  margin-top: 1.5rem;
+  margin-bottom: 0;
+}
+
+.paper-section .heading-number,
+.paper-section__title .heading-number {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  color: var(--color-accent);
+  font-variant-numeric: tabular-nums;
+  margin-right: 0.15em;
+}
+
+.paper-section p {
+  line-height: 1.8;
+  margin-bottom: 1rem;
+}
+
+.paper-section ul,
+.paper-section ol {
+  margin-bottom: 1rem;
+  margin-left: 1.5rem;
+  line-height: 1.8;
+}
+
+.paper-section li {
+  margin-bottom: 0.5rem;
+}
+
+.paper-section blockquote {
+  margin: 1.5rem 0;
+  padding-left: 1rem;
+  border-left: 2px solid var(--color-accent-mid);
+  color: color-mix(in srgb, var(--color-ink) 70%, transparent);
+}
+
+.paper-section a[data-footnote-ref] {
+  font-family: var(--font-mono);
+  font-size: 0.75em;
+  color: var(--color-accent);
+  text-decoration: none;
+  padding: 0 0.1em;
+}
+
+.paper-section a[data-footnote-ref]:hover,
+.paper-section a[data-footnote-ref]:focus-visible {
+  text-decoration: underline;
+}
+
+.paper-section section[data-footnotes] {
+  margin-top: 2.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--color-hairline);
+}
+
+.paper-section section[data-footnotes] ol {
+  margin: 0;
+  padding-left: 1.4rem;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: color-mix(in srgb, var(--color-ink) 80%, transparent);
+}
+
+.paper-section section[data-footnotes] li {
+  margin-bottom: 0.5rem;
+}
+
+.paper-section a[data-footnote-backref] {
+  margin-left: 0.35em;
+  color: var(--color-accent);
+  text-decoration: none;
+}

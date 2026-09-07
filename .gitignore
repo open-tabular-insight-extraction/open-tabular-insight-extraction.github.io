@@ -1,0 +1,30 @@
+# Source-of-truth docs and paper (maintainer-only, never committed)
+.local
+
+# Claude files
+CLAUDE.md
+
+# Build output
+dist/
+.astro/
+
+# Dependencies
+node_modules/
+
+# Environment
+.env
+.env.production
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor / OS
+.idea/
+.vscode/
+.DS_Store
+
+# Demo sites
+src/pages/demo

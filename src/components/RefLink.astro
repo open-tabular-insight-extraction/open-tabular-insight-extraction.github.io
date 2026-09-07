@@ -1,0 +1,51 @@
+---
+// Shared rendering for PaperRef.astro (title lookup) and Ref.astro (label
+// lookup) — both resolve to the same RefEntry shape, only the lookup differs.
+//
+// full-paper/[slug].astro renders only one section's MDX body per page, so a
+// same-page fragment link only works when the ref's target lives on the
+// section currently being rendered — [slug].astro records that in
+// Astro.locals.currentSectionSlug before rendering the section's <Component/>
+// (Astro.locals is shared across the whole render tree of a page, so this
+// component sees it even though Ref/PaperRef are invoked from deep inside the
+// MDX body). A ref to another section instead links to that section's own
+// page, with the anchor as a fragment.
+//
+// Pages outside full-paper (e.g. concepts/index.astro, methods-benchmarks/index.astro)
+// never set currentSectionSlug, so it's always undefined there — the same-page fragment
+// must only be used when we've positively confirmed the ref sits on the very section page
+// being rendered (currentSectionSlug === entry.sectionSlug), never as a fallback for "we
+// don't know", which would otherwise misfire as a same-page fragment for every Ref used
+// outside full-paper (the anchor it points to isn't on that page at all).
+import type { RefEntry } from '../lib/paper-structure';
+
+interface Props {
+  entry: RefEntry;
+  text: string;
+}
+
+const { entry, text } = Astro.props;
+
+const currentSectionSlug = Astro.locals.currentSectionSlug as string | undefined;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const href =
+  currentSectionSlug === entry.sectionSlug
+    ? `#${entry.anchor}`
+    : `${base}/full-paper/${entry.sectionSlug}/#${entry.anchor}`;
+---
+
+<a class="paper-ref" href={href} title={entry.title}>{text}</a>
+
+<style>
+  .paper-ref {
+    color: var(--color-accent);
+    text-decoration: none;
+    border-bottom: 1px solid var(--color-accent-mid);
+    font-weight: 500;
+  }
+
+  .paper-ref:hover,
+  .paper-ref:focus-visible {
+    background: var(--color-accent-tint);
+  }
+</style>

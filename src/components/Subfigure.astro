@@ -1,0 +1,83 @@
+---
+// A lettered sub-panel of a <Figure>'s custom "figure" slot, laid out inside
+// a <SubfigureRow> — mirrors LaTeX's \begin{subfigure}: its own image and
+// caption, individually referenceable via <Ref name="fig:x:y" /> (resolves
+// to e.g. "1a"), while the parent <Figure> still carries the whole-figure
+// caption and number. Siblings inside the same <Figure> are lettered in
+// document order by paper-structure.ts (a, b, c, …), sharing the parent's
+// number — see the SUBFIGURE_NAME_RE handling there.
+//
+// Sets its own flex-grow from its image's natural width (mirrors Figure.astro's
+// own multi-image proportional sizing) so a <SubfigureRow> renders every
+// sibling at one shared scale, matching the paper's own subfigure width
+// ratios, without the row needing to know each child's size itself.
+//
+// Usage:
+//   <Figure name="fig:stats">
+//     <SubfigureRow slot="figure">
+//       <Subfigure name="fig:stats:papers_by_year" src="figures/plots/....pdf">
+//         Caption for this subfigure alone.
+//       </Subfigure>
+//       <Subfigure name="fig:stats:insight_types_trend" src="figures/plots/....pdf">
+//         Caption for this subfigure alone.
+//       </Subfigure>
+//     </SubfigureRow>
+//
+//     Overall figure caption.
+//   </Figure>
+import { getPaperLabel } from '../lib/paper-structure';
+import { getFigureAsset } from '../lib/figures';
+
+interface Props {
+  name: string;
+  src: string;
+}
+
+const { name, src } = Astro.props;
+const entry = getPaperLabel(name);
+const image = getFigureAsset(src);
+const letter = entry.number.slice(-1);
+---
+
+<figure class="paper-subfigure" id={entry.anchor} style={`flex-grow: ${image.width}`}>
+  <img
+    class="paper-subfigure__image"
+    src={image.url}
+    width={image.width}
+    height={image.height}
+    alt=""
+    loading="lazy"
+  />
+  <figcaption class="paper-subfigure__caption">
+    <span class="paper-subfigure__label">({letter})</span> <slot />
+  </figcaption>
+</figure>
+
+<style>
+  .paper-subfigure {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex-shrink: 1;
+    flex-basis: 0;
+    min-width: 12rem;
+  }
+
+  .paper-subfigure__image {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .paper-subfigure__caption {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: color-mix(in srgb, var(--color-ink) 75%, transparent);
+  }
+
+  .paper-subfigure__label {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+</style>

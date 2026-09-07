@@ -1,0 +1,15 @@
+{
+  "layout": "grid",
+  "columns": [
+    { "key": "need", "label": "Need" },
+    { "key": "scored_by", "label": "Scored by" },
+    { "key": "s0", "label": "0" },
+    { "key": "s1", "label": "1" },
+    { "key": "s2", "label": "2" }
+  ],
+  "rows": [
+    { "need": "$i_d$", "scored_by": "Data setting", "s0": "Only the relevant tables provided per instance", "s1": "A set of tables provided per instance", "s2": "Open setting" },
+    { "need": "$i_m$", "scored_by": "Insight types covered", "s0": "Shallow descriptive only (lookup, aggregation)", "s1": "At least three insight types covered", "s2": "Any inferential or causal type covered" },
+    { "need": "$i_o$", "scored_by": "Output modalities", "s0": "Single bare modality (value or table)", "s1": "Two modalities or text synthesis", "s2": "Outputs include charts" }
+  ]
+}

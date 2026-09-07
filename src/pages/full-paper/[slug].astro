@@ -1,0 +1,289 @@
+---
+// One section of the paper per page (.local/04_minimal_website.md's "separate pages for
+// each of the sections"). getStaticPaths() is driven entirely by getPaperSections(), the
+// same source of truth the section-by-section nav (PaperNav.svelte) uses, so the two can't
+// drift apart.
+//
+// A single-page "everything stitched together" view (full-paper/index.astro) used to exist
+// alongside this one but was removed as redundant and harder to use — this page's
+// prev/next pager and PaperNav sidebar already cover reading straight through. That's also
+// why this page doesn't need a loading overlay (a single section is a normal-sized page,
+// unlike the ~900KB combined view) or footnote cross-section renumbering (a single section
+// page only ever has one file's footnotes, already correctly numbered from [1] by
+// remark-gfm).
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Chevron from '../../components/Chevron.astro';
+import Citation from '../../components/Citation.astro';
+import PaperRef from '../../components/PaperRef.astro';
+import Label from '../../components/Label.astro';
+import Ref from '../../components/Ref.astro';
+import Figure from '../../components/Figure.astro';
+import Subfigure from '../../components/Subfigure.astro';
+import SubfigureRow from '../../components/SubfigureRow.astro';
+import TableFigure from '../../components/Table.astro';
+import Definition from '../../components/Definition.astro';
+import OrchestrationStrategiesFigure from '../../components/OrchestrationStrategiesFigure.astro';
+import PaperNav from '../../components/PaperNav.svelte';
+import PaperAbstract from '../../components/PaperAbstract.astro';
+import { getPaperSections } from '../../lib/paper-structure';
+import { componentsBySlug } from '../../lib/paper-components';
+import { paperTitle, paperAuthors } from '../../lib/paper-meta';
+import '../../styles/paper-content.css';
+
+export const getStaticPaths: GetStaticPaths = () => {
+  const sections = getPaperSections();
+  return sections.map((section, index) => ({
+    params: { slug: section.slug },
+    props: {
+      section,
+      prev: sections[index - 1] ?? null,
+      next: sections[index + 1] ?? null,
+    },
+  }));
+};
+
+const { section, prev, next } = Astro.props;
+const sections = getPaperSections();
+const Component = componentsBySlug[section.slug];
+
+const mdxComponents = {
+  Citation,
+  PaperRef,
+  Label,
+  Ref,
+  Figure,
+  Subfigure,
+  SubfigureRow,
+  Table: TableFigure,
+  Definition,
+  OrchestrationStrategiesFigure,
+};
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const withBase = (path: string) => `${base}${path}`;
+
+// Read by RefLink.astro to decide whether a cross-reference's target lives on
+// this same page (plain #anchor) or needs a link to another section's page —
+// see the comment there. This page renders exactly one section's MDX body,
+// unlike full-paper/index.astro which renders all of them into one DOM.
+Astro.locals.currentSectionSlug = section.slug;
+---
+
+<BaseLayout title={`${section.appendix ? 'Appendix' : `Section ${section.number}`} — ${section.title} — OpenTî`}>
+  <div class="paper-page">
+    <aside class="paper-sidebar">
+      <PaperNav sections={sections} currentSlug={section.slug} basePath={withBase('/full-paper/')} client:visible />
+    </aside>
+
+    <article class="paper-content">
+      <div class="section-toolbar">
+        <a class="back-link" href={withBase('/')}>
+          <Chevron direction="left" size={14} strokeWidth={2.4} />
+          Back to main page
+        </a>
+      </div>
+
+      <header class="paper-meta-bar">
+        <p class="paper-meta-bar__title">{paperTitle}</p>
+        <p class="paper-meta-bar__authors">
+          {paperAuthors.map((author, i) => (
+            <>
+              {i > 0 && ', '}
+              <a href={author.href}>{author.name}</a>
+            </>
+          ))}
+        </p>
+      </header>
+
+      {!prev && <PaperAbstract />}
+
+      <section class="paper-section">
+        {!section.appendix && (
+          <h1 id={section.slug} class="paper-section__title">
+            <span class="heading-number">{section.number}</span> {section.title}
+          </h1>
+        )}
+        <Component components={mdxComponents} />
+      </section>
+
+      <nav class="section-pager" aria-label="Adjacent sections">
+        {prev ? (
+          <a class="section-pager__link section-pager__link--prev" href={withBase(`/full-paper/${prev.slug}/`)}>
+            <Chevron direction="left" size={16} strokeWidth={2.4} />
+            <span>
+              <span class="section-pager__kicker">Previous</span>
+              <span class="section-pager__title">{prev.title}</span>
+            </span>
+          </a>
+        ) : <span />}
+        {next ? (
+          <a class="section-pager__link section-pager__link--next" href={withBase(`/full-paper/${next.slug}/`)}>
+            <span>
+              <span class="section-pager__kicker">Next</span>
+              <span class="section-pager__title">{next.title}</span>
+            </span>
+            <Chevron direction="right" size={16} strokeWidth={2.4} />
+          </a>
+        ) : <span />}
+      </nav>
+    </article>
+  </div>
+</BaseLayout>
+
+<style>
+  .paper-page {
+    display: grid;
+    grid-template-columns: 18rem 1fr;
+    gap: 2rem;
+    max-width: 96rem;
+    margin-inline: auto;
+    padding: 2rem 1.5rem;
+    align-items: start;
+  }
+
+  @media (max-width: 1024px) {
+    .paper-page {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+  }
+
+  .paper-sidebar {
+    position: sticky;
+    top: var(--nav-height, 4rem);
+    height: calc(100vh - var(--nav-height, 4rem));
+    overflow-y: auto;
+    padding-right: 0.5rem;
+  }
+
+  @media (max-width: 1024px) {
+    .paper-sidebar {
+      position: static;
+      height: auto;
+    }
+  }
+
+  .paper-content {
+    min-width: 0;
+  }
+
+  .section-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+
+  .back-link:hover,
+  .back-link:focus-visible {
+    text-decoration: underline;
+  }
+
+  .paper-meta-bar {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    margin-bottom: 3rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid var(--color-hairline);
+  }
+
+  .paper-meta-bar__title {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-weight: 500;
+    font-size: 1rem;
+    color: var(--color-ink);
+  }
+
+  .paper-meta-bar__authors {
+    margin: 0;
+    font-size: 0.85rem;
+    color: color-mix(in srgb, var(--color-ink) 65%, transparent);
+  }
+
+  .paper-meta-bar__authors a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: var(--color-hairline);
+  }
+
+  .paper-meta-bar__authors a:hover,
+  .paper-meta-bar__authors a:focus-visible {
+    color: var(--color-accent);
+    text-decoration-color: currentColor;
+  }
+
+  .section-pager {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 3.5rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid var(--color-hairline);
+  }
+
+  .section-pager__link {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--color-hairline);
+    border-radius: 0.4rem;
+    color: var(--color-ink);
+    text-decoration: none;
+    transition: border-color 160ms ease, background-color 160ms ease;
+  }
+
+  .section-pager__link:hover,
+  .section-pager__link:focus-visible {
+    border-color: var(--color-accent-mid);
+    background: var(--color-accent-tint);
+  }
+
+  .section-pager__link--next {
+    grid-column: 2;
+    justify-content: flex-end;
+    text-align: right;
+  }
+
+  .section-pager__kicker {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--color-ink) 55%, transparent);
+  }
+
+  .section-pager__title {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    margin-top: 0.15rem;
+  }
+
+  @media (max-width: 32rem) {
+    .section-pager {
+      grid-template-columns: 1fr;
+    }
+
+    .section-pager__link--next {
+      grid-column: 1;
+    }
+  }
+</style>

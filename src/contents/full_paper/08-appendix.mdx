@@ -1,0 +1,157 @@
+---
+title: "Appendix"
+order: 8
+slug: "appendix"
+description: "Related works, details on survey methodology and input classification."
+---
+
+
+
+## Overview of Notation
+
+<Label name="s:appendix:notation"/>
+
+<Table name="tab:notation" src="tables/AA_notation_overview">
+
+Overview of notation introduced in Sections <Ref name="sec:problem"/>, <Ref name="sec:orchestration"/>, and <Ref name="sec:eval"/>.
+
+</Table>
+
+## Comparison with Related Work
+
+<Label name="s:appendix:related_work"/>
+
+Several existing works survey and systematize areas related to OpenTI, yet each addresses only a part of its problem space from within the conventions of particular research communities. A larger group of works exists that systematize systems that perform complex tasks over unseen information without targeting tabular data, spanning open-domain question answering <Citation cite="zhang_survey_2023" />, retrieval augmented generation <Citation cite="zhao_retrieval_2024" />, and LLM-agents <Citation cite="kapoor_ai_2024" /> <Citation cite="sumers_cognitive_2024" />. More closely related, other works target tabular data but organize contributions under the labels of the communities they originate from, such as text-to-SQL <Citation cite="liu_survey_2025" />, table question answering <Citation cite="zhou_table_2026" />, the application of LLMs to tabular tasks <Citation cite="fang_large_2024" /> <Citation cite="lu_large_2025" />, and agents for data science and data analysis <Citation cite="chen_large_2025" /> <Citation cite="tang_llm_2025" /> <Citation cite="tian_realworld_2026" />. Table <Ref name="tab:survey_comparison"/> compares these works against the dimensions foregrounded in our framing of OpenTI, namely the coverage of the end-to-end scope, the treatment of an open setting in which the corpus is unknown when the need is expressed, an insight-centered rather than answer-centered framing, a formal definition of the problem, and the treatment of user-facing concerns.
+
+<Table name="tab:survey_comparison" src="tables/AA_related_surveys">
+
+Comparison of this paper with other works that survey related areas. $-$ indicates aspects that are not addressed, $\circ$ ones that are partially addressed or acknowledged for future work, and $\bullet$ signifies that the work foregrounds the aspect as a central part of its contribution. For the end-to-end scope coverage, we indicate the explicit treatment of parts of the end-to-end scope using the abbreviations UI for *User Interaction*, R for *Table Retrieval*, DI for *Data Integration*, DA for *Data Analysis*, and O for *Output Presentation*.
+
+</Table>
+
+Compared to this paper, these works cover only part of the path from an expressed need to a presented insight, mostly the analysis, while assuming that the relevant tables are supplied rather than discovered from an unknown corpus. The setting they address is thus a closed one, and where openness appears it does so as one task dimension among many rather than the premise of the problem <Citation cite="zhou_table_2026" /> <Citation cite="tang_llm_2025" />. None of these works takes an insight-centered perspective, treating the tabular tasks as targeting surface-level answer correctness, not as the search for the insights that serve the user. Formalization, where offered, stays confined to isolated subtasks such as translating a question into SQL <Citation cite="liu_survey_2025" />, and the user-facing side of the problem, from interaction to personalization and interpretability, is raised as an open challenge more than it is developed <Citation cite="lu_large_2025" /> <Citation cite="tian_realworld_2026" />. Instead, our framing of OpenTI treats these dimensions as one problem, spanning the full path, taking the open setting and the insight need as its starting point, grounding both in a formal definition, and placing user-facing concerns as a central aspect.
+
+## Literature Review Protocol
+
+<Label name="s:appendix:review_method"/>
+
+We collect the works that provide the evidence base for this paper following a structured, multi-stage protocol organized into identification, screening, and selection stages, inspired by the PRISMA guidelines for reporting systematic reviews <Citation cite="page_prisma_2021" />. We start with a broad keyword search over a curated set of venues (Section <Ref name="s:appendix:review_method:identification"/>) and proceed through manual screening against inclusion criteria (Section <Ref name="s:appendix:review_method:screening"/>), yielding a set of relevant works that informs this paper throughout. From this set we extract the systems and benchmarks that we analyze in Sections <Ref name="sec:orchestration"/> and <Ref name="sec:eval"/> (Section <Ref name="s:appendix:review_method:overview"/>). The sets obtained through this protocol further provide the basis for the analysis of benchmark inputs in Appendix <Ref name="s:appendix:input_classification"/> and for the analysis of citation behavior in Appendix <Ref name="s:appendix:citation_analysis"/>. Figure <Ref name="fig:survey_flow"/> summarizes the resulting funnel.
+
+<Figure name="fig:survey_flow" src="figures/tikz/AA_survey_flow.pdf">
+
+Overview of the literature review funnel. A keyword search over 18 venues yields 399 distinct works after deduplication, which relevance screening reduces to a core set of 160 works. From this set, extended through backward and forward snowballing, we extract the works surveyed in Sections <Ref name="sec:orchestration"/> and <Ref name="sec:eval"/> and apply the overview-table criteria that select the 29 systems in Table <Ref name="tab:functional_capabilities_overview"/> and the 23 benchmarks in Table <Ref name="tab:datasets"/>.
+
+</Figure>
+
+### Identification
+
+<Label name="s:appendix:review_method:identification"/>
+
+We consider works published between 2021 and May 2026 at the venues most relevant to OpenTI across machine learning, information retrieval, human-computer interaction, database research, and natural language processing. We begin in 2021, the point from which work relevant to OpenTI accelerates markedly (Figure <Ref name="fig:stats:papers_by_year"/>). The venue set is not exhaustive but deliberately targets the leading venues of the communities we identify in Section <Ref name="sec:introduction"/> as contributing towards OpenTI, selecting the top venues of each to capture the most influential and representative work. To these we add the TRL workshops, which sit precisely at the intersection of tabular data and machine learning that OpenTI occupies and thereby concentrate directly relevant work that the general-purpose venues disperse. The search spans the following 18 venues.
+
+- **Machine Learning.** NeurIPS, ICML, ICLR, JMLR, TMLR
+- **Information Retrieval.** SIGIR, ECIR
+- **Human-Computer Interaction.** CHI, UIST
+- **Database Research.** VLDB, SIGMOD, EDBT
+- **Natural Language Processing.** ACL, EMNLP, NAACL, EACL
+- **Tabular.** TRL Workshop@NeurIPS/ACL, AI for Tabular Data Workshop@EurIPS
+
+We extract the titles and abstracts of all papers published at these venues and organize them in a database. We then run seven keyword searches with diverse queries, mirroring the fragmentation of vocabulary across these communities. The queries target different labels under which communities frame facets of OpenTI, spanning data analysis agents, table understanding and reasoning, table retrieval, table question answering, and text-to-SQL. Table <Ref name="tab:survey_search_terms"/> reports the queries together with the number of matches each returns and the number of works from it judged relevant during the screening described below. Deduplicating the matches across queries yields a pool of 399 distinct works that enters screening.
+
+<Table name="tab:survey_search_terms" src="tables/AA_survey_search_terms">
+
+Keyword queries run over the titles and abstracts, with the number of matches returned and, of these, the number of works judged relevant to the survey during screening (Section <Ref name="s:appendix:review_method:screening"/>).
+
+</Table>
+
+### Screening and Selection
+
+<Label name="s:appendix:review_method:screening"/>
+
+We screen the pool of 399 works by assessing each title and abstract for relevance to the subject of the survey. We retain a work if it informs the treatment of OpenTI, which we operationalize through three criteria. A work qualifies if it (1) describes systems, components of systems, or assessments of systems that fall within the end-to-end scope of OpenTI, (2) proposes a benchmark or evaluation that targets directed insight needs over tabular data such as table question answering, text-to-SQL, or data analysis, or (3) concerns user-system interaction relevant to OpenTI. We further retain works that contribute neither a system nor a benchmark but that inform the conceptual treatment of the subject. Deduplicating the relevant works across queries yields a core set of 160 works, which provide the backbone of the literature review and inform its writing throughout.
+
+From this core set we isolate the works that receive detailed treatment in the separate surveys of systems and benchmarks, extracting the works that propose systems spanning the functional capabilities of OpenTI agents and the works that propose benchmarks targeting directed insight needs over tabular data. We extend each of these two sets separately through targeted backward and forward snowballing, adding works with substantial contributions that fall outside the venues, date range, or queries defined above. This adds 8 works to the systems and 13 to the benchmarks, yielding 58 works covering methods and 42 works covering benchmarks that form the basis for the surveys in Sections <Ref name="sec:orchestration"/> and <Ref name="sec:eval"/> respectively.
+
+### Selection for the Overview Tables
+
+<Label name="s:appendix:review_method:overview"/>
+
+From these works we select a subset for detailed presentation in the overview tables of Section <Ref name="sec:orchestration"/> (Table <Ref name="tab:functional_capabilities_overview"/>) and Section <Ref name="sec:eval"/> (Table <Ref name="tab:datasets"/>), applying criteria aimed at presenting the most relevant works concerning the scope of OpenTI.
+
+For methods, we analyze each system along the five functional capabilities established in Section <Ref name="sec:orchestration"/> and score its coverage of each as fully, partially, or not covered. We include a system if it covers at least three capabilities fully or four at least partially, selecting systems covering a significant extent of the scope of OpenTI. We further require that a system produces some output beyond raw results or code, so that it exercises at least partial freedom in contextualizing and presenting the analytical knowledge it derives. This yields the 29 systems presented in Table <Ref name="tab:functional_capabilities_overview"/>.
+
+For benchmarks, we first exclude non-English datasets, which we cannot fairly assess against English-language ones. We then score the remaining datasets on the degree to which they cover the data need $i_d$, the methodological need $i_m$, and the output need $i_o$, assigning each component a score from 0 to 2 following the rubric in Table <Ref name="tab:benchmark_scoring"/>. We include datasets with a total score of at least 3, ensuring that the presented datasets cover substantial parts of the scope of insight needs, which yields 18 datasets. We supplement these with five datasets that fall below the threshold but are widely used and highly cited, whose inclusion readers would likely expect as points of reference, namely Spider <Citation cite="yu_spider_2018" />, BIRD <Citation cite="li_can_2024" />, OTT-QA <Citation cite="chen_open_2020" />, NQ-Tables <Citation cite="herzig_open_2021" />, and FeTaQA <Citation cite="nan_fetaqa_2022" />. This results in the 23 benchmarks presented in Table <Ref name="tab:datasets"/>.
+
+<Table name="tab:benchmark_scoring" src="tables/AA_benchmark_scoring_rubric">
+
+Rubrics for scoring the degree to which benchmarks cover data need $i_d$, methodological need $i_m$, and output need $i_o$. Insight types are counted following the taxonomy in Section <Ref name="sec:problem:spectrum"/>. A dataset is presented in Table <Ref name="tab:datasets"/> if its scores sum to at least 3.
+
+</Table>
+
+### Limitations
+
+<Label name="s:appendix:review_method:limitations"/>
+
+The results and discussion presented in this paper have to be read as claims about the surveyed works, which are limited in scope by the review methodology. The identification stage covers 18 peer-reviewed venues, so works published solely on preprint servers or at venues outside this set enter the review only through snowballing, which may underrepresent the most recent developments in this fast-moving space. Additionally, commercial and organizational systems are excluded, since their internals are not documented in a form that can be assessed against our framework, although several deployed products plausibly attempt parts of OpenTI. Our protocol departs from full PRISMA compliance. Notably, neither the search nor the inclusion criteria were registered ahead of time, so the criteria in Sections <Ref name="s:appendix:review_method:screening"/> and <Ref name="s:appendix:review_method:overview"/> were refined alongside our developing understanding of OpenTI rather than fixed in advance, reflecting that OpenTI is currently emerging from research.
+
+## Input Classification Methodology
+
+<Label name="s:appendix:input_classification"/>
+
+The analysis of data privilege and insufficient specification reported in Section <Ref name="sec:eval:input:analysis"/> (Figure <Ref name="fig:datasets:ambiguity_privilege"/>) adopts the LLM-judge setup of Gomm et al. <Citation cite="gomm_are_2025" label="(2025)" /> unchanged, applying their classifiers to the benchmarks in Table <Ref name="tab:datasets"/>. We classify the 18 benchmarks whose inputs are self-contained natural language utterances for single-input interaction, excluding five benchmarks for which this does not hold. TACO <Citation cite="dengTACOBenchmarkOpenDomain" /> and DA-Dataset <Citation cite="xu_dagent_2025" /> are excluded because their inputs are not available to us, ARCADE <Citation cite="yin_natural_2023" /> and ConDABench <Citation cite="duttaConDABenchInteractiveEvaluation2025" /> because their step-wise inputs are incompatible with the LLM-judge setup, and similarly BLADE <Citation cite="gu_blade_2024" /> because its inputs follow a multiple-choice format over code rather than a natural language expression of an insight need. For each remaining benchmark we randomly sample 500 input definitions, or all inputs for benchmarks with fewer instances, and classify each sampled input individually. The full prompts and implementation are available in the repository accompanying Gomm et al. <Citation cite="gomm_are_2025" label="(2025)" />.
+
+Data privilege is assessed along three dimensions: references to structural elements such as column headers, references to non-public values specific to the underlying data, and references to data containers such as files or tables. To stabilize the classification, we apply self-consistency, classifying each input five times and assigning the final label by majority vote requiring at least three identical votes. An input counts as data privileged if at least one dimension is flagged, where for value references both the explicit and the obscure label count as a flag. For this classification we employ `gpt-5-mini-2025-08-07`, following the original setup by Gomm et al. <Citation cite="gomm_are_2025" label="(2025)" />.
+
+Sufficient specification is assessed by two classifiers covering the five specification dimensions of Gomm et al. <Citation cite="gomm_are_2025" label="(2025)" />, with data specification comprising entity, temporal, and domain specification and procedural specification comprising intent and methodological specification. The per-dimension labels are aggregated into boolean flags following their criteria, under which temporal specification also admits underspecification assuming recency or inapplicability, and domain specification admits underspecification assuming a universal domain. An input is fully specified if all five flags hold and insufficiently specified otherwise. We use `gpt-5-2025-08-07` as an LLM-judge.
+
+The validity of the LLM-judges is thoroughly established by Gomm et al. <Citation cite="gomm_are_2025" label="(2025)" />. To verify that the setup generalizes to our selection of benchmarks, we replicate their annotation study on a stratified sample of 168 annotations over the 18 classified benchmarks, following their validation protocols. For data privilege, a data-science expert independently annotates each sampled input along three dimensions of data privilege (schema, value, and container privilege), and we report the agreement between these annotations and the judge in Table <Ref name="tab:llm_judge_eval:data_privilege"/>. For sufficient specification, we follow the expert-corrected protocol of Gomm et al. <Citation cite="gomm_are_2025" label="(2025)" />, in which the expert corrects the labels emitted by the judge and we report the agreement between the initial and the corrected labels in Table <Ref name="tab:llm_judge_eval:sufficient_specification"/>. Gomm et al. <Citation cite="gomm_are_2025" label="(2025)" /> adopt this correction-based protocol because resolving underlying ambiguities requires broader world knowledge than a single independent annotation pass affords. We report both raw agreement and Cohen's $\kappa$ <Citation cite="cohen_coefficient_1960" />, which corrects for the agreement expected by chance.
+
+<Table name="tab:llm_judge_eval:data_privilege" src="tables/AA_data_privilege_annotation_statistics">
+
+Agreement between the data privilege judge and an independent expert annotation. We report raw agreement (%) and Cohen's $\kappa$.
+
+</Table>
+
+<Table name="tab:llm_judge_eval:sufficient_specification" src="tables/AA_sufficient_specification_annotation_statistics">
+
+Agreement between the sufficient specification classifications and expert-corrected labels. We report raw agreement (%) and Cohen's $\kappa$.
+
+</Table>
+
+In this annotation study, we find a substantial agreement of $\kappa = 0.747$ on the aggregated data privilege judgments and an almost perfect agreement of $\kappa = 0.869$ on the aggregated judgments of sufficient specification, following the scale of Landis and Koch <Citation cite="landis_measurement_1977" label="(1977)" />. The raw agreement scores are in line with those reported by Gomm et al. <Citation cite="gomm_are_2025" label="(2025)" />, indicating that the judges generalize to the benchmarks we assess.
+
+## Citation Analysis
+
+<Label name="s:appendix:citation_analysis"/>
+
+To support the claim that works relevant to OpenTI are organized by the task label under which they frame their contributions instead of the problem they address, and that works converging on similar system designs frequently remain unaware of one another, we analyze how surveyed works cite each other against what label they use to describe the task they target. In this citation analysis we construct a citation graph among the surveyed works, assign each work the task label it uses to frame itself, and measure whether citation is assortative on that label. We analyze the 181 works that we surface in our literature review, including the works identified through forward and backward snowballing.
+
+### Citation Graph Extraction
+
+<Label name="s:appendix:citation_analysis:graph"/>
+
+We extract the reference list of each work from its PDF with grobid <Citation cite="grobid" />, yielding 8,473 references across 180 of the 181 works. We match references against the surveyed works by comparing normalized titles. We apply a hierarchical matching procedure, first matching the full title, then matching only the title preceding any subtitle, and then fuzzy matching with a similarity threshold of $0.85$. Since many titles begin with a short system name, we accept a match on the shortened title only when the first authors of both works match. In total, we identify 959 edges between the papers, of which $96\%$ come from an exact title match.
+
+We additionally employ [Semantic Scholar](https://www.semanticscholar.org/) and [OpenAlex](https://openalex.org/) to compare and complement our extraction, which yield 809 (Semantic Scholar) and 109 (OpenAlex) edges between surveyed papers respectively. We add the 40 edges not extracted through grobid, giving a final citation graph with 999 edges.
+
+### Assigning Task Labels
+
+<Label name="s:appendix:citation_analysis:labels"/>
+
+We assign each work one of three labels, namely *text-to-SQL*, *table question answering*, and *data analysis agents*. These are the three framings under which the surveyed works predominantly present themselves. Works framed around table retrieval are assigned the label of the downstream task they serve, since retrieval is a functional capability rather than a task in the sense of OpenTI (Section <Ref name="sec:orchestration:capabilities:retrieval"/>).
+
+To label how each paper frames the task it addresses we use a multi-step process. First, we automatically assign a label to each paper by extracting how often the label, or a derivation of it, occurs in the title and the abstract of the papers, assigning the label that appears most often, not assigning a label if two labels appear the same number of times or if none appears. We cross-check the assignment by an independent classifier that labels the same titles and abstracts against a written codebook, using LLM-based classification with a majority vote over three samples, using `Qwen3.5-9B` <Citation cite="qwen3.5" /> as LLM. The two procedures agree on $86.2\%$ of the works, corresponding to a substantial agreement of $\kappa = 0.799$. We manually review the 37 works on which they disagree, or for which neither procedure finds a task term, to correct any remaining inconsistencies. This yields 85 table question answering works, 54 text-to-SQL works, and 33 data analysis agent works, while 9 works are not assigned to any task label.
+
+### Analysis
+
+<Label name="s:appendix:citation_analysis:analysis"/>
+
+We measure assortativity over feasible citations as pairs of works $(A, B)$ for which $A$ could have cited $B$, meaning that $B$ is published before or in the same year as $A$. Restricting to these feasible pairs removes the differing sizes of the label groups and the age distribution of the works as confounds, and yields 18,243 pairs. We compare the citation rate within labels against the rate across labels and test the ratio between the two by permuting the labels across works over $10{,}000$ draws.
+
+#### Results
+
+<Label name="s:appendix:citation_analysis:analysis:results"/>
+
+Works cite within their own label in $10.6\%$ of the feasible pairs and across labels in $1.8\%$, a ratio of $6.02$, significant at $p < 0.001$. Looking into the surveyed systems specifically, an increase in the number of functional capabilities shared between two systems raises the citation rate within a label from $5.6\%$ to $18.5\%$ while the rate across labels stays at or below $3.0\%$ (Figure <Ref name="fig:fragmentation:capabilities"/>), so systems converging on similar designs are no more likely to cite each other across a label boundary than systems sharing no capability at all.
+
+ Importantly, the absence of a citation is evidence of non-engagement rather than proof that works are unaware of each other. Nonetheless, these results show that literature engages less rigorously with prior works across task labels than within them. Additionally, around a quarter of the works we label under data analysis agents cite none of the surveyed works at all, so the corresponding row of Figure <Ref name="fig:fragmentation:matrix"/> reflects not just the isolation of that literature but also the reach of our review.

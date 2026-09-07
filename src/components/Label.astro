@@ -1,0 +1,30 @@
+---
+// LaTeX-style cross-reference anchor: <Label name="sec:introduction" /> marks
+// "this point" so a <Ref name="sec:introduction" /> anywhere else in the
+// paper can point back to it, independent of any title text.
+//
+// The actual association happens at build time in paper-structure.ts, which
+// statically scans the raw .mdx source for these tags (name="..." must be a
+// plain string literal, no expressions) and attaches each label to whatever
+// it sits inside or immediately after, in this priority order:
+//   1. the nearest enclosing <Figure>/<Table>/<Definition>, if the label is
+//      nested inside one — e.g.
+//        <Figure title="Orchestration Strategies">
+//          <Label name="fig:orchestration-strategies" />
+//          ...
+//        </Figure>
+//   2. otherwise the nearest preceding heading in the same file — e.g.
+//        ### Orchestration Strategies
+//        <Label name="sec:orchestration-strategies" />
+//   3. otherwise (nothing precedes it yet) the file's own section — e.g. a
+//      <Label/> at the very top of 01-introduction.mdx, before its first
+//      heading, labels "Introduction" (section 1) as a whole.
+//
+// Label names must be unique across the whole paper (build fails on a
+// duplicate, exactly like a LaTeX \label collision would surface at build).
+// Since the association is purely positional and resolved at build time,
+// this component has no runtime footprint — it renders nothing.
+interface Props {
+  name: string;
+}
+---

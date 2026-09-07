@@ -1,0 +1,16 @@
+---
+// Flex row wrapper for <Subfigure> children inside a <Figure>'s "figure"
+// slot — see Subfigure.astro for how each child sizes itself within the row.
+---
+
+<div class="paper-subfigure-row"><slot /></div>
+
+<style>
+  .paper-subfigure-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+</style>

@@ -1,0 +1,14 @@
+{
+  "layout": "grid",
+  "columns": [
+    { "key": "dimension", "label": "Privilege dimension" },
+    { "key": "raw", "label": "Raw", "align": "center" },
+    { "key": "kappa", "label": "$\\kappa$", "align": "center" }
+  ],
+  "rows": [
+    { "dimension": "Schema privilege", "raw": "0.881", "kappa": "0.606" },
+    { "dimension": "Value privilege", "raw": "0.911", "kappa": "0.585" },
+    { "dimension": "Container privilege", "raw": "0.946", "kappa": "0.760" },
+    { "dimension": "**Data privilege (agg.)**", "raw": "0.893", "kappa": "0.747" }
+  ]
+}

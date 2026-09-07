@@ -1,0 +1,16 @@
+{
+  "layout": "grid",
+  "columns": [
+    { "key": "dimension", "label": "Specification dimension" },
+    { "key": "raw", "label": "Raw", "align": "center" },
+    { "key": "kappa", "label": "$\\kappa$", "align": "center" }
+  ],
+  "rows": [
+    { "dimension": "Entities", "raw": "0.924", "kappa": "0.838" },
+    { "dimension": "Temporal", "raw": "0.906", "kappa": "0.786" },
+    { "dimension": "Domain", "raw": "0.953", "kappa": "0.904" },
+    { "dimension": "Intent", "raw": "0.971", "kappa": "0.861" },
+    { "dimension": "Methodology", "raw": "0.929", "kappa": "0.850" },
+    { "dimension": "**Full specification (agg.)**", "raw": "0.953", "kappa": "0.869" }
+  ]
+}

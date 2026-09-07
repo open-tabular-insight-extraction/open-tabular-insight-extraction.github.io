@@ -1,0 +1,1837 @@
+[
+  {
+    "citekey": "katsis_aitqa_2022",
+    "name": "AIT-QA",
+    "corpus": {
+      "numTables": "116",
+      "format": "markup_tables",
+      "provenance": "10-K financial reports of major airline companies",
+      "additionalData": "hierarchical column and row headers,metadata",
+      "assembly": "mixed"
+    },
+    "setting": {
+      "numInstances": "515",
+      "dataSetting": "single_table",
+      "outputModalities": [
+        "value"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "static_single"
+    },
+    "validation": {
+      "functions": [
+        "exact_matching"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "lookup",
+        "requiresArtifact": false
+      }
+    ],
+    "insightTypesAuthoritative": false,
+    "inOverviewTable": false
+  },
+  {
+    "citekey": "yin_natural_2023",
+    "name": "ARCADE",
+    "corpus": {
+      "numTables": "106",
+      "format": "standalone_files",
+      "provenance": "Kaggle, GitHub",
+      "additionalData": "none released alongside the tables; the NL schema descriptions (column names and example cell values) used in prompts are derived from the tables themselves, and the notebook context is part of the input rather than supplementary corpus data",
+      "assembly": "mixed"
+    },
+    "setting": {
+      "numInstances": "1078",
+      "dataSetting": "single_table",
+      "outputModalities": [
+        "value",
+        "table",
+        "list"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "static_multi_turn"
+    },
+    "validation": {
+      "functions": [
+        "similarity_matching"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "lookup",
+        "requiresArtifact": false
+      },
+      {
+        "type": "aggregation",
+        "requiresArtifact": false
+      },
+      {
+        "type": "characterization",
+        "requiresArtifact": false
+      }
+    ],
+    "insightTypesAuthoritative": true,
+    "inOverviewTable": true
+  },
+  {
+    "citekey": "zheng_archer_2024",
+    "name": "Archer",
+    "corpus": {
+      "numTables": "68",
+      "format": "relational_databases",
+      "provenance": "Spider (Yu et al., 2018), 20 of the 166 publicly released databases",
+      "additionalData": "foreign-key relations and column type declarations from the database schema, plus a per-question commonsense knowledge statement for the questions that require commonsense reasoning",
+      "assembly": "synthetic"
+    },
+    "setting": {
+      "numInstances": "1042",
+      "dataSetting": "bounded_set",
+      "outputModalities": [
+        "table",
+        "value"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "static_single"
+    },
+    "validation": {
+      "functions": [
+        "exact_matching",
+        "component_validation"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "lookup",
+        "requiresArtifact": false
+      },
+      {
+        "type": "aggregation",
+        "requiresArtifact": false
+      },
+      {
+        "type": "counterfactual",
+        "requiresArtifact": false
+      }
+    ],
+    "insightTypesAuthoritative": true,
+    "inOverviewTable": true
+  },
+  {
+    "citekey": "chen_beaver_2025",
+    "name": "BEAVER",
+    "corpus": {
+      "numTables": "not_reported",
+      "format": "relational_databases",
+      "provenance": "Oracle data warehouse, MySQL databases",
+      "additionalData": "column names, column types, rows, column mapping annotation",
+      "assembly": "manual"
+    },
+    "setting": {
+      "numInstances": "203",
+      "dataSetting": "bounded_set",
+      "outputModalities": [
+        "table",
+        "value"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "static_single"
+    },
+    "validation": {
+      "functions": [
+        "exact_matching",
+        "structural_matching"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "lookup",
+        "requiresArtifact": false
+      },
+      {
+        "type": "aggregation",
+        "requiresArtifact": false
+      }
+    ],
+    "insightTypesAuthoritative": false,
+    "inOverviewTable": false
+  },
+  {
+    "citekey": "li_can_2024",
+    "name": "BIRD",
+    "corpus": {
+      "numTables": "611",
+      "format": "relational_databases",
+      "provenance": "Kaggle (32%), CTU Prague Relational Learning Repository (48%), open tables assembled and schema-standardized by the authors (20%)",
+      "additionalData": "database description files (CSV) giving full schema names and value descriptions, one expert-annotated external knowledge evidence sentence per question, and the relational schemas with key relations between tables",
+      "assembly": "mixed"
+    },
+    "setting": {
+      "numInstances": "10962",
+      "dataSetting": "bounded_set",
+      "outputModalities": [
+        "table",
+        "value"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "static_single"
+    },
+    "validation": {
+      "functions": [
+        "exact_matching"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "lookup",
+        "requiresArtifact": false
+      },
+      {
+        "type": "aggregation",
+        "requiresArtifact": false
+      }
+    ],
+    "insightTypesAuthoritative": true,
+    "inOverviewTable": true
+  },
+  {
+    "citekey": "huo_birdinteract_2025",
+    "name": "BIRD-INTERACT",
+    "corpus": {
+      "numTables": "not_reported",
+      "format": "relational_databases",
+      "provenance": "LIVESQLBENCH",
+      "additionalData": "hierarchical knowledge base, metadata files, database sandbox",
+      "assembly": "not_reported"
+    },
+    "setting": {
+      "numInstances": "900",
+      "dataSetting": "bounded_set",
+      "outputModalities": [
+        "table",
+        "value"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "user_simulation"
+    },
+    "validation": {
+      "functions": [
+        "exact_matching",
+        "programmatic_validation"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "lookup",
+        "requiresArtifact": false
+      },
+      {
+        "type": "aggregation",
+        "requiresArtifact": false
+      }
+    ],
+    "insightTypesAuthoritative": false,
+    "inOverviewTable": false
+  },
+  {
+    "citekey": "gu_blade_2024",
+    "name": "BLADE",
+    "corpus": {
+      "numTables": "14",
+      "format": "standalone_files",
+      "provenance": "Scientific publications studied in meta-analysis papers, crowd-sourced analysis studies, and statistics textbooks",
+      "additionalData": "dataset description including details of each column, and the research question or hypothesis",
+      "assembly": "manual"
+    },
+    "setting": {
+      "numInstances": "188",
+      "dataSetting": "single_table",
+      "outputModalities": [
+        "value",
+        "text"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "static_single"
+    },
+    "validation": {
+      "functions": [
+        "exact_matching",
+        "component_validation",
+        "structural_matching"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "association",
+        "requiresArtifact": false
+      },
+      {
+        "type": "statistical_inference",
+        "requiresArtifact": false
+      }
+    ],
+    "insightTypesAuthoritative": true,
+    "inOverviewTable": true
+  },
+  {
+    "citekey": "kumar_booksql_2024",
+    "name": "BookSQL",
+    "corpus": {
+      "numTables": "7",
+      "format": "relational_databases",
+      "provenance": "existing real-world accounting databases, anonymized",
+      "additionalData": "foreign-key relations, primary keys",
+      "assembly": "mixed"
+    },
+    "setting": {
+      "numInstances": "100000",
+      "dataSetting": "multi_table_provided",
+      "outputModalities": [
+        "value",
+        "table",
+        "list"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "static_single"
+    },
+    "validation": {
+      "functions": [
+        "exact_matching",
+        "structural_matching",
+        "program_comparison"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "lookup",
+        "requiresArtifact": false
+      },
+      {
+        "type": "aggregation",
+        "requiresArtifact": false
+      }
+    ],
+    "insightTypesAuthoritative": false,
+    "inOverviewTable": false
+  },
+  {
+    "citekey": "sawarni_causalreasoningbenchmark_2026",
+    "name": "CausalReasoning / Benchmark",
+    "corpus": {
+      "numTables": "132",
+      "format": "standalone_files",
+      "provenance": "peer-reviewed research papers, causal-inference textbooks",
+      "additionalData": "column descriptions, study context",
+      "assembly": "manual"
+    },
+    "setting": {
+      "numInstances": "173",
+      "dataSetting": "single_table",
+      "outputModalities": [
+        "text",
+        "value"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "static_single"
+    },
+    "validation": {
+      "functions": [
+        "component_validation",
+        "similarity_matching"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "aggregation",
+        "requiresArtifact": false
+      },
+      {
+        "type": "statistical_inference",
+        "requiresArtifact": false
+      },
+      {
+        "type": "interventional",
+        "requiresArtifact": false
+      }
+    ],
+    "insightTypesAuthoritative": true,
+    "inOverviewTable": true
+  },
+  {
+    "citekey": "duttaConDABenchInteractiveEvaluation2025",
+    "name": "ConDABench",
+    "corpus": {
+      "numTables": "1855",
+      "format": "standalone_files",
+      "provenance": "TidyTuesday, Kaggle notebooks, ScienceDirect open-access articles",
+      "additionalData": "supporting reference code (Python) grounding each query-answer pair, and the source article each problem is derived from",
+      "assembly": "mixed"
+    },
+    "setting": {
+      "numInstances": "1420",
+      "dataSetting": "multi_table_provided",
+      "outputModalities": [
+        "text",
+        "value",
+        "table",
+        "chart"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "user_simulation"
+    },
+    "validation": {
+      "functions": [
+        "llm_as_judge"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "lookup",
+        "requiresArtifact": false
+      },
+      {
+        "type": "aggregation",
+        "requiresArtifact": false
+      },
+      {
+        "type": "characterization",
+        "requiresArtifact": false
+      },
+      {
+        "type": "association",
+        "requiresArtifact": false
+      },
+      {
+        "type": "prediction",
+        "requiresArtifact": false
+      }
+    ],
+    "insightTypesAuthoritative": true,
+    "inOverviewTable": true
+  },
+  {
+    "citekey": "yu_cosql_2019",
+    "name": "CoSQL",
+    "corpus": {
+      "numTables": "1020",
+      "format": "relational_databases",
+      "provenance": "Databases inherited unchanged from Spider/SParC (originally sourced from Wikipedia, textbooks, and other web/DB sources)",
+      "additionalData": "foreign-key relations, DB schemas",
+      "assembly": "synthetic"
+    },
+    "setting": {
+      "numInstances": "3007",
+      "dataSetting": "bounded_set",
+      "outputModalities": [
+        "text",
+        "table"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "static_multi_turn"
+    },
+    "validation": {
+      "functions": [
+        "structural_matching",
+        "similarity_matching",
+        "human_evaluation",
+        "exact_matching"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "lookup",
+        "requiresArtifact": false
+      },
+      {
+        "type": "aggregation",
+        "requiresArtifact": false
+      }
+    ],
+    "insightTypesAuthoritative": false,
+    "inOverviewTable": false
+  },
+  {
+    "citekey": "li_are_2025",
+    "name": "COTA",
+    "corpus": {
+      "numTables": "not_reported",
+      "format": "standalone_files",
+      "provenance": "Kaggle",
+      "additionalData": "column meanings, value illustrations, client personas, dialog histories",
+      "assembly": "mixed"
+    },
+    "setting": {
+      "numInstances": "1013",
+      "dataSetting": "single_table",
+      "outputModalities": [
+        "text",
+        "value",
+        "table",
+        "list",
+        "chart"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "user_simulation"
+    },
+    "validation": {
+      "functions": [
+        "exact_matching",
+        "similarity_matching",
+        "program_comparison",
+        "structural_matching"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "lookup",
+        "requiresArtifact": false
+      },
+      {
+        "type": "aggregation",
+        "requiresArtifact": false
+      },
+      {
+        "type": "characterization",
+        "requiresArtifact": false
+      },
+      {
+        "type": "association",
+        "requiresArtifact": false
+      },
+      {
+        "type": "statistical_inference",
+        "requiresArtifact": false
+      },
+      {
+        "type": "prediction",
+        "requiresArtifact": false
+      }
+    ],
+    "insightTypesAuthoritative": false,
+    "inOverviewTable": false
+  },
+  {
+    "citekey": "zhang_crtqa_2023",
+    "name": "CRT-QA",
+    "corpus": {
+      "numTables": "423",
+      "format": "web_tables",
+      "provenance": "Wikipedia",
+      "additionalData": "table titles",
+      "assembly": "manual"
+    },
+    "setting": {
+      "numInstances": "1000",
+      "dataSetting": "single_table",
+      "outputModalities": [
+        "text"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "static_single"
+    },
+    "validation": {
+      "functions": [
+        "exact_matching",
+        "human_evaluation"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "lookup",
+        "requiresArtifact": false
+      },
+      {
+        "type": "aggregation",
+        "requiresArtifact": false
+      },
+      {
+        "type": "association",
+        "requiresArtifact": false
+      }
+    ],
+    "insightTypesAuthoritative": false,
+    "inOverviewTable": false
+  },
+  {
+    "citekey": "huang_dacode_2024",
+    "name": "DA-Code",
+    "corpus": {
+      "numTables": "1733",
+      "format": "mixed",
+      "provenance": "Kaggle, GitHub, Other Web Sources",
+      "additionalData": "documentation and specification files shipped alongside the data (e.g. data_standard.md, schema.yml), plus markdown, JSON and text resources; per-instance reference plans for the DA-Code-100 subset",
+      "assembly": "mixed"
+    },
+    "setting": {
+      "numInstances": "500",
+      "dataSetting": "multi_table_provided",
+      "outputModalities": [
+        "text",
+        "value",
+        "table",
+        "chart"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "static_single"
+    },
+    "validation": {
+      "functions": [
+        "exact_matching",
+        "similarity_matching"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "lookup",
+        "requiresArtifact": false
+      },
+      {
+        "type": "aggregation",
+        "requiresArtifact": false
+      },
+      {
+        "type": "characterization",
+        "requiresArtifact": false
+      },
+      {
+        "type": "association",
+        "requiresArtifact": false
+      },
+      {
+        "type": "grouping",
+        "requiresArtifact": true
+      },
+      {
+        "type": "statistical_inference",
+        "requiresArtifact": false
+      },
+      {
+        "type": "prediction",
+        "requiresArtifact": true
+      }
+    ],
+    "insightTypesAuthoritative": true,
+    "inOverviewTable": true
+  },
+  {
+    "citekey": "xu_dagent_2025",
+    "name": "DA-Dataset",
+    "corpus": {
+      "numTables": "689",
+      "format": "relational_databases",
+      "provenance": "HangSeng Financial text-to-SQL dataset (DA-CCKS), BIRD (DA-BIRD)",
+      "additionalData": "database schema (table names, column names, data types), natural language table and column descriptions, reference SQL queries and reference reports; relational structure inherited from the source databases",
+      "assembly": "mixed"
+    },
+    "setting": {
+      "numInstances": "735",
+      "dataSetting": "bounded_set",
+      "outputModalities": [
+        "text"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "static_single"
+    },
+    "validation": {
+      "functions": [
+        "structural_matching",
+        "llm_as_judge"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "aggregation",
+        "requiresArtifact": false
+      },
+      {
+        "type": "association",
+        "requiresArtifact": false
+      },
+      {
+        "type": "characterization",
+        "requiresArtifact": false
+      }
+    ],
+    "insightTypesAuthoritative": true,
+    "inOverviewTable": true
+  },
+  {
+    "citekey": "egg_dabstep_2025",
+    "name": "DABstep",
+    "corpus": {
+      "numTables": "3",
+      "format": "data_lake",
+      "provenance": "Adyen",
+      "additionalData": "column descriptions, documentation files",
+      "assembly": "synthetic"
+    },
+    "setting": {
+      "numInstances": "450",
+      "dataSetting": "bounded_set",
+      "outputModalities": [
+        "value",
+        "list",
+        "text"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "static_single"
+    },
+    "validation": {
+      "functions": [
+        "exact_matching",
+        "similarity_matching",
+        "human_evaluation"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "lookup",
+        "requiresArtifact": false
+      },
+      {
+        "type": "aggregation",
+        "requiresArtifact": false
+      },
+      {
+        "type": "counterfactual",
+        "requiresArtifact": false
+      }
+    ],
+    "insightTypesAuthoritative": true,
+    "inOverviewTable": true
+  },
+  {
+    "citekey": "wu_daco_2024a",
+    "name": "DACO",
+    "corpus": {
+      "numTables": "not_reported",
+      "format": "mixed",
+      "provenance": "Spider, Kaggle",
+      "additionalData": "table titles, column names, example values",
+      "assembly": "mixed"
+    },
+    "setting": {
+      "numInstances": "1942",
+      "dataSetting": "multi_table_provided",
+      "outputModalities": [
+        "text"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "static_single"
+    },
+    "validation": {
+      "functions": [
+        "llm_as_judge",
+        "human_evaluation",
+        "similarity_matching"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "aggregation",
+        "requiresArtifact": false
+      },
+      {
+        "type": "characterization",
+        "requiresArtifact": false
+      },
+      {
+        "type": "association",
+        "requiresArtifact": false
+      },
+      {
+        "type": "lookup",
+        "requiresArtifact": false
+      }
+    ],
+    "insightTypesAuthoritative": false,
+    "inOverviewTable": false
+  },
+  {
+    "citekey": "lei_dacomp_2025",
+    "name": "DAComp - DA",
+    "corpus": {
+      "numTables": "418",
+      "format": "relational_databases",
+      "provenance": "Web (base databases), enterprise SaaS schemas (analytical modeling layers via DE pipeline)",
+      "additionalData": "foreign-key relations, analytical modeling layers, data contracts",
+      "assembly": "synthetic"
+    },
+    "setting": {
+      "numInstances": "100",
+      "dataSetting": "bounded_set",
+      "outputModalities": [
+        "text",
+        "chart"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "static_single"
+    },
+    "validation": {
+      "functions": [
+        "llm_as_judge",
+        "human_evaluation"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "lookup",
+        "requiresArtifact": false
+      },
+      {
+        "type": "aggregation",
+        "requiresArtifact": false
+      },
+      {
+        "type": "characterization",
+        "requiresArtifact": false
+      },
+      {
+        "type": "association",
+        "requiresArtifact": false
+      }
+    ],
+    "insightTypesAuthoritative": true,
+    "inOverviewTable": true
+  },
+  {
+    "citekey": "jing_dsbench_2024",
+    "name": "DSBench",
+    "corpus": {
+      "numTables": "not_reported",
+      "format": "standalone_files",
+      "provenance": "ModelOff, Kaggle",
+      "additionalData": "images, task descriptions, training and testing files, sample submission files",
+      "assembly": "mixed"
+    },
+    "setting": {
+      "numInstances": "540",
+      "dataSetting": "bounded_set",
+      "outputModalities": [
+        "value",
+        "table"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "static_single"
+    },
+    "validation": {
+      "functions": [
+        "llm_as_judge",
+        "programmatic_validation",
+        "similarity_matching"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "lookup",
+        "requiresArtifact": false
+      },
+      {
+        "type": "aggregation",
+        "requiresArtifact": false
+      },
+      {
+        "type": "prediction",
+        "requiresArtifact": false
+      }
+    ],
+    "insightTypesAuthoritative": false,
+    "inOverviewTable": false
+  },
+  {
+    "citekey": "nan_fetaqa_2022",
+    "name": "FeTaQA",
+    "corpus": {
+      "numTables": "10330",
+      "format": "web_tables",
+      "provenance": "Wikipedia (via ToTTo)",
+      "additionalData": "page title, section title, table title, highlighted table cells (denotations)",
+      "assembly": "manual"
+    },
+    "setting": {
+      "numInstances": "10330",
+      "dataSetting": "single_table",
+      "outputModalities": [
+        "text"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "static_single"
+    },
+    "validation": {
+      "functions": [
+        "similarity_matching",
+        "human_evaluation",
+        "structural_matching"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "lookup",
+        "requiresArtifact": false
+      },
+      {
+        "type": "aggregation",
+        "requiresArtifact": false
+      }
+    ],
+    "insightTypesAuthoritative": true,
+    "inOverviewTable": true
+  },
+  {
+    "citekey": "contalbo_griqa_2025",
+    "name": "GRI-QA",
+    "corpus": {
+      "numTables": "204",
+      "format": "markup_tables",
+      "provenance": "not_reported",
+      "additionalData": "GRI topic, row and column indices",
+      "assembly": "mixed"
+    },
+    "setting": {
+      "numInstances": "4089",
+      "dataSetting": "multi_table_provided",
+      "outputModalities": [
+        "value",
+        "list",
+        "text"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "static_single"
+    },
+    "validation": {
+      "functions": [
+        "exact_matching"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "lookup",
+        "requiresArtifact": false
+      },
+      {
+        "type": "aggregation",
+        "requiresArtifact": false
+      }
+    ],
+    "insightTypesAuthoritative": false,
+    "inOverviewTable": false
+  },
+  {
+    "citekey": "hu_infiagentdabench_2024",
+    "name": "InfiAgent-DABench",
+    "corpus": {
+      "numTables": "67",
+      "format": "standalone_files",
+      "provenance": "GitHub",
+      "additionalData": "none",
+      "assembly": "mixed"
+    },
+    "setting": {
+      "numInstances": "257",
+      "dataSetting": "single_table",
+      "outputModalities": [
+        "value"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "static_single"
+    },
+    "validation": {
+      "functions": [
+        "exact_matching"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "aggregation",
+        "requiresArtifact": false
+      },
+      {
+        "type": "characterization",
+        "requiresArtifact": false
+      },
+      {
+        "type": "association",
+        "requiresArtifact": false
+      },
+      {
+        "type": "statistical_inference",
+        "requiresArtifact": false
+      },
+      {
+        "type": "prediction",
+        "requiresArtifact": true
+      }
+    ],
+    "insightTypesAuthoritative": true,
+    "inOverviewTable": true
+  },
+  {
+    "citekey": "lee_kaggledbqa_2021",
+    "name": "KaggleDBQA",
+    "corpus": {
+      "numTables": "17",
+      "format": "relational_databases",
+      "provenance": "Kaggle",
+      "additionalData": "database documentation, column descriptions, table names, database overview, categorical value descriptions",
+      "assembly": "manual"
+    },
+    "setting": {
+      "numInstances": "272",
+      "dataSetting": "bounded_set",
+      "outputModalities": [
+        "table",
+        "value"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "static_single"
+    },
+    "validation": {
+      "functions": [
+        "structural_matching"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "lookup",
+        "requiresArtifact": false
+      },
+      {
+        "type": "aggregation",
+        "requiresArtifact": false
+      }
+    ],
+    "insightTypesAuthoritative": false,
+    "inOverviewTable": false
+  },
+  {
+    "citekey": "lai_kramabench_2026",
+    "name": "KramaBench",
+    "corpus": {
+      "numTables": "1636",
+      "format": "data_lake",
+      "provenance": "scientific papers/data repositories (archaeology, astronomy, biomedical) and government/civic open-data portals (FTC, Wikipedia, NOAA, NIFC, EPA, US Census, Zillow, Kaggle) grounding published domain-expert analyses",
+      "additionalData": "unstructured textual data accompanying the tabular files (scientific papers, yearly financial reports, infographics) that the tasks are grounded in; per-domain source documentation is described narratively in Appendix A rather than shipped as separate documentation files",
+      "assembly": "manual"
+    },
+    "setting": {
+      "numInstances": "104",
+      "dataSetting": "bounded_set",
+      "outputModalities": [
+        "text",
+        "value",
+        "list"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "static_single"
+    },
+    "validation": {
+      "functions": [
+        "exact_matching",
+        "similarity_matching",
+        "component_validation"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "lookup",
+        "requiresArtifact": false
+      },
+      {
+        "type": "aggregation",
+        "requiresArtifact": false
+      },
+      {
+        "type": "association",
+        "requiresArtifact": false
+      },
+      {
+        "type": "prediction",
+        "requiresArtifact": false
+      }
+    ],
+    "insightTypesAuthoritative": true,
+    "inOverviewTable": true
+  },
+  {
+    "citekey": "li_longtablebench_2025",
+    "name": "LongTableBench",
+    "corpus": {
+      "numTables": "6800",
+      "format": "mixed",
+      "provenance": "not_reported",
+      "additionalData": "foreign-key relations",
+      "assembly": "synthetic"
+    },
+    "setting": {
+      "numInstances": "5950",
+      "dataSetting": "multi_table_provided",
+      "outputModalities": [
+        "value",
+        "list",
+        "text"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "static_multi_turn"
+    },
+    "validation": {
+      "functions": [
+        "similarity_matching"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "lookup",
+        "requiresArtifact": false
+      },
+      {
+        "type": "aggregation",
+        "requiresArtifact": false
+      }
+    ],
+    "insightTypesAuthoritative": false,
+    "inOverviewTable": false
+  },
+  {
+    "citekey": "wu_mmqa_2025",
+    "name": "MMQA",
+    "corpus": {
+      "numTables": "3312",
+      "format": "relational_databases",
+      "provenance": "Spider (cross-domain relational databases spanning 138 domains), not Wikipedia",
+      "additionalData": "foreign-key relations, primary keys, SQL query, gold answer, natural language question",
+      "assembly": "mixed"
+    },
+    "setting": {
+      "numInstances": "3312",
+      "dataSetting": "open_corpus",
+      "outputModalities": [
+        "value",
+        "list",
+        "text"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "static_single"
+    },
+    "validation": {
+      "functions": [
+        "exact_matching",
+        "llm_as_judge",
+        "program_comparison",
+        "structural_matching"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "lookup",
+        "requiresArtifact": false
+      },
+      {
+        "type": "aggregation",
+        "requiresArtifact": false
+      }
+    ],
+    "insightTypesAuthoritative": false,
+    "inOverviewTable": false
+  },
+  {
+    "citekey": "seo_mtraig_2025",
+    "name": "MT-RAIG",
+    "corpus": {
+      "numTables": "19563",
+      "format": "mixed",
+      "provenance": "SPIDER (relational database tables) and Open-WikiTable (Wikipedia web tables)",
+      "additionalData": "none beyond the tables themselves; each table is serialized with its title and headers, while the foreign-key/topic groupings and the expanded natural-language facts were used only during benchmark construction and are not supplied to the evaluated system",
+      "assembly": "mixed"
+    },
+    "setting": {
+      "numInstances": "18532",
+      "dataSetting": "open_corpus",
+      "outputModalities": [
+        "text"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "static_single"
+    },
+    "validation": {
+      "functions": [
+        "llm_as_judge",
+        "structural_matching"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "lookup",
+        "requiresArtifact": false
+      },
+      {
+        "type": "aggregation",
+        "requiresArtifact": false
+      },
+      {
+        "type": "characterization",
+        "requiresArtifact": false
+      },
+      {
+        "type": "association",
+        "requiresArtifact": false
+      }
+    ],
+    "insightTypesAuthoritative": true,
+    "inOverviewTable": true
+  },
+  {
+    "citekey": "zhao_multihiertt_2022",
+    "name": "MULTIHIERTT",
+    "corpus": {
+      "numTables": "not_reported",
+      "format": "markup_tables",
+      "provenance": "FinTabNet",
+      "additionalData": "table hierarchies, cell formats, unstructured text, reasoning programs, supporting facts",
+      "assembly": "mixed"
+    },
+    "setting": {
+      "numInstances": "10440",
+      "dataSetting": "bounded_set",
+      "outputModalities": [
+        "value",
+        "text"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "static_single"
+    },
+    "validation": {
+      "functions": [
+        "exact_matching",
+        "similarity_matching"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "lookup",
+        "requiresArtifact": false
+      },
+      {
+        "type": "aggregation",
+        "requiresArtifact": false
+      },
+      {
+        "type": "association",
+        "requiresArtifact": false
+      }
+    ],
+    "insightTypesAuthoritative": false,
+    "inOverviewTable": false
+  },
+  {
+    "citekey": "zou_rag_2025",
+    "name": "MultiTableQA",
+    "corpus": {
+      "numTables": "59307",
+      "format": "web_tables",
+      "provenance": "Wikipedia (via HybridQA, SQA, TabFact and WikiTables)",
+      "additionalData": "table captions, column headers, and table metadata (contextual details, associated resources, and 3,000 example query/answer pairs injected into the metadata for demonstration)",
+      "assembly": "mixed"
+    },
+    "setting": {
+      "numInstances": "23785",
+      "dataSetting": "open_corpus",
+      "outputModalities": [
+        "value",
+        "list"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "static_single"
+    },
+    "validation": {
+      "functions": [
+        "exact_matching",
+        "similarity_matching",
+        "structural_matching",
+        "programmatic_validation"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "lookup",
+        "requiresArtifact": false
+      },
+      {
+        "type": "aggregation",
+        "requiresArtifact": false
+      }
+    ],
+    "insightTypesAuthoritative": true,
+    "inOverviewTable": true
+  },
+  {
+    "citekey": "herzig_open_2021",
+    "name": "NQ-Tables",
+    "corpus": {
+      "numTables": "169898",
+      "format": "web_tables",
+      "provenance": "Wikipedia",
+      "additionalData": "Wikipedia page title per table, used as the table title by the retriever and reader; no other supplementary data is released",
+      "assembly": "mixed"
+    },
+    "setting": {
+      "numInstances": "11628",
+      "dataSetting": "open_corpus",
+      "outputModalities": [
+        "value"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "static_single"
+    },
+    "validation": {
+      "functions": [
+        "exact_matching",
+        "similarity_matching"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "lookup",
+        "requiresArtifact": false
+      },
+      {
+        "type": "aggregation",
+        "requiresArtifact": false
+      }
+    ],
+    "insightTypesAuthoritative": true,
+    "inOverviewTable": true
+  },
+  {
+    "citekey": "kweon_openwikitable_2023",
+    "name": "Open-WikiTable",
+    "corpus": {
+      "numTables": "24680",
+      "format": "web_tables",
+      "provenance": "Wikipedia, via the WikiSQL and WikiTableQuestions table corpora",
+      "additionalData": "Table descriptions (page title, section title, caption) plus a table ID, all flattened into the retrieval passage; each question is additionally annotated with a gold SQL query alongside the textual answer.",
+      "assembly": "mixed"
+    },
+    "setting": {
+      "numInstances": "67023",
+      "dataSetting": "open_corpus",
+      "outputModalities": [
+        "value"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "static_single"
+    },
+    "validation": {
+      "functions": [
+        "exact_matching",
+        "structural_matching"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "lookup",
+        "requiresArtifact": false
+      },
+      {
+        "type": "aggregation",
+        "requiresArtifact": false
+      }
+    ],
+    "insightTypesAuthoritative": true,
+    "inOverviewTable": true
+  },
+  {
+    "citekey": "chen_open_2020",
+    "name": "OTT-QA",
+    "corpus": {
+      "numTables": "8891",
+      "format": "web_tables",
+      "provenance": "Wikipedia",
+      "additionalData": "text passages (5 million Wikipedia introduction passages), page title, page section title, section text; cell-wise hyperlinks in the training subset only",
+      "assembly": "mixed"
+    },
+    "setting": {
+      "numInstances": "4372",
+      "dataSetting": "open_corpus",
+      "outputModalities": [
+        "value"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "static_single"
+    },
+    "validation": {
+      "functions": [
+        "exact_matching",
+        "similarity_matching",
+        "structural_matching"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "lookup",
+        "requiresArtifact": false
+      },
+      {
+        "type": "aggregation",
+        "requiresArtifact": false
+      }
+    ],
+    "insightTypesAuthoritative": true,
+    "inOverviewTable": true
+  },
+  {
+    "citekey": "wang_retqa_2025",
+    "name": "RETQA",
+    "corpus": {
+      "numTables": "4932",
+      "format": "standalone_files",
+      "provenance": "not_reported",
+      "additionalData": "table captions, intent labels, slot labels",
+      "assembly": "mixed"
+    },
+    "setting": {
+      "numInstances": "20762",
+      "dataSetting": "open_corpus",
+      "outputModalities": [
+        "table",
+        "text"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "static_single"
+    },
+    "validation": {
+      "functions": [
+        "exact_matching",
+        "programmatic_validation",
+        "similarity_matching",
+        "structural_matching"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "lookup",
+        "requiresArtifact": false
+      },
+      {
+        "type": "aggregation",
+        "requiresArtifact": false
+      }
+    ],
+    "insightTypesAuthoritative": false,
+    "inOverviewTable": false
+  },
+  {
+    "citekey": "yu_spider_2018",
+    "name": "Spider",
+    "corpus": {
+      "numTables": "1056",
+      "format": "relational_databases",
+      "provenance": "college database courses, SQL tutorial websites, online csv files, textbook examples, DatabaseAnswers data models, WikiSQL tables",
+      "additionalData": "database schemas with foreign-key relations between tables",
+      "assembly": "synthetic"
+    },
+    "setting": {
+      "numInstances": "11840",
+      "dataSetting": "bounded_set",
+      "outputModalities": [
+        "table",
+        "value"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "static_single"
+    },
+    "validation": {
+      "functions": [
+        "structural_matching",
+        "exact_matching"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "lookup",
+        "requiresArtifact": false
+      },
+      {
+        "type": "aggregation",
+        "requiresArtifact": false
+      }
+    ],
+    "insightTypesAuthoritative": true,
+    "inOverviewTable": true
+  },
+  {
+    "citekey": "lei_Spider20_2025",
+    "name": "Spider 2.0",
+    "corpus": {
+      "numTables": "418",
+      "format": "relational_databases",
+      "provenance": "BigQuery public data, Snowflake Marketplace data and other database platforms (SQLite, DuckDB, PostgreSQL, ClickHouse); SQL queries from technical tutorials and community forums; data transformation projects from Fivetran and DBT",
+      "additionalData": "project codebases and DBT/Fivetran project files, SQL dialect and external function documentation, external reference documents, database schemas with column descriptions, sampled cell values, and (for Spider 2.0) predefined answer files and data model descriptions",
+      "assembly": "mixed"
+    },
+    "setting": {
+      "numInstances": "632",
+      "dataSetting": "bounded_set",
+      "outputModalities": [
+        "text",
+        "table"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "static_single"
+    },
+    "validation": {
+      "functions": [
+        "programmatic_validation",
+        "exact_matching"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "lookup",
+        "requiresArtifact": false
+      },
+      {
+        "type": "aggregation",
+        "requiresArtifact": false
+      },
+      {
+        "type": "association",
+        "requiresArtifact": false
+      }
+    ],
+    "insightTypesAuthoritative": true,
+    "inOverviewTable": true
+  },
+  {
+    "citekey": "liu_tabcqa_2023",
+    "name": "Tab-CQA",
+    "corpus": {
+      "numTables": "7041",
+      "format": "standalone_files",
+      "provenance": "Chinese financial reports, listed companies on Shenzhen Stock Exchange and Shanghai Stock Exchange",
+      "additionalData": "conversation flow tags, answer type annotations",
+      "assembly": "mixed"
+    },
+    "setting": {
+      "numInstances": "109089",
+      "dataSetting": "single_table",
+      "outputModalities": [
+        "text",
+        "value"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "static_multi_turn"
+    },
+    "validation": {
+      "functions": [
+        "similarity_matching"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "lookup",
+        "requiresArtifact": false
+      },
+      {
+        "type": "lookup",
+        "requiresArtifact": false
+      },
+      {
+        "type": "aggregation",
+        "requiresArtifact": false
+      }
+    ],
+    "insightTypesAuthoritative": false,
+    "inOverviewTable": false
+  },
+  {
+    "citekey": "wu_tablebench_2025",
+    "name": "TableBench",
+    "corpus": {
+      "numTables": "886",
+      "format": "not_reported",
+      "provenance": "not_reported",
+      "additionalData": "none",
+      "assembly": "mixed"
+    },
+    "setting": {
+      "numInstances": "886",
+      "dataSetting": "single_table",
+      "outputModalities": [
+        "text",
+        "chart"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "static_single"
+    },
+    "validation": {
+      "functions": [
+        "similarity_matching",
+        "programmatic_validation",
+        "llm_as_judge",
+        "human_evaluation"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "lookup",
+        "requiresArtifact": false
+      },
+      {
+        "type": "aggregation",
+        "requiresArtifact": false
+      },
+      {
+        "type": "association",
+        "requiresArtifact": false
+      },
+      {
+        "type": "prediction",
+        "requiresArtifact": false
+      }
+    ],
+    "insightTypesAuthoritative": true,
+    "inOverviewTable": true
+  },
+  {
+    "citekey": "zhu_tableeval_2025",
+    "name": "TableEval",
+    "corpus": {
+      "numTables": "617",
+      "format": "markup_tables",
+      "provenance": "not_reported",
+      "additionalData": "table captions, explanatory notes, adjacent text snippets",
+      "assembly": "mixed"
+    },
+    "setting": {
+      "numInstances": "2325",
+      "dataSetting": "single_table",
+      "outputModalities": [
+        "text"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "static_multi_turn"
+    },
+    "validation": {
+      "functions": [
+        "llm_as_judge"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "lookup",
+        "requiresArtifact": false
+      },
+      {
+        "type": "aggregation",
+        "requiresArtifact": false
+      },
+      {
+        "type": "characterization",
+        "requiresArtifact": false
+      },
+      {
+        "type": "association",
+        "requiresArtifact": false
+      }
+    ],
+    "insightTypesAuthoritative": false,
+    "inOverviewTable": false
+  },
+  {
+    "citekey": "lu_dynamic_2022",
+    "name": "Tabular Math Word Problems (TABMWP)",
+    "corpus": {
+      "numTables": "37,644",
+      "format": "standalone_files",
+      "provenance": "IXL",
+      "additionalData": "table titles, images, semi-structured text, gold solutions, options, units",
+      "assembly": "mixed"
+    },
+    "setting": {
+      "numInstances": "38,431",
+      "dataSetting": "single_table",
+      "outputModalities": [
+        "value",
+        "text"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "static_single"
+    },
+    "validation": {
+      "functions": [
+        "exact_matching"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "lookup",
+        "requiresArtifact": false
+      },
+      {
+        "type": "aggregation",
+        "requiresArtifact": false
+      },
+      {
+        "type": "characterization",
+        "requiresArtifact": false
+      }
+    ],
+    "insightTypesAuthoritative": false,
+    "inOverviewTable": false
+  },
+  {
+    "citekey": "dengTACOBenchmarkOpenDomain",
+    "name": "TACO",
+    "corpus": {
+      "numTables": "13004",
+      "format": "relational_databases",
+      "provenance": "Beijing smart city data service, Beijing Municipal Open Data Platform, U.S. Government's Open Data Portal",
+      "additionalData": "foreign-key relations, table/column descriptions, schema metadata",
+      "assembly": "mixed"
+    },
+    "setting": {
+      "numInstances": "13000",
+      "dataSetting": "open_corpus",
+      "outputModalities": [
+        "table",
+        "value"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "static_single"
+    },
+    "validation": {
+      "functions": [
+        "exact_matching"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "lookup",
+        "requiresArtifact": false
+      },
+      {
+        "type": "aggregation",
+        "requiresArtifact": false
+      }
+    ],
+    "insightTypesAuthoritative": true,
+    "inOverviewTable": true
+  },
+  {
+    "citekey": "ji_topbench_2026",
+    "name": "TOPBench",
+    "corpus": {
+      "numTables": "35",
+      "format": "standalone_files",
+      "provenance": "Kaggle",
+      "additionalData": "column definitions, value distributions",
+      "assembly": "mixed"
+    },
+    "setting": {
+      "numInstances": "779",
+      "dataSetting": "single_table",
+      "outputModalities": [
+        "text",
+        "table"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "static_single"
+    },
+    "validation": {
+      "functions": [
+        "llm_as_judge",
+        "similarity_matching",
+        "exact_matching"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "prediction",
+        "requiresArtifact": false
+      }
+    ],
+    "insightTypesAuthoritative": true,
+    "inOverviewTable": true
+  },
+  {
+    "citekey": "pasupat_compositional_2015",
+    "name": "WikiTableQuestions",
+    "corpus": {
+      "numTables": "2108",
+      "format": "web_tables",
+      "provenance": "Wikipedia",
+      "additionalData": "none",
+      "assembly": "manual"
+    },
+    "setting": {
+      "numInstances": "22033",
+      "dataSetting": "single_table",
+      "outputModalities": [
+        "value",
+        "list"
+      ]
+    },
+    "interaction": {
+      "inputProtocol": "static_single"
+    },
+    "validation": {
+      "functions": [
+        "exact_matching"
+      ]
+    },
+    "insightTypes": [
+      {
+        "type": "lookup",
+        "requiresArtifact": false
+      },
+      {
+        "type": "aggregation",
+        "requiresArtifact": false
+      }
+    ],
+    "insightTypesAuthoritative": false,
+    "inOverviewTable": false
+  }
+]
