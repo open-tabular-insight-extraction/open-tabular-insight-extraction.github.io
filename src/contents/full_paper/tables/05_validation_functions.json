@@ -1,6 +1,9 @@
 {
   "layout": "grouped-rows",
-  "columns": ["Validation function", "Benchmarks"],
+  "columns": [
+    "Validation function",
+    "Benchmarks"
+  ],
   "groups": [
     {
       "label": "Output-level",
@@ -11,15 +14,64 @@
             {
               "formula": "$v(r) = \\mathbf{1}[\\mathrm{out}(r) = \\mathrm{out}^*]$",
               "benchmarks": [
-                { "citekey": "yu_spider_2018" }, { "citekey": "chen_open_2020" }, { "citekey": "herzig_open_2021" },
-                { "citekey": "kweon_openwikitable_2023" }, { "citekey": "li_can_2024" }, { "citekey": "zheng_archer_2024" },
-                { "citekey": "lei_Spider20_2025" }, { "citekey": "huang_dacode_2024" }, { "citekey": "zou_rag_2025" }, { "citekey": "dengTACOBenchmarkOpenDomain" },
-                { "citekey": "ji_topbench_2026" }, { "citekey": "lai_kramabench_2026" }
+                {
+                  "citekey": "yu_spider_2018",
+                  "text": "Spider"
+                },
+                {
+                  "citekey": "chen_open_2020",
+                  "text": "OTT-QA"
+                },
+                {
+                  "citekey": "herzig_open_2021",
+                  "text": "NQ-Tables"
+                },
+                {
+                  "citekey": "kweon_openwikitable_2023",
+                  "text": "Open-WikiTable"
+                },
+                {
+                  "citekey": "li_can_2024",
+                  "text": "BIRD"
+                },
+                {
+                  "citekey": "zheng_archer_2024",
+                  "text": "Archer"
+                },
+                {
+                  "citekey": "lei_Spider20_2025",
+                  "text": "Spider 2.0"
+                },
+                {
+                  "citekey": "huang_dacode_2024",
+                  "text": "DA-Code"
+                },
+                {
+                  "citekey": "zou_rag_2025",
+                  "text": "MultiTableQA"
+                },
+                {
+                  "citekey": "dengTACOBenchmarkOpenDomain",
+                  "text": "TACO"
+                },
+                {
+                  "citekey": "ji_topbench_2026",
+                  "text": "TOPBench"
+                },
+                {
+                  "citekey": "lai_kramabench_2026",
+                  "text": "KramaBench"
+                }
               ]
             },
             {
               "formula": "$v(r) = \\mathbf{1}[\\mathrm{out}_j(r) = \\mathrm{out}_j^*\\ \\forall\\ j \\in 1, \\dots, n]$",
-              "benchmarks": [{ "citekey": "hu_infiagentdabench_2024" }]
+              "benchmarks": [
+                {
+                  "citekey": "hu_infiagentdabench_2024",
+                  "text": "InfiAgent-DABench"
+                }
+              ]
             }
           ]
         },
@@ -29,14 +81,52 @@
             {
               "formula": "$v(r) = \\mathrm{sim}(\\mathrm{out}(r), \\mathrm{out}^*)$",
               "benchmarks": [
-                { "citekey": "nan_fetaqa_2022" }, { "citekey": "yin_natural_2023" }, { "citekey": "wu_tablebench_2025" },
-                { "citekey": "lai_kramabench_2026" }, { "citekey": "ji_topbench_2026" }, { "citekey": "sawarni_causalreasoningbenchmark_2026" },
-                { "citekey": "herzig_open_2021" }, { "citekey": "chen_open_2020" }, { "citekey": "zou_rag_2025" }
+                {
+                  "citekey": "nan_fetaqa_2022",
+                  "text": "FeTaQA"
+                },
+                {
+                  "citekey": "yin_natural_2023",
+                  "text": "ARCADE"
+                },
+                {
+                  "citekey": "wu_tablebench_2025",
+                  "text": "TableBench"
+                },
+                {
+                  "citekey": "lai_kramabench_2026",
+                  "text": "KramaBench"
+                },
+                {
+                  "citekey": "ji_topbench_2026",
+                  "text": "TOPBench"
+                },
+                {
+                  "citekey": "sawarni_causalreasoningbenchmark_2026",
+                  "text": "CausalReasoningBenchmark"
+                },
+                {
+                  "citekey": "herzig_open_2021",
+                  "text": "NQ-Tables"
+                },
+                {
+                  "citekey": "chen_open_2020",
+                  "text": "OTT-QA"
+                },
+                {
+                  "citekey": "zou_rag_2025",
+                  "text": "MultiTableQA"
+                }
               ]
             },
             {
               "formula": "$v(r) = \\max\\big(\\mathbf{1}[\\mathrm{out}(r) = \\mathrm{out}^*], \\mathrm{sim}(\\mathrm{out}(r), \\mathrm{out}^*)\\big)$",
-              "benchmarks": [{ "citekey": "egg_dabstep_2025" }]
+              "benchmarks": [
+                {
+                  "citekey": "egg_dabstep_2025",
+                  "text": "DABstep"
+                }
+              ]
             }
           ]
         },
@@ -45,11 +135,33 @@
           "rows": [
             {
               "formula": "$v(r) = LLM(\\mathrm{out}(r), \\mathrm{out}^*, \\mathrm{instr})$",
-              "benchmarks": [{ "citekey": "xu_dagent_2025" }, { "citekey": "duttaConDABenchInteractiveEvaluation2025" }, { "citekey": "ji_topbench_2026" }]
+              "benchmarks": [
+                {
+                  "citekey": "xu_dagent_2025",
+                  "text": "DA-Dataset"
+                },
+                {
+                  "citekey": "duttaConDABenchInteractiveEvaluation2025",
+                  "text": "ConDABench"
+                },
+                {
+                  "citekey": "ji_topbench_2026",
+                  "text": "TOPBench"
+                }
+              ]
             },
             {
               "formula": "$v(r) = \\frac{1}{|C|}\\sum_{c \\in C} LLM(c, \\mathrm{out}(r))$",
-              "benchmarks": [{ "citekey": "seo_mtraig_2025" }, { "citekey": "lei_dacomp_2025" }]
+              "benchmarks": [
+                {
+                  "citekey": "seo_mtraig_2025",
+                  "text": "MT-RAIG"
+                },
+                {
+                  "citekey": "lei_dacomp_2025",
+                  "text": "DAComp"
+                }
+              ]
             }
           ]
         },
@@ -58,7 +170,16 @@
           "rows": [
             {
               "formula": "$v(r) = \\mathbf{1}[\\mathrm{check}(\\mathrm{out}(r), \\tau)\\ \\forall\\ \\tau \\in \\mathrm{tests}]$",
-              "benchmarks": [{ "citekey": "lei_Spider20_2025" }, { "citekey": "wu_tablebench_2025" }]
+              "benchmarks": [
+                {
+                  "citekey": "lei_Spider20_2025",
+                  "text": "Spider 2.0"
+                },
+                {
+                  "citekey": "wu_tablebench_2025",
+                  "text": "TableBench"
+                }
+              ]
             }
           ]
         },
@@ -67,7 +188,12 @@
           "rows": [
             {
               "formula": "$v(r) = \\frac{1}{|C|} \\sum_{c \\in C} \\mathrm{human}(\\mathrm{out}(r), c)$",
-              "benchmarks": [{ "citekey": "nan_fetaqa_2022" }]
+              "benchmarks": [
+                {
+                  "citekey": "nan_fetaqa_2022",
+                  "text": "FeTaQA"
+                }
+              ]
             }
           ]
         }
@@ -90,7 +216,16 @@
           "rows": [
             {
               "formula": "$v(r) = \\frac{1}{|O^*|} \\sum_{o \\in O}\\mathbf{1}[o \\in O^*]$",
-              "benchmarks": [{ "citekey": "yu_spider_2018" }, { "citekey": "gu_blade_2024" }]
+              "benchmarks": [
+                {
+                  "citekey": "yu_spider_2018",
+                  "text": "Spider"
+                },
+                {
+                  "citekey": "gu_blade_2024",
+                  "text": "BLADE"
+                }
+              ]
             }
           ]
         },
@@ -99,11 +234,25 @@
           "rows": [
             {
               "formula": "$v(r) = \\frac{1}{|C|}\\sum_{c \\in C}\\mathrm{check}(r, c)$",
-              "benchmarks": [{ "citekey": "gu_blade_2024" }, { "citekey": "lai_kramabench_2026" }]
+              "benchmarks": [
+                {
+                  "citekey": "gu_blade_2024",
+                  "text": "BLADE"
+                },
+                {
+                  "citekey": "lai_kramabench_2026",
+                  "text": "KramaBench"
+                }
+              ]
             },
             {
               "formula": "$v(r) = \\mathbf{1}[\\mathrm{check}(r, c)\\ \\forall\\ c \\in C]$",
-              "benchmarks": [{ "citekey": "sawarni_causalreasoningbenchmark_2026" }]
+              "benchmarks": [
+                {
+                  "citekey": "sawarni_causalreasoningbenchmark_2026",
+                  "text": "CausalReasoningBenchmark"
+                }
+              ]
             }
           ]
         }

@@ -43,7 +43,7 @@ export interface SectionedTableData {
 
 export interface GroupedRowsBlock {
   description: string;
-  rows: { formula: string; benchmarks: { citekey: string }[] | string }[];
+  rows: { formula: string; benchmarks: { citekey: string; text?: string }[] | string }[];
 }
 
 export interface GroupedRowsGroup {

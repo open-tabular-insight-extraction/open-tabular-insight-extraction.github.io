@@ -46,6 +46,7 @@ const { data } = Astro.props;
                     row.benchmarks.map((b, i) => (
                       <>
                         {i > 0 && ', '}
+                        {b.text && <>{b.text} </>}
                         <Citation cite={b.citekey} label={`(${getCitation(b.citekey).year})`} />
                       </>
                     ))
