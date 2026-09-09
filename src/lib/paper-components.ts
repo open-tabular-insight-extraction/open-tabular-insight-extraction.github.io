@@ -5,7 +5,7 @@
 import Introduction from '../contents/full_paper/01-introduction.mdx';
 import OpenTI from '../contents/full_paper/02-open-tabular-insight-extraction.mdx';
 import Systems from '../contents/full_paper/03-anatomy-of-openti-systems.mdx';
-import Interaction from '../contents/full_paper/04-aligning-openti-systems-with-insight-needs.mdx';
+import Interaction from '../contents/full_paper/04-interaction-and-interpretability-in-openti.mdx';
 import Evaluation from '../contents/full_paper/05-evaluations-in-openti.mdx';
 import ResearchAgenda from '../contents/full_paper/06-a-research-agenda-for-openti.mdx';
 import Conclusion from '../contents/full_paper/07-conclusion.mdx';
@@ -15,7 +15,7 @@ export const componentsBySlug: Record<string, any> = {
   introduction: Introduction,
   'open-tabular-insight-extraction': OpenTI,
   'anatomy-of-openti-systems': Systems,
-  'aligning-openti-systems-with-insight-needs': Interaction,
+  'interaction-and-interpretability-in-openti': Interaction,
   'evaluations-in-openti': Evaluation,
   'a-research-agenda-for-openti': ResearchAgenda,
   conclusion: Conclusion,
