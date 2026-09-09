@@ -4,17 +4,12 @@
 // Text lives in paper-meta.ts alongside title/authors, not as mdx content, since it's fixed
 // paper metadata rather than section prose.
 import { paperAbstract } from '../lib/paper-meta';
-
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-// The abstract's own closing sentence points readers to this site; since they're already on
-// it, link the mention back home instead of leaving it as inert text.
-const [before, after] = paperAbstract.split('open-tabular-insight-extraction.github.io');
 ---
 
 <section class="paper-abstract" aria-label="Abstract">
   <p class="paper-abstract__label">Abstract</p>
   <p class="paper-abstract__body">
-    {before}<a href={`${base}/`}>open-tabular-insight-extraction.github.io</a>{after}
+    {paperAbstract}
   </p>
 </section>
 
