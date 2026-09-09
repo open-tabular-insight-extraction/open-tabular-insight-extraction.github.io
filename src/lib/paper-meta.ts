@@ -57,4 +57,4 @@ export const citationBibtex = `@misc{${citationKey},
       url={https://arxiv.org/abs/2609.07629},
 }`;
 
-export const paperPdfUrl = 'https://arxiv.org/abs/2609.07629';
+export const paperPdfUrl = 'https://arxiv.org/pdf/2609.07629';
