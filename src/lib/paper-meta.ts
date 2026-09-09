@@ -43,7 +43,7 @@ export const paperAbstract =
   'do not match the setup. Finally, we distill a research agenda towards OpenTI systems, ' +
   'evaluation, and interaction paradigms that surface the insights users need.';
 
-export const citationKey = 'gomm2026opentabularinsightextraction';
+export const citationKey = 'gomm2026openti';
 
 export const citationText = `Gomm, D., de Rijke, M., & Hulsebos, M. (2026). ${paperTitle}. arXiv:2609.07629.`;
 
@@ -54,6 +54,7 @@ export const citationBibtex = `@misc{${citationKey},
       eprint={2609.07629},
       archivePrefix={arXiv},
       primaryClass={cs.IR},
+      doi={10.48550/arXiv.2609.07629},
       url={https://arxiv.org/abs/2609.07629},
 }`;
 
