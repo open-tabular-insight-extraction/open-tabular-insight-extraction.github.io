@@ -10,7 +10,7 @@ import AnswerIsNotInsight from '../contents/landing_page/02_insights.mdx';
 import OpenTIUnpacked from '../contents/landing_page/03_openti.mdx';
 import insightsFigure from '../contents/assets/insights_figure.svg';
 import { getPaperSections } from '../lib/paper-structure';
-import { paperTitle, paperAuthors } from '../lib/paper-meta';
+import { paperTitle, paperAuthors, paperPdfUrl } from '../lib/paper-meta';
 
 // <Citation /> isn't imported inside the .mdx files themselves (they're plain prose
 // files, authored without any MDX plumbing) — the MDX runtime accepts unresolved
@@ -86,8 +86,7 @@ const exploreLinks = [
             </>
           ))
         }.{' '}
-        <!-- TODO(content): swap for the real paper URL once it's on arXiv — same TODO as paper-meta.ts's paperPdfUrl. -->
-        <a class="hero__paper-link" href="#">Read the paper →</a>
+        <a class="hero__paper-link" href={paperPdfUrl} target="_blank" rel="noopener">Read the paper →</a>
       </p>
     </section>
 

@@ -1,9 +1,8 @@
 ---
 /*
   Minimal site footer. The vision's "the paper is always reachable" cross-cutting rule
-  is covered by the navbar's PDF link (NavBar.astro) rather than here — that link stays a
-  placeholder until the paper lands on arXiv, at which point paper-meta.ts's `paperPdfUrl`
-  is the one place to update.
+  is covered by the navbar's PDF link (NavBar.astro) rather than here — that link points
+  at the arXiv listing via paper-meta.ts's `paperPdfUrl`, the one place to update it.
 
   Also carries the sitewide "Cite as" block (.local/04_minimal_website.md) — this is the
   one component every page shares, so it's the natural home for anything that must appear

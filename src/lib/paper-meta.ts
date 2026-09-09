@@ -43,19 +43,18 @@ export const paperAbstract =
   'do not match the setup. Finally, we distill a research agenda towards OpenTI systems, ' +
   'evaluation, and interaction paradigms that surface the insights users need.';
 
-// TODO(content): year/venue/url are placeholders until the paper is actually published
-// (arXiv) — update alongside paperPdfUrl below.
-export const citationKey = 'gomm_open_2026';
+export const citationKey = 'gomm2026opentabularinsightextraction';
 
-export const citationText = `Gomm, D., de Rijke, M., & Hulsebos, M. (2026). ${paperTitle}. Preprint.`;
+export const citationText = `Gomm, D., de Rijke, M., & Hulsebos, M. (2026). ${paperTitle}. arXiv:2609.07629.`;
 
 export const citationBibtex = `@misc{${citationKey},
-  title  = {${paperTitle}},
-  author = {Gomm, Daniel and de Rijke, Maarten and Hulsebos, Madelon},
-  year   = {2026},
-  note   = {Preprint},
+      title={${paperTitle}},
+      author={Daniel Gomm and Maarten de Rijke and Madelon Hulsebos},
+      year={2026},
+      eprint={2609.07629},
+      archivePrefix={arXiv},
+      primaryClass={cs.IR},
+      url={https://arxiv.org/abs/2609.07629},
 }`;
 
-// TODO(content): placeholder until the paper is on arXiv — update alongside the citation
-// fields above and index.astro's "Read the paper" link.
-export const paperPdfUrl = '#';
+export const paperPdfUrl = 'https://arxiv.org/abs/2609.07629';
